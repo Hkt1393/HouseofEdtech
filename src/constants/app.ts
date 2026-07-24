@@ -10,6 +10,7 @@ const STANDARD_PAGE_SIZE = 20;
 const LANDSCAPE_ASPECT_RATIO = 16 / 9;
 const POSTER_ASPECT_RATIO = 2 / 3;
 const SQUARE_ASPECT_RATIO = 1;
+const DEFAULT_MAX_CONTENT_WIDTH = 1200;
 
 export const APP_NAMESPACE = '@houseofedtechproject';
 
@@ -58,4 +59,70 @@ export const SESSION_CONFIG = {
   maxConcurrentStreams: 2,
   watchHistoryRetentionHours: 7 * HOURS_IN_DAY,
   maxDownloadsPerDevice: 25,
+} as const;
+
+export const COMPONENT_DEFAULTS = {
+  flatList: {
+    windowSize: 5,
+    initialNumToRender: 6,
+    maxToRenderPerBatch: 8,
+    removeClippedSubviews: true,
+    keyboardShouldPersistTaps: 'handled',
+    showsVerticalScrollIndicator: false,
+  },
+  scrollView: {
+    bounces: false,
+    keyboardShouldPersistTaps: 'handled',
+    showsHorizontalScrollIndicator: false,
+    showsVerticalScrollIndicator: false,
+  },
+  textInput: {
+    multilineMinHeight: 120,
+  },
+  video: {
+    timeUpdateEventIntervalSeconds: 0.25,
+  },
+  layout: {
+    maxContentWidth: DEFAULT_MAX_CONTENT_WIDTH,
+    dividerThickness: 1,
+    sectionHeaderMaxWidth: 720,
+    sheetHandleWidth: 56,
+    sheetHandleHeight: 4,
+  },
+  button: {
+    iconSize: 18,
+    minHeightSm: 40,
+    minHeightMd: 48,
+    minHeightLg: 56,
+    fabSize: 56,
+    iconButtonSizeSm: 40,
+    iconButtonSizeMd: 48,
+    iconButtonSizeLg: 56,
+  },
+  media: {
+    avatarSizeXs: 24,
+    avatarSizeSm: 32,
+    avatarSizeMd: 40,
+    avatarSizeLg: 56,
+    avatarSizeXl: 72,
+    heroMinHeight: 320,
+    progressLabelMinWidth: 40,
+    posterWidth: 144,
+    thumbnailWidth: 220,
+  },
+  navigation: {
+    tabItemMinWidth: 72,
+  },
+  progress: {
+    compactHeight: 4,
+    defaultHeight: 6,
+    largeHeight: 8,
+  },
+  modal: {
+    dialogMaxWidth: 420,
+    sheetMaxWidth: 720,
+  },
+  feedback: {
+    skeletonPulseOpacity: 0.55,
+  },
 } as const;
