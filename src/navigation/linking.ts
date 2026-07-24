@@ -1,7 +1,7 @@
 import type { LinkingOptions } from '@react-navigation/native';
 import { Linking } from 'react-native';
 
-import { APP_CONFIG, ROUTES } from '../constants';
+import { APP_CONFIG, ROUTES, ROUTE_PATHS } from '../constants';
 
 import type { RootStackParamList } from './types';
 
@@ -10,22 +10,22 @@ export const linking = {
   config: {
     initialRouteName: ROUTES.SPLASH,
     screens: {
-      [ROUTES.SPLASH]: 'splash',
+      [ROUTES.SPLASH]: ROUTE_PATHS.SPLASH,
       [ROUTES.AUTH]: {
         screens: {
-          [ROUTES.LOGIN]: 'login',
+          [ROUTES.LOGIN]: ROUTE_PATHS.LOGIN,
         },
       },
       [ROUTES.MAIN_TABS]: {
         screens: {
-          [ROUTES.HOME]: 'home',
-          [ROUTES.SEARCH]: 'search',
-          [ROUTES.DOWNLOADS]: 'downloads',
-          [ROUTES.PROFILE]: 'profile',
+          [ROUTES.HOME]: ROUTE_PATHS.HOME,
+          [ROUTES.SEARCH]: ROUTE_PATHS.SEARCH,
+          [ROUTES.DOWNLOADS]: ROUTE_PATHS.DOWNLOADS,
+          [ROUTES.PROFILE]: ROUTE_PATHS.PROFILE,
         },
       },
-      [ROUTES.MOVIE_DETAILS]: 'movie-details',
-      [ROUTES.SETTINGS]: 'settings',
+      [ROUTES.MOVIE_DETAILS]: ROUTE_PATHS.MOVIE_DETAILS,
+      [ROUTES.SETTINGS]: ROUTE_PATHS.SETTINGS,
     },
   },
   getInitialURL: async () => Linking.getInitialURL(),

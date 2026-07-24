@@ -33,3 +33,16 @@ export const ROOT_STACK_ROUTES = {
   MOVIE_DETAILS: ROUTES.MOVIE_DETAILS,
   SETTINGS: ROUTES.SETTINGS,
 } as const;
+
+export const ROUTE_PATHS = {
+  SPLASH: 'splash',
+  AUTH: 'auth',
+  LOGIN: 'login',
+  MAIN_TABS: 'main',
+  HOME: 'home',
+  SEARCH: 'search',
+  DOWNLOADS: 'downloads',
+  PROFILE: 'profile',
+  MOVIE_DETAILS: 'movie-details',
+  SETTINGS: 'settings',
+} as const;

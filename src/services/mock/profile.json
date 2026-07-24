@@ -1,0 +1,57 @@
+{
+  "profile": {
+    "id": "profile-ava-sen",
+    "fullName": "Ava Sen",
+    "email": "ava.sen@example.com",
+    "phoneNumber": "+919812345678",
+    "avatarUrl": "https://images.example.com/avatars/ava-sen.jpg",
+    "preferredLanguage": "English",
+    "isKidsProfile": false,
+    "subscription": {
+      "id": "subscription-premium-ava",
+      "type": "premium",
+      "isActive": true,
+      "autoRenew": true,
+      "maxStreams": 4,
+      "renewsAt": "2026-08-03T00:00:00.000Z",
+      "startedAt": "2025-08-03T00:00:00.000Z"
+    },
+    "createdAt": "2025-08-03T00:00:00.000Z",
+    "updatedAt": "2026-07-23T09:00:00.000Z"
+  },
+  "watchHistory": [
+    {
+      "id": "watch-history-starlight",
+      "mediaId": "movie-starlight-odyssey",
+      "mediaType": "movie",
+      "title": "Starlight Odyssey",
+      "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+      "watchedAt": "2026-07-21T20:30:00.000Z",
+      "progressPercentage": 100,
+      "totalDurationInMinutes": 142,
+      "lastPositionInSeconds": 8520
+    },
+    {
+      "id": "watch-history-quantum",
+      "mediaId": "series-quantum-high",
+      "mediaType": "series",
+      "title": "Quantum High",
+      "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+      "watchedAt": "2026-07-23T20:15:00.000Z",
+      "progressPercentage": 58,
+      "totalDurationInMinutes": 48,
+      "lastPositionInSeconds": 1398
+    },
+    {
+      "id": "watch-history-saffron",
+      "mediaId": "series-saffron-skies",
+      "mediaType": "series",
+      "title": "Saffron Skies",
+      "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+      "watchedAt": "2026-07-20T18:40:00.000Z",
+      "progressPercentage": 74,
+      "totalDurationInMinutes": 44,
+      "lastPositionInSeconds": 1882
+    }
+  ]
+}

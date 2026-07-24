@@ -1,0 +1,25 @@
+{
+  "settings": {
+    "language": "English",
+    "appearance": {
+      "themeMode": "dark",
+      "autoPlayTrailers": true,
+      "reduceMotionEnabled": false,
+      "dataSaverEnabled": false
+    },
+    "notifications": {
+      "recommendations": true,
+      "downloads": true,
+      "newEpisodes": true,
+      "productUpdates": false,
+      "marketing": false
+    },
+    "playback": {
+      "autoplayNextEpisode": true,
+      "defaultAudioLanguage": "English",
+      "defaultSubtitleLanguage": "English",
+      "downloadOverWifiOnly": true,
+      "preferredDownloadQuality": "high"
+    }
+  }
+}
