@@ -22,7 +22,6 @@ export const AUTH_ROUTES = {
 export const MAIN_TAB_ROUTES = {
   HOME: ROUTES.HOME,
   SEARCH: ROUTES.SEARCH,
-  DOWNLOADS: ROUTES.DOWNLOADS,
   PROFILE: ROUTES.PROFILE,
 } as const;
 
@@ -43,6 +42,6 @@ export const ROUTE_PATHS = {
   SEARCH: 'search',
   DOWNLOADS: 'downloads',
   PROFILE: 'profile',
-  MOVIE_DETAILS: 'movie-details',
+  MOVIE_DETAILS: 'movie-details/:movieId',
   SETTINGS: 'settings',
 } as const;

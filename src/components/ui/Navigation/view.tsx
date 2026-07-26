@@ -1,15 +1,17 @@
 import React, { memo } from 'react';
+import { Pressable, View } from 'react-native';
 
 import { APP_STRINGS } from '../../../constants';
-import { AppText, AppTextInput, AppView } from '../../base';
+import { AppText, AppTextInput } from '../../base';
 import { Badge } from '../ContentPrimitives';
 import { IconButton } from '../AppButton';
 
-import { SafeAreaContainer, Row, Stack } from '../../layout';
+import { Row, Stack } from '../../layout';
 
 import { styles } from './styles';
 import type {
   BackButtonProps,
+  BottomTabBarProps,
   BottomTabItemProps,
   HeaderProps,
   SearchBarProps,
@@ -41,7 +43,7 @@ const HeaderViewComponent = ({
   trailingAccessory,
 }: HeaderProps) => {
   return (
-    <Row alignItems="center" gap="md" justifyContent="space-between">
+    <Row alignItems="center" gap="md" justifyContent="space-between" >
       {leadingAccessory}
       <Stack flex gap="xs" style={styles.grow}>
         <AppText numberOfLines={1} variant="title">
@@ -101,34 +103,48 @@ const BottomTabItemViewComponent = ({
   accessibilityState,
   badgeLabel,
   icon,
+  iconContainerStyle,
+  indicatorStyle,
   label,
+  labelStyle,
+  onLongPress,
   onPress,
+  pressableStyle,
+  showActiveIndicator = true,
+  showLabel = false,
+  testID,
 }: BottomTabItemProps) => {
   return (
-    <AppView
+    <Pressable
       accessibilityHint={accessibilityHint}
       accessibilityLabel={accessibilityLabel ?? label}
-      accessibilityRole="button"
+      accessibilityRole="tab"
       accessibilityState={{
         selected: active,
         ...accessibilityState,
       }}
-      alignItems="center"
-      backgroundColorToken={active ? 'primaryContainer' : 'transparent'}
-      center
-      gap="xs"
+      className="flex-1 items-center justify-center"
+      onLongPress={onLongPress}
       onPress={onPress}
-      paddingHorizontal="md"
-      paddingVertical="sm"
-      radius="full"
-      style={styles.tabItem}
+      style={[styles.tabItemPressable, styles.tabItem, pressableStyle]}
+      testID={testID}
     >
-      {icon}
-      <AppText colorToken={active ? 'onPrimaryContainer' : 'textSecondary'} variant="caption">
-        {label}
-      </AppText>
+      <View
+        className="items-center justify-center rounded-full"
+        style={[styles.tabItemSurface, iconContainerStyle]}
+      >
+        {icon}
+      </View>
+      {showLabel ? (
+        <AppText style={[styles.tabItemLabel, labelStyle]} variant="caption">
+          {label}
+        </AppText>
+      ) : null}
+      {active && showActiveIndicator ? (
+        <View className="rounded-full" style={[styles.tabItemIndicator, indicatorStyle]} />
+      ) : null}
       {badgeLabel ? <Badge label={badgeLabel} tone="primary" variant="solid" /> : null}
-    </AppView>
+    </Pressable>
   );
 };
 
@@ -136,27 +152,57 @@ BottomTabItemViewComponent.displayName = 'BottomTabItemView';
 
 const TabBarBackgroundViewComponent = ({
   children,
+  maxWidth,
+  shellStyle,
   style,
 }: TabBarBackgroundProps) => {
   return (
-    <SafeAreaContainer
-      backgroundColorToken="navigationBackground"
-      borderColorToken="divider"
-      borderWidth={1}
-      edges={['bottom']}
-      paddingHorizontal="md"
-      paddingTop="sm"
+    <View
+      className="w-full"
       style={style}
     >
-      {children}
-    </SafeAreaContainer>
+      <View
+        className="w-full"
+        style={[styles.floatingTabBarShell, shellStyle, maxWidth ? { maxWidth } : null]}
+      >
+        {children}
+      </View>
+    </View>
   );
 };
 
 TabBarBackgroundViewComponent.displayName = 'TabBarBackgroundView';
+
+const BottomTabBarViewComponent = ({
+  bottomInset,
+  horizontalInset,
+  items,
+  maxWidth,
+  shellStyle,
+  style,
+}: BottomTabBarProps) => {
+  return (
+    <TabBarBackgroundView
+      bottomInset={bottomInset}
+      horizontalInset={horizontalInset}
+      maxWidth={maxWidth}
+      shellStyle={shellStyle}
+      style={style}
+    >
+      <View className="flex-row items-center justify-between" style={styles.floatingTabBarContent}>
+        {items.map((item) => (
+          <BottomTabItemView key={item.testID ?? item.label} {...item} />
+        ))}
+      </View>
+    </TabBarBackgroundView>
+  );
+};
+
+BottomTabBarViewComponent.displayName = 'BottomTabBarView';
 
 export const BackButtonView = memo(BackButtonViewComponent);
 export const HeaderView = memo(HeaderViewComponent);
 export const SearchBarView = memo(SearchBarViewComponent);
 export const BottomTabItemView = memo(BottomTabItemViewComponent);
 export const TabBarBackgroundView = memo(TabBarBackgroundViewComponent);
+export const BottomTabBarView = memo(BottomTabBarViewComponent);

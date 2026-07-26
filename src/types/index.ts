@@ -13,3 +13,4 @@ export * from './navigation';
 export * from './profile';
 export * from './search';
 export * from './settings';
+export * from './tmdb';

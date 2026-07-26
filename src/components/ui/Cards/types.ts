@@ -4,21 +4,29 @@
 
 import type { ReactNode } from 'react';
 
+import type { AppImageSource } from '../../base/AppImage';
+import type { AppVideoProps } from '../../base/AppVideo';
+
 import type { InteractiveAccessibilityProps } from '../shared';
 
 export interface MovieCardProps extends InteractiveAccessibilityProps {
   badgeLabel?: string;
+  id?: string;
+  imageTransitionDuration?: number;
   metadataLabel?: string;
   onPress?: () => void;
   posterUrl: string;
   progress?: number;
+  showImageLoadingState?: boolean;
   subtitle?: string;
+  thumbnailUrl?: string;
   title: string;
 }
 
 export interface HeroCardProps extends InteractiveAccessibilityProps {
   badgeLabel?: string;
   description?: string;
+  id?: string;
   imageUrl: string;
   onPress?: () => void;
   onPrimaryAction?: () => void;
@@ -32,6 +40,7 @@ export interface HeroCardProps extends InteractiveAccessibilityProps {
 export interface EpisodeCardProps extends InteractiveAccessibilityProps {
   description?: string;
   eyebrow?: string;
+  id?: string;
   imageUrl: string;
   onPress?: () => void;
   trailingAccessory?: ReactNode;
@@ -39,6 +48,7 @@ export interface EpisodeCardProps extends InteractiveAccessibilityProps {
 }
 
 export interface ContinueWatchingCardProps extends InteractiveAccessibilityProps {
+  id?: string;
   imageUrl: string;
   onPress?: () => void;
   progress: number;
@@ -73,6 +83,7 @@ export interface SettingsCardProps extends InteractiveAccessibilityProps {
 }
 
 export interface SearchCardProps extends InteractiveAccessibilityProps {
+  id?: string;
   imageUrl: string;
   metadataLabel?: string;
   onPress?: () => void;
@@ -83,7 +94,37 @@ export interface SearchCardProps extends InteractiveAccessibilityProps {
 export interface CategoryCardProps extends InteractiveAccessibilityProps {
   countLabel?: string;
   description?: string;
+  id?: string;
   imageUrl?: string;
   onPress?: () => void;
+  title: string;
+}
+
+export interface FeaturedMovieCardProps extends InteractiveAccessibilityProps {
+  activeIndicatorIndex?: number;
+  badgeLabel?: string;
+  backgroundImageSource?: AppImageSource;
+  backgroundVideoSource?: AppVideoProps['source'];
+  description?: string;
+  id?: string;
+  metadata?: ReactNode;
+  onIndicatorSelect?: (index: number) => void;
+  onPress?: () => void;
+  onPrimaryAction?: () => void;
+  onSecondaryAction?: () => void;
+  primaryActionLabel?: string;
+  secondaryActionLabel?: string;
+  subtitle?: string;
+  title: string;
+  totalIndicators?: number;
+}
+
+export interface RecommendationCardProps extends InteractiveAccessibilityProps {
+  badgeLabel?: string;
+  id?: string;
+  imageUrl: string;
+  metadataLabel?: string;
+  onPress?: () => void;
+  subtitle?: string;
   title: string;
 }

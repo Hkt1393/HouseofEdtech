@@ -8,6 +8,7 @@ import { styles } from './styles';
 import type { ScreenViewProps } from './types';
 
 const ScreenViewComponent = ({
+  backgroundColorToken = 'background',
   children,
   contentContainerStyle,
   footer,
@@ -20,7 +21,7 @@ const ScreenViewComponent = ({
 }: ScreenViewProps) => {
   return (
     <SafeAreaContainer
-      backgroundColorToken="background"
+      backgroundColorToken={backgroundColorToken}
       edges={safeAreaEdges}
       flex
       style={resolvedStyle}
@@ -34,7 +35,12 @@ const ScreenViewComponent = ({
           {children}
         </AppScrollView>
       ) : (
-        <AppView flex style={resolvedContentContainerStyle} {...restProps}>
+        <AppView
+          backgroundColorToken={backgroundColorToken}
+          flex
+          style={resolvedContentContainerStyle}
+          {...restProps}
+        >
           {children}
         </AppView>
       )}

@@ -12,6 +12,7 @@ import {
   ProgressBar,
   Thumbnail,
 } from '../ContentPrimitives';
+import { HeroBanner } from '../Hero';
 import { GhostButton, PrimaryButton } from '../AppButton';
 
 import { BaseMediaRow } from './BaseMediaRow';
@@ -20,9 +21,11 @@ import type {
   ContinueWatchingCardProps,
   DownloadCardProps,
   EpisodeCardProps,
+  FeaturedMovieCardProps,
   HeroCardProps,
   MovieCardProps,
   ProfileCardProps,
+  RecommendationCardProps,
   SearchCardProps,
   SettingsCardProps,
 } from './types';
@@ -32,10 +35,12 @@ const MovieCardViewComponent = ({
   accessibilityLabel,
   accessibilityState,
   badgeLabel,
+  imageTransitionDuration,
   metadataLabel,
   onPress,
   posterUrl,
   progress,
+  showImageLoadingState,
   subtitle,
   title,
 }: MovieCardProps) => {
@@ -45,9 +50,11 @@ const MovieCardViewComponent = ({
       accessibilityLabel={accessibilityLabel ?? title}
       accessibilityState={accessibilityState}
       badgeLabel={badgeLabel}
+      imageTransitionDuration={imageTransitionDuration}
       onPress={onPress}
       posterUrl={posterUrl}
       progress={progress}
+      showImageLoadingState={showImageLoadingState}
       subtitle={subtitle ?? metadataLabel}
       title={title}
     />
@@ -365,6 +372,92 @@ const CategoryCardViewComponent = ({
 
 CategoryCardViewComponent.displayName = 'CategoryCardView';
 
+const FeaturedMovieCardViewComponent = ({
+  accessibilityHint = APP_STRINGS.components.cards.heroAccessibilityHint,
+  accessibilityLabel,
+  accessibilityState,
+  activeIndicatorIndex,
+  backgroundImageSource,
+  backgroundVideoSource,
+  badgeLabel,
+  description,
+  metadata,
+  onIndicatorSelect,
+  onPress,
+  onPrimaryAction,
+  onSecondaryAction,
+  primaryActionLabel,
+  secondaryActionLabel,
+  subtitle,
+  title,
+  totalIndicators,
+}: FeaturedMovieCardProps) => {
+  return (
+    <HeroBanner
+      accessibilityHint={accessibilityHint}
+      accessibilityLabel={accessibilityLabel ?? title}
+      accessibilityState={accessibilityState}
+      activeIndicatorIndex={activeIndicatorIndex}
+      backgroundImageSource={backgroundImageSource}
+      backgroundVideoSource={backgroundVideoSource}
+      badgeLabel={badgeLabel}
+      description={description}
+      metadata={metadata}
+      onIndicatorSelect={onIndicatorSelect}
+      onPress={onPress}
+      onPrimaryAction={onPrimaryAction}
+      onSecondaryAction={onSecondaryAction}
+      primaryActionLabel={primaryActionLabel}
+      secondaryActionLabel={secondaryActionLabel}
+      subtitle={subtitle}
+      title={title}
+      totalIndicators={totalIndicators}
+    />
+  );
+};
+
+FeaturedMovieCardViewComponent.displayName = 'FeaturedMovieCardView';
+
+const RecommendationCardViewComponent = ({
+  accessibilityHint = APP_STRINGS.components.cards.movieAccessibilityHint,
+  accessibilityLabel,
+  accessibilityState,
+  badgeLabel,
+  imageUrl,
+  metadataLabel,
+  onPress,
+  subtitle,
+  title,
+}: RecommendationCardProps) => {
+  return (
+    <Card
+      accessibilityHint={onPress ? accessibilityHint : undefined}
+      accessibilityLabel={accessibilityLabel ?? title}
+      accessibilityRole={onPress ? 'button' : undefined}
+      accessibilityState={accessibilityState}
+      bordered={false}
+      gap="md"
+      onPress={onPress}
+      padding="md"
+      variant="secondary"
+    >
+      <Thumbnail imageUrl={imageUrl} title={title} />
+      <Stack gap="xs">
+        {badgeLabel ? <Badge label={badgeLabel} tone="primary" /> : null}
+        <AppText variant="label">{title}</AppText>
+        {subtitle ? <AppText colorToken="textSecondary">{subtitle}</AppText> : null}
+        {metadataLabel ? (
+          <AppText colorToken="textTertiary" variant="caption">
+            {metadataLabel}
+          </AppText>
+        ) : null}
+      </Stack>
+    </Card>
+  );
+};
+
+RecommendationCardViewComponent.displayName = 'RecommendationCardView';
+
 export const MovieCardView = memo(MovieCardViewComponent);
 export const HeroCardView = memo(HeroCardViewComponent);
 export const EpisodeCardView = memo(EpisodeCardViewComponent);
@@ -374,3 +467,5 @@ export const ProfileCardView = memo(ProfileCardViewComponent);
 export const SettingsCardView = memo(SettingsCardViewComponent);
 export const SearchCardView = memo(SearchCardViewComponent);
 export const CategoryCardView = memo(CategoryCardViewComponent);
+export const FeaturedMovieCardView = memo(FeaturedMovieCardViewComponent);
+export const RecommendationCardView = memo(RecommendationCardViewComponent);

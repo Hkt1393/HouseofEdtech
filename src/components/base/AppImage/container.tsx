@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { type ImageStyle, type ViewStyle } from 'react-native';
+import { StyleSheet, type ImageStyle, type ViewStyle } from 'react-native';
 import type {
   ImageErrorEventData,
   ImageLoadEventData,
@@ -97,6 +97,7 @@ const AppImageContainerComponent = ({
 
   const resolvedImageStyleObject = useMemo<ImageStyle>(
     () => ({
+      ...StyleSheet.absoluteFillObject,
       borderRadius: resolveRadiusValue(radius, radiusScale),
       tintColor: resolveColorToken(tintColorToken, colors),
     }),

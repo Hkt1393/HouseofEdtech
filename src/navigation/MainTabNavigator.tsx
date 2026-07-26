@@ -3,12 +3,10 @@ import {
   createBottomTabNavigator,
   type BottomTabNavigationOptions,
 } from '@react-navigation/bottom-tabs';
-import { StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
+import Svg, { Circle, Line, Path } from 'react-native-svg';
 
 import { APP_STRINGS, ROUTES } from '../constants';
-import DownloadsScreen from '../screens/Downloads';
+import { BottomTabBar } from '../components/ui/Navigation';
 import HomeScreen from '../screens/Home';
 import ProfileScreen from '../screens/Profile';
 import SearchScreen from '../screens/Search';
@@ -22,12 +20,6 @@ import type {
 } from './types';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
-
-const styles = StyleSheet.create({
-  tabBarLabel: {
-    textAlign: 'center',
-  },
-});
 
 interface TabBarIconProps {
   color: string;
@@ -53,10 +45,11 @@ const TabBarIcon = memo(
           >
             <Path
               d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1v-9.5Z"
+              fill={focused ? color : 'none'}
               stroke={color}
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={strokeWidth}
+              strokeWidth={focused ? 1.5 : strokeWidth}
             />
           </Svg>
         );
@@ -85,40 +78,6 @@ const TabBarIcon = memo(
               x2="20"
               y1="16.2"
               y2="20"
-            />
-          </Svg>
-        );
-      case ROUTES.DOWNLOADS:
-        return (
-          <Svg
-            accessibilityElementsHidden
-            focusable={false}
-            fill="none"
-            height={size}
-            viewBox="0 0 24 24"
-            width={size}
-          >
-            <Path
-              d="M12 4v10"
-              stroke={color}
-              strokeLinecap="round"
-              strokeWidth={strokeWidth}
-            />
-            <Path
-              d="m8.5 11.5 3.5 3.5 3.5-3.5"
-              stroke={color}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={strokeWidth}
-            />
-            <Rect
-              height="2.5"
-              rx="1.25"
-              stroke={color}
-              strokeWidth={strokeWidth}
-              width="13"
-              x="5.5"
-              y="17.5"
             />
           </Svg>
         );
@@ -156,30 +115,15 @@ const TabBarIcon = memo(
 TabBarIcon.displayName = 'TabBarIcon';
 
 const MainTabNavigatorComponent = () => {
-  const insets = useSafeAreaInsets();
-  const { colors, radius, shadows, spacing, typography } = useTheme();
+  const { colors } = useTheme();
 
   const routeLabels = useMemo<Record<MainTabRouteName, string>>(
     () => ({
       [ROUTES.HOME]: APP_STRINGS.navigation.home,
       [ROUTES.SEARCH]: APP_STRINGS.navigation.search,
-      [ROUTES.DOWNLOADS]: APP_STRINGS.navigation.downloads,
       [ROUTES.PROFILE]: APP_STRINGS.navigation.profile,
     }),
     [],
-  );
-
-  const tabBarStyle = useMemo<BottomTabNavigationOptions['tabBarStyle']>(
-    () => ({
-      backgroundColor: colors.navigationBackground,
-      borderTopColor: colors.divider,
-      borderTopWidth: StyleSheet.hairlineWidth,
-      height: moderateScale(spacing['4xl'] + spacing.lg) + insets.bottom,
-      paddingBottom: Math.max(insets.bottom, spacing.xs),
-      paddingTop: spacing.xs,
-      ...shadows.sm,
-    }),
-    [colors, insets.bottom, shadows, spacing],
   );
 
   const screenOptions = useCallback(
@@ -192,23 +136,9 @@ const MainTabNavigatorComponent = () => {
       sceneStyle: {
         backgroundColor: colors.background,
       },
-      tabBarActiveTintColor: colors.primary,
       tabBarInactiveTintColor: colors.iconSecondary,
       tabBarHideOnKeyboard: true,
-      tabBarStyle,
       tabBarLabel: routeLabels[route.name],
-      tabBarLabelStyle: {
-        ...styles.tabBarLabel,
-        fontFamily: typography.variants.caption.fontFamily,
-        fontSize: typography.variants.caption.fontSize,
-        fontWeight: typography.variants.caption.fontWeight,
-        lineHeight: typography.variants.caption.lineHeight,
-        marginTop: spacing.unit,
-      },
-      tabBarItemStyle: {
-        borderRadius: radius.full,
-        paddingVertical: spacing.unit,
-      },
       tabBarIcon: ({ color, focused, size }) => (
         <TabBarIcon
           color={color}
@@ -218,17 +148,17 @@ const MainTabNavigatorComponent = () => {
         />
       ),
     }),
-    [colors, radius, routeLabels, spacing, tabBarStyle, typography],
+    [colors, routeLabels],
   );
 
   return (
     <Tab.Navigator
       initialRouteName={ROUTES.HOME}
       screenOptions={screenOptions}
+      tabBar={(props) => <BottomTabBar {...props} />}
     >
       <Tab.Screen component={HomeScreen} name={ROUTES.HOME} />
       <Tab.Screen component={SearchScreen} name={ROUTES.SEARCH} />
-      <Tab.Screen component={DownloadsScreen} name={ROUTES.DOWNLOADS} />
       <Tab.Screen component={ProfileScreen} name={ROUTES.PROFILE} />
     </Tab.Navigator>
   );

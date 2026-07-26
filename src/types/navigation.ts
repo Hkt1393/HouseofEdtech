@@ -26,7 +26,6 @@ export type AuthStackParamList = {
 export type MainTabParamList = {
   [ROUTES.HOME]: undefined;
   [ROUTES.SEARCH]: undefined;
-  [ROUTES.DOWNLOADS]: undefined;
   [ROUTES.PROFILE]: undefined;
 };
 
@@ -34,7 +33,9 @@ export type RootStackParamList = {
   [ROUTES.SPLASH]: undefined;
   [ROUTES.AUTH]: NavigatorScreenParams<AuthStackParamList>;
   [ROUTES.MAIN_TABS]: NavigatorScreenParams<MainTabParamList>;
-  [ROUTES.MOVIE_DETAILS]: undefined;
+  [ROUTES.MOVIE_DETAILS]: {
+    movieId: string;
+  };
   [ROUTES.SETTINGS]: undefined;
 };
 

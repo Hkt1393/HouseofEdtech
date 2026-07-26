@@ -7,9 +7,11 @@ export {
   ContinueWatchingCard,
   DownloadCard,
   EpisodeCard,
+  FeaturedMovieCard,
   HeroCard,
   MovieCard,
   ProfileCard,
+  RecommendationCard,
   SearchCard,
   SettingsCard,
 } from './container';
@@ -18,9 +20,11 @@ export type {
   ContinueWatchingCardProps,
   DownloadCardProps,
   EpisodeCardProps,
+  FeaturedMovieCardProps,
   HeroCardProps,
   MovieCardProps,
   ProfileCardProps,
+  RecommendationCardProps,
   SearchCardProps,
   SettingsCardProps,
 } from './types';

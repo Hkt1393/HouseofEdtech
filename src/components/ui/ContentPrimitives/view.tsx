@@ -166,9 +166,11 @@ const PosterViewComponent = ({
   accessibilityLabel = APP_STRINGS.components.media.posterAccessibilityLabel,
   accessibilityState,
   badgeLabel,
+  imageTransitionDuration,
   onPress,
   posterUrl,
   progress,
+  showImageLoadingState = true,
   subtitle,
   title,
   width,
@@ -190,8 +192,10 @@ const PosterViewComponent = ({
           accessibilityLabel={onPress ? undefined : accessibilityLabel}
           contentFit="cover"
           radius="sm"
+          showLoadingState={showImageLoadingState}
           source={{ uri: posterUrl }}
           style={posterStyles.image}
+          transitionDuration={imageTransitionDuration}
         />
         {badgeLabel ? (
           <AppView
