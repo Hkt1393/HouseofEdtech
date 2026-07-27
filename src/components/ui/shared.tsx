@@ -28,10 +28,12 @@ export type IconName =
   | 'download'
   | 'check'
   | 'alert'
+  | 'heart'
   | 'info'
   | 'plus'
   | 'user'
   | 'refresh'
+  | 'share'
   | 'clock'
   | 'settings';
 
@@ -278,6 +280,18 @@ const AppIconComponent = ({
           <Circle cx="12" cy="16.5" fill={color} r="1" />
         </Svg>
       );
+    case 'heart':
+      return (
+        <Svg fill="none" height={size} viewBox="0 0 24 24" width={size}>
+          <Path
+            d="m12 19.1-.9-.82C6.4 14 4 11.8 4 9.1 4 6.9 5.7 5.2 7.9 5.2c1.25 0 2.44.58 3.2 1.5.76-.92 1.95-1.5 3.2-1.5 2.2 0 3.9 1.7 3.9 3.9 0 2.7-2.4 4.9-7.1 9.18l-.1.82Z"
+            stroke={color}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={strokeWidth}
+          />
+        </Svg>
+      );
     case 'info':
       return (
         <Svg fill="none" height={size} viewBox="0 0 24 24" width={size}>
@@ -343,6 +357,26 @@ const AppIconComponent = ({
             stroke={color}
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeWidth={strokeWidth}
+          />
+        </Svg>
+      );
+    case 'share':
+      return (
+        <Svg fill="none" height={size} viewBox="0 0 24 24" width={size}>
+          <Circle cx="18" cy="5.5" fill={color} r="1.9" />
+          <Circle cx="6" cy="12" fill={color} r="1.9" />
+          <Circle cx="18" cy="18.5" fill={color} r="1.9" />
+          <Path
+            d="m7.7 11.1 8.55-4.7"
+            stroke={color}
+            strokeLinecap="round"
+            strokeWidth={strokeWidth}
+          />
+          <Path
+            d="m7.7 12.9 8.55 4.7"
+            stroke={color}
+            strokeLinecap="round"
             strokeWidth={strokeWidth}
           />
         </Svg>

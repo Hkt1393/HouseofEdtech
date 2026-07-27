@@ -178,6 +178,13 @@ class TmdbApiClient {
     return createSuccessResponse(items, successMessage, meta);
   }
 
+  async requestPayload<TPayload>(
+    path: string,
+    query?: Readonly<Record<string, TmdbQueryValue>>,
+  ): Promise<ApiResponse<TPayload>> {
+    return this.fetchJson<TPayload>(path, query);
+  }
+
   buildImageUrl(
     imagePath: string | null | undefined,
     size: typeof TMDB_CONFIG.backdropSize | typeof TMDB_CONFIG.posterSize,

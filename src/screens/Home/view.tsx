@@ -33,7 +33,7 @@ import {
   type MovieCardProps,
 } from '../../components/ui';
 import { AppIcon, type IconName } from '../../components/ui/shared';
-import { APP_STRINGS, TMDB_HOME_SECTION_ORDER } from '../../constants';
+import { APP_STRINGS, TMDB_HOME_SECTION_ORDER, type TmdbHomeSectionKey } from '../../constants';
 
 import {
   createDynamicStyles,
@@ -45,7 +45,24 @@ import {
 const AnimatedAppView = Animated.createAnimatedComponent(AppView);
 
 const HOME_SAFE_AREA_EDGES = ['top'] as const;
-const HOME_CATEGORY_LIMIT = 4;
+const HOME_CATEGORY_SKELETON_ITEMS = [
+  {
+    id: 'home-category-skeleton-1',
+    width: moderateScale(104),
+  },
+  {
+    id: 'home-category-skeleton-2',
+    width: moderateScale(92),
+  },
+  {
+    id: 'home-category-skeleton-3',
+    width: moderateScale(110),
+  },
+  {
+    id: 'home-category-skeleton-4',
+    width: moderateScale(98),
+  },
+] as const;
 const HOME_POSTER_SKELETON_ITEMS = [
   'home-poster-skeleton-1',
   'home-poster-skeleton-2',
@@ -55,7 +72,12 @@ const HOME_SECTION_SKELETON_ITEMS = TMDB_HOME_SECTION_ORDER.map(
   (sectionKey) => `home-section-skeleton-${sectionKey}`,
 );
 
-interface HomeCategoryChipItem {
+interface HomeCategorySkeletonItem {
+  readonly id: string;
+  readonly width: number;
+}
+
+export interface HomeCategoryChipItem {
   readonly id: string;
   readonly isSelected: boolean;
   readonly label: string;
@@ -67,6 +89,7 @@ export interface HomeSectionItem {
   readonly isLoadingMore: boolean;
   readonly items: ReadonlyArray<MovieCardProps>;
   readonly onEndReached?: () => void;
+  readonly sectionKey: TmdbHomeSectionKey;
   readonly subtitle?: string;
   readonly title: string;
 }
@@ -86,17 +109,25 @@ export interface HomeHeroBannerViewModel {
 }
 
 export interface HomeViewProps {
+  readonly categoryErrorDescription?: string;
+  readonly categoryErrorTitle?: string;
+  readonly categoryItems: ReadonlyArray<HomeCategoryChipItem>;
   readonly errorDescription?: string;
   readonly errorTitle?: string;
   readonly headerTitle: string;
   readonly heroBanner: HomeHeroBannerViewModel | null;
+  readonly isCategoriesLoading: boolean;
   readonly isEmpty: boolean;
+  readonly isGenreSelectionEmpty: boolean;
   readonly isInitialContentLoading: boolean;
   readonly isRefreshing: boolean;
+  readonly onCategoryRetry: () => void;
+  readonly onCategorySelect: (categoryId: string) => void;
   readonly onMenuPress: () => void;
   readonly onProfilePress: () => void;
   readonly onRefresh: () => void;
   readonly onRetry: () => void;
+  readonly onSectionPress: (section: HomeSectionItem) => void;
   readonly profileFallbackLabel: string;
   readonly sections: ReadonlyArray<HomeSectionItem>;
 }
@@ -148,6 +179,8 @@ HomeActionButtonComponent.displayName = 'HomeActionButton';
 interface HomeSectionHeaderProps {
   readonly actionIconColor: string;
   readonly actionIconName: IconName;
+  readonly actionAccessibilityLabel: string;
+  readonly onActionPress?: () => void;
   readonly actionSurfaceStyle: StyleProp<ViewStyle>;
   readonly subtitle?: string;
   readonly subtitleStyle: StyleProp<TextStyle>;
@@ -157,7 +190,9 @@ interface HomeSectionHeaderProps {
 
 const HomeSectionHeaderComponent = ({
   actionIconColor,
+  actionAccessibilityLabel,
   actionIconName,
+  onActionPress,
   actionSurfaceStyle,
   subtitle,
   subtitleStyle,
@@ -177,8 +212,12 @@ const HomeSectionHeaderComponent = ({
         ) : null}
       </Stack>
       <AppView
+        accessibilityHint={APP_STRINGS.home.sectionActionAccessibilityHint}
+        accessibilityLabel={actionAccessibilityLabel}
+        accessibilityRole={onActionPress ? 'button' : undefined}
         alignItems="center"
         justifyContent="center"
+        onPress={onActionPress}
         radius="full"
         style={[styles.sectionHeaderAction, actionSurfaceStyle]}
       >
@@ -191,20 +230,31 @@ const HomeSectionHeaderComponent = ({
 HomeSectionHeaderComponent.displayName = 'HomeSectionHeader';
 
 interface HomeCategoryChipProps {
+  readonly accessibilityLabel: string;
   readonly label: string;
   readonly labelStyle: StyleProp<TextStyle>;
+  readonly onPress?: () => void;
+  readonly selected?: boolean;
   readonly surfaceStyle: StyleProp<ViewStyle>;
 }
 
 const HomeCategoryChipComponent = ({
+  accessibilityLabel,
   label,
   labelStyle,
+  onPress,
+  selected = false,
   surfaceStyle,
 }: HomeCategoryChipProps) => {
   return (
     <AppView
+      accessibilityHint={APP_STRINGS.components.button.chipAccessibilityHint}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole={onPress ? 'button' : undefined}
+      accessibilityState={onPress ? { selected } : undefined}
       alignItems="center"
       justifyContent="center"
+      onPress={onPress}
       radius="full"
       style={[styles.categoryChip, surfaceStyle]}
     >
@@ -216,6 +266,53 @@ const HomeCategoryChipComponent = ({
 };
 
 HomeCategoryChipComponent.displayName = 'HomeCategoryChip';
+
+interface HomeInlineStateProps {
+  readonly actionLabel?: string;
+  readonly actionLabelStyle?: StyleProp<TextStyle>;
+  readonly actionSurfaceStyle?: StyleProp<ViewStyle>;
+  readonly description: string;
+  readonly descriptionStyle: StyleProp<TextStyle>;
+  readonly onAction?: () => void;
+  readonly title?: string;
+  readonly titleStyle: StyleProp<TextStyle>;
+}
+
+const HomeInlineStateComponent = ({
+  actionLabel,
+  actionLabelStyle,
+  actionSurfaceStyle,
+  description,
+  descriptionStyle,
+  onAction,
+  title,
+  titleStyle,
+}: HomeInlineStateProps) => {
+  return (
+    <Stack gap="md">
+      {title ? (
+        <AppText style={titleStyle} variant="label">
+          {title}
+        </AppText>
+      ) : null}
+      <AppText style={descriptionStyle}>
+        {description}
+      </AppText>
+      {actionLabel && onAction && actionLabelStyle && actionSurfaceStyle ? (
+        <HomeCategoryChipComponent
+          accessibilityLabel={actionLabel}
+          label={actionLabel}
+          labelStyle={actionLabelStyle}
+          onPress={onAction}
+          selected
+          surfaceStyle={[styles.categoryFeedbackAction, actionSurfaceStyle]}
+        />
+      ) : null}
+    </Stack>
+  );
+};
+
+HomeInlineStateComponent.displayName = 'HomeInlineState';
 
 interface HomeFeaturedRailCardProps {
   readonly item: MovieCardProps;
@@ -409,6 +506,43 @@ const HomeHeroSkeletonComponent = () => {
 
 HomeHeroSkeletonComponent.displayName = 'HomeHeroSkeleton';
 
+const HomeCategorySkeletonComponent = () => {
+  const keyExtractor = useCallback((item: HomeCategorySkeletonItem) => item.id, []);
+
+  const renderItem = useCallback(
+    (item: HomeCategorySkeletonItem) => (
+      <SkeletonBlock
+        height={styles.categoryChipSkeleton.height as number}
+        radius={(styles.categoryChipSkeleton.height as number) / 2}
+        style={styles.categoryChipSkeleton}
+        width={item.width}
+      />
+    ),
+    [],
+  );
+
+  return (
+    <Container>
+      <Stack gap="md">
+        <SkeletonBlock
+          height={styles.sectionTitleSkeleton.height as number}
+          style={styles.sectionTitleSkeleton}
+          width={styles.sectionTitleSkeleton.width}
+        />
+        <ContentCarousel
+          contentPaddingHorizontal="none"
+          data={HOME_CATEGORY_SKELETON_ITEMS}
+          itemGap="sm"
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+        />
+      </Stack>
+    </Container>
+  );
+};
+
+HomeCategorySkeletonComponent.displayName = 'HomeCategorySkeleton';
+
 const HomeSectionSkeletonComponent = () => {
   const keyExtractor = useCallback((item: string) => item, []);
 
@@ -452,9 +586,10 @@ const HomeSkeletonLayoutComponent = ({ contentContainerStyle }: HomeSkeletonLayo
 
   const listHeader = useMemo(
     () => (
-      <Stack gap="xl" style={styles.headerContent}>
+      <Stack gap="2xl" style={styles.headerContent}>
         <HomeHeaderSkeletonComponent />
         <HomeHeroSkeletonComponent />
+        <HomeCategorySkeletonComponent />
       </Stack>
     ),
     [],
@@ -479,17 +614,25 @@ const HomeSkeletonLayoutComponent = ({ contentContainerStyle }: HomeSkeletonLayo
 HomeSkeletonLayoutComponent.displayName = 'HomeSkeletonLayout';
 
 const HomeViewComponent = ({
+  categoryErrorDescription,
+  categoryErrorTitle,
+  categoryItems,
   errorDescription,
   errorTitle,
   headerTitle,
   heroBanner,
+  isCategoriesLoading,
   isEmpty,
+  isGenreSelectionEmpty,
   isInitialContentLoading,
   isRefreshing,
+  onCategoryRetry,
+  onCategorySelect,
   onMenuPress,
   onProfilePress,
   onRefresh,
   onRetry,
+  onSectionPress,
   profileFallbackLabel,
   sections,
 }: HomeViewProps) => {
@@ -581,16 +724,6 @@ const HomeViewComponent = ({
       : undefined;
   }, [heroBanner]);
 
-  const categoryItems = useMemo<ReadonlyArray<HomeCategoryChipItem>>(
-    () =>
-      sections.slice(0, HOME_CATEGORY_LIMIT).map((section, index) => ({
-        id: `${section.id}-category`,
-        isSelected: index === 0,
-        label: section.title,
-      })),
-    [sections],
-  );
-
   const featuredRailSection = useMemo<HomeSectionItem | null>(() => {
     const secondarySection = sections.find(
       (section) => section.id !== 'home-section-trending' && section.items.length > 0,
@@ -605,15 +738,22 @@ const HomeViewComponent = ({
     [featuredRailSection?.id, sections],
   );
 
+  const categoryKeyExtractor = useCallback((item: HomeCategoryChipItem) => item.id, []);
+
   const renderCategoryChip = useCallback(
     (item: HomeCategoryChipItem) => (
       <HomeCategoryChipComponent
+        accessibilityLabel={item.label}
         label={item.label}
         labelStyle={
           item.isSelected
             ? dynamicStyles.categoryChipLabelActive
             : dynamicStyles.categoryChipLabelInactive
         }
+        onPress={() => {
+          onCategorySelect(item.id);
+        }}
+        selected={item.isSelected}
         surfaceStyle={
           item.isSelected
             ? dynamicStyles.categoryChipActive
@@ -626,8 +766,104 @@ const HomeViewComponent = ({
       dynamicStyles.categoryChipInactive,
       dynamicStyles.categoryChipLabelActive,
       dynamicStyles.categoryChipLabelInactive,
+      onCategorySelect,
     ],
   );
+
+  const categorySection = useMemo(() => {
+    if (isCategoriesLoading) {
+      return <HomeCategorySkeletonComponent />;
+    }
+
+    if (categoryItems.length > 0) {
+      return (
+        <Container>
+          <Stack gap="md">
+            <AppText style={dynamicStyles.sectionTitleText} variant="subtitle">
+              {APP_STRINGS.home.categoriesSection}
+            </AppText>
+            <ContentCarousel
+              contentPaddingHorizontal="none"
+              data={categoryItems}
+              itemGap="sm"
+              keyExtractor={categoryKeyExtractor}
+              renderItem={renderCategoryChip}
+            />
+          </Stack>
+        </Container>
+      );
+    }
+
+    if (categoryErrorDescription) {
+      return (
+        <Container>
+          <Stack gap="md">
+            <AppText style={dynamicStyles.sectionTitleText} variant="subtitle">
+              {APP_STRINGS.home.categoriesSection}
+            </AppText>
+            <HomeInlineStateComponent
+              actionLabel={APP_STRINGS.common.retry}
+              actionLabelStyle={dynamicStyles.categoryChipLabelActive}
+              actionSurfaceStyle={dynamicStyles.categoryChipActive}
+              description={categoryErrorDescription}
+              descriptionStyle={dynamicStyles.sectionDescriptionText}
+              onAction={onCategoryRetry}
+              title={categoryErrorTitle}
+              titleStyle={dynamicStyles.sectionTitleText}
+            />
+          </Stack>
+        </Container>
+      );
+    }
+
+    return (
+      <Container>
+        <Stack gap="md">
+          <AppText style={dynamicStyles.sectionTitleText} variant="subtitle">
+            {APP_STRINGS.home.categoriesSection}
+          </AppText>
+          <HomeInlineStateComponent
+            description={APP_STRINGS.home.categoriesEmptyDescription}
+            descriptionStyle={dynamicStyles.sectionDescriptionText}
+            titleStyle={dynamicStyles.sectionTitleText}
+          />
+        </Stack>
+      </Container>
+    );
+  }, [
+    categoryErrorDescription,
+    categoryErrorTitle,
+    categoryItems,
+    categoryKeyExtractor,
+    dynamicStyles.categoryChipActive,
+    dynamicStyles.categoryChipLabelActive,
+    dynamicStyles.sectionDescriptionText,
+    dynamicStyles.sectionTitleText,
+    isCategoriesLoading,
+    onCategoryRetry,
+    renderCategoryChip,
+  ]);
+
+  const genreEmptyState = useMemo(() => {
+    if (!isGenreSelectionEmpty) {
+      return null;
+    }
+
+    return (
+      <Container>
+        <HomeInlineStateComponent
+          description={APP_STRINGS.home.genreEmptyDescription}
+          descriptionStyle={dynamicStyles.sectionDescriptionText}
+          title={APP_STRINGS.home.genreEmptyTitle}
+          titleStyle={dynamicStyles.sectionTitleText}
+        />
+      </Container>
+    );
+  }, [
+    dynamicStyles.sectionDescriptionText,
+    dynamicStyles.sectionTitleText,
+    isGenreSelectionEmpty,
+  ]);
 
   const renderFeaturedRailCard = useCallback(
     (item: MovieCardProps) => (
@@ -677,32 +913,11 @@ const HomeViewComponent = ({
           ) : (
             <AppView style={[styles.heroMedia, dynamicStyles.heroSurface]} />
           )}
-          <AbsoluteFill>
-            <AppView style={dynamicStyles.heroOverlayTop} />
-            <AppView style={dynamicStyles.heroOverlayMiddle} />
-            <AppView style={dynamicStyles.heroOverlayBottom} />
-          </AbsoluteFill>
           <AbsoluteFill style={styles.fill}>
             <AppView style={styles.heroContent}>
               <Container paddingTop="md">
                 <Row alignItems="center" gap="md" justifyContent="space-between">
                   <Row alignItems="center" gap="md">
-                    <AppView
-                      accessibilityHint={APP_STRINGS.home.menuAccessibilityHint}
-                      accessibilityLabel={APP_STRINGS.home.menuAccessibilityLabel}
-                      accessibilityRole="button"
-                      center
-                      onPress={onMenuPress}
-                      padding="xs"
-                      radius="full"
-                      style={styles.menuButton}
-                    >
-                      <Stack gap="xs" style={styles.menuIcon}>
-                        <AppView style={[styles.menuLine, dynamicStyles.menuLineFill]} />
-                        <AppView style={[styles.menuLineShort, dynamicStyles.menuLineFill]} />
-                        <AppView style={[styles.menuLine, dynamicStyles.menuLineFill]} />
-                      </Stack>
-                    </AppView>
                     <AppText numberOfLines={1} style={dynamicStyles.titleText} variant="title">
                       {headerTitle}
                     </AppText>
@@ -712,20 +927,8 @@ const HomeViewComponent = ({
               </Container>
               <Container paddingBottom="xl">
                 <Stack gap="lg">
-                  {heroBanner?.badgeLabel ? (
-                    <AppView
-                      alignItems="center"
-                      justifyContent="center"
-                      radius="full"
-                      style={[styles.heroMetaBadge, dynamicStyles.heroBadgeSurface]}
-                    >
-                      <AppText style={dynamicStyles.heroBadgeText} variant="overline">
-                        {heroBanner.badgeLabel}
-                      </AppText>
-                    </AppView>
-                  ) : null}
                   {heroBanner ? (
-                    <Stack gap="md">
+                    <Stack gap="md" style={[styles.heroCopyPanel, dynamicStyles.heroCopyPanel]}>
                       <Stack gap="sm">
                         <AppText numberOfLines={3} style={dynamicStyles.heroTitleText}>
                           {heroBanner.title}
@@ -741,7 +944,7 @@ const HomeViewComponent = ({
                           <HomeActionButtonComponent
                             accessibilityHint={APP_STRINGS.components.button.primaryAccessibilityHint}
                             accessibilityLabel={heroBanner.primaryActionLabel}
-                            iconColor={homeColors.white}
+                            iconColor={homeColors.black}
                             iconName="play"
                             label={heroBanner.primaryActionLabel}
                             onPress={heroBanner.onPrimaryAction}
@@ -769,62 +972,14 @@ const HomeViewComponent = ({
             </AppView>
           </AbsoluteFill>
         </AppView>
-        {categoryItems.length > 0 ? (
-          <Container>
-            <Stack gap="md">
-              <AppText style={dynamicStyles.sectionTitleText} variant="subtitle">
-                {APP_STRINGS.home.categoriesSection}
-              </AppText>
-              <ContentCarousel
-                contentPaddingHorizontal="none"
-                data={categoryItems}
-                itemGap="sm"
-                keyExtractor={(item) => item.id}
-                renderItem={renderCategoryChip}
-              />
-            </Stack>
-          </Container>
-        ) : null}
-        {featuredRailSection ? (
-          <Container>
-            <Stack gap="lg">
-              <HomeSectionHeaderComponent
-                actionIconColor={homeColors.primary}
-                actionIconName="chevron-right"
-                actionSurfaceStyle={dynamicStyles.sectionActionSurface}
-                subtitle={featuredRailSection.subtitle}
-                subtitleStyle={dynamicStyles.sectionDescriptionText}
-                title={featuredRailSection.title}
-                titleStyle={dynamicStyles.sectionTitleText}
-              />
-              {featuredRailSection.items.length > 0 ? (
-                <ContentCarousel
-                  contentPaddingHorizontal="none"
-                  data={featuredRailSection.items}
-                  itemWidth={HOME_FEATURED_RAIL_ITEM_WIDTH}
-                  keyExtractor={(item, index) => item.id ?? item.title ?? `featured-${index}`}
-                  renderItem={renderFeaturedRailCard}
-                />
-              ) : (
-                <HomeSectionSkeletonComponent />
-              )}
-            </Stack>
-          </Container>
-        ) : null}
       </Stack>
     ),
     [
-      categoryItems,
-      dynamicStyles.categoryChipActive,
-      dynamicStyles.categoryChipInactive,
-      dynamicStyles.categoryChipLabelActive,
-      dynamicStyles.categoryChipLabelInactive,
+      categorySection,
       dynamicStyles.heroBadgeSurface,
       dynamicStyles.heroBadgeText,
+      dynamicStyles.heroCopyPanel,
       dynamicStyles.heroMetaText,
-      dynamicStyles.heroOverlayBottom,
-      dynamicStyles.heroOverlayMiddle,
-      dynamicStyles.heroOverlayTop,
       dynamicStyles.heroPrimaryActionSurface,
       dynamicStyles.heroPrimaryActionText,
       dynamicStyles.heroSecondaryActionSurface,
@@ -836,6 +991,7 @@ const HomeViewComponent = ({
       dynamicStyles.sectionTitleText,
       dynamicStyles.titleText,
       featuredRailSection,
+      genreEmptyState,
       headerTitle,
       heroBanner,
       heroMetadataLabel,
@@ -864,8 +1020,12 @@ const HomeViewComponent = ({
         <Container>
           <Stack gap="lg">
             <HomeSectionHeaderComponent
+              actionAccessibilityLabel={item.title}
               actionIconColor={homeColors.primary}
               actionIconName="chevron-right"
+              onActionPress={() => {
+                onSectionPress(item);
+              }}
               actionSurfaceStyle={dynamicStyles.sectionActionSurface}
               subtitle={item.subtitle}
               subtitleStyle={dynamicStyles.sectionDescriptionText}
@@ -896,6 +1056,7 @@ const HomeViewComponent = ({
       dynamicStyles.sectionDescriptionText,
       dynamicStyles.sectionTitleText,
       homeColors.primary,
+      onSectionPress,
       renderPosterCard,
     ],
   );

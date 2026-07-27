@@ -204,7 +204,7 @@ const BottomTabBarComponent = ({
         shadowColor: isDark ? colors.black : colors.shadow,
         shadowOffsetY: moderateScale(spacing.sm),
         shadowOpacity,
-        shadowRadius: moderateScale(spacing['2xl']),
+        shadowRadius: moderateScale(spacing['3xl']),
         topInset: spacing.xs,
         
       });

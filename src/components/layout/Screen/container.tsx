@@ -24,7 +24,7 @@ const ScreenComponent = ({
     [contentContainerStyle, scrollable],
   );
 
-  const resolvedStyle = useMemo(() => [{ flex: 1 }, style], [style]);
+  const resolvedStyle = useMemo(() => [{ flex: 1, }, style], [style]);
 
   return (
     <ScreenView

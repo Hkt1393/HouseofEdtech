@@ -2,13 +2,13 @@ import { StyleSheet, type DimensionValue, type ViewStyle } from 'react-native';
 
 import { COMPONENT_DEFAULTS, MEDIA_LAYOUT } from '../../constants';
 import type { ThemeColors } from '../../types';
-import { moderateScale } from '../../utils';
+import { moderateScale, verticalScale } from '../../utils';
 
 interface SkeletonStyle extends ViewStyle {
   width?: DimensionValue;
 }
 
-export const HOME_FEATURED_RAIL_ITEM_WIDTH = 284;
+export const HOME_FEATURED_RAIL_ITEM_WIDTH = MEDIA_LAYOUT.featuredCarouselCardWidth;
 export const HOME_POSTER_RAIL_ITEM_WIDTH = COMPONENT_DEFAULTS.media.posterWidth;
 
 export const styles = StyleSheet.create({
@@ -27,6 +27,14 @@ export const styles = StyleSheet.create({
   categoryChip: {
     minHeight: moderateScale(44),
     paddingHorizontal: moderateScale(20),
+  } satisfies ViewStyle,
+  categoryChipSkeleton: {
+    height: moderateScale(44),
+  } satisfies SkeletonStyle,
+  categoryFeedbackAction: {
+    alignSelf: 'flex-start',
+    minHeight: moderateScale(40),
+    paddingHorizontal: moderateScale(18),
   } satisfies ViewStyle,
   fill: {
     flex: 1,
@@ -64,6 +72,10 @@ export const styles = StyleSheet.create({
   heroMetaBadge: {
     minHeight: moderateScale(28),
     paddingHorizontal: moderateScale(14),
+  } satisfies ViewStyle,
+  heroCopyPanel: {
+    borderRadius: moderateScale(30),
+    padding: moderateScale(6),
   } satisfies ViewStyle,
   heroSurface: {
     overflow: 'hidden',
@@ -162,6 +174,9 @@ export const createDynamicStyles = (
       fontSize: moderateScale(15),
       lineHeight: moderateScale(22),
     },
+    heroCopyPanel: {
+      backgroundColor: isDark ? colors.overlay : colors.glassOverlay, padding:verticalScale(20)
+    } satisfies ViewStyle,
     heroOverlayBottom: {
       backgroundColor: isDark ? colors.overlay : colors.glassOverlay,
       flex: 1.75,
@@ -180,7 +195,7 @@ export const createDynamicStyles = (
       backgroundColor: colors.primaryContainer,
     } satisfies ViewStyle,
     heroPrimaryActionText: {
-      color: colors.white,
+      color: colors.textPrimary,
     },
     heroSecondaryActionSurface: {
       backgroundColor: isDark ? colors.surfaceLow : colors.surfaceLowest,
@@ -196,10 +211,10 @@ export const createDynamicStyles = (
     } satisfies ViewStyle,
     heroTitleText: {
       color: isDark ? colors.white : colors.textPrimary,
-      fontSize: moderateScale(42),
-      fontWeight: '700',
+      fontSize: moderateScale(35),
+      fontWeight: '900',
       letterSpacing: -1.2,
-      lineHeight: moderateScale(48),
+      lineHeight: moderateScale(40),
     },
     listContent: {
       paddingBottom: listBottomPadding,
@@ -217,7 +232,7 @@ export const createDynamicStyles = (
       color: colors.textPrimary,
     },
     titleText: {
-      color: colors.primary,
+      color: colors.black,
     },
     posterCardMetaText: {
       color: colors.textSecondary,

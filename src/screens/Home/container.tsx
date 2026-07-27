@@ -2,13 +2,19 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { Image as ExpoImage } from 'expo-image';
 
 import { APP_STRINGS, ROUTES, TMDB_HOME_SECTION_DEFINITIONS, TMDB_HOME_SECTION_ORDER } from '../../constants';
-import { movieRepository, type HomeMovieItem, type HomeSectionRequestOptions } from '../../services';
+import {
+  movieRepository,
+  type HomeGenreItem,
+  type HomeMovieItem,
+  type HomeSectionRequestOptions,
+} from '../../services';
 import type { AppImageSource } from '../../components/base';
 import type { MetadataRowItem, MovieCardProps } from '../../components/ui';
 import type { MainTabScreenProps } from '../../types';
 import type { TmdbHomeSectionKey } from '../../constants';
 
 import {
+  type HomeCategoryChipItem,
   HomeView,
   type HomeHeroBannerViewModel,
   type HomeSectionItem,
@@ -38,11 +44,25 @@ interface HomeSectionState {
 
 type HomeSectionStateMap = Record<TmdbHomeSectionKey, HomeSectionState>;
 
+interface HomeGenreState {
+  readonly error: ScreenErrorState | null;
+  readonly hasLoadedOnce: boolean;
+  readonly isLoading: boolean;
+  readonly items: ReadonlyArray<HomeGenreItem>;
+}
+
 const createInitialHeroState = (): HomeHeroState => ({
   error: null,
   hasLoadedOnce: false,
   isLoading: true,
   item: null,
+});
+
+const createInitialGenreState = (): HomeGenreState => ({
+  error: null,
+  hasLoadedOnce: false,
+  isLoading: true,
+  items: [],
 });
 
 const createInitialSectionState = (): HomeSectionState => ({
@@ -211,6 +231,22 @@ const mergeHomeSectionItems = (
   return Array.from(mergedItems.values());
 };
 
+const buildVisibleSectionMovies = (
+  sectionKey: TmdbHomeSectionKey,
+  items: ReadonlyArray<HomeMovieItem>,
+  heroItem: HomeMovieItem | null,
+): ReadonlyArray<HomeMovieItem> => {
+  if (sectionKey !== 'trending' || heroItem === null) {
+    return items;
+  }
+
+  return items.filter((movie) => movie.id !== heroItem.id);
+};
+
+const movieMatchesGenre = (movie: HomeMovieItem, genreId: string): boolean => {
+  return movie.genreIds.some((movieGenreId) => String(movieGenreId) === genreId);
+};
+
 const HomeContainerComponent = ({
   navigation,
 }: MainTabScreenProps<typeof ROUTES.HOME>) => {
@@ -218,9 +254,11 @@ const HomeContainerComponent = ({
   const heroStateRef = useRef<HomeHeroState>(createInitialHeroState());
   const sectionStatesRef = useRef<HomeSectionStateMap>(createInitialSectionStateMap());
 
+  const [genreState, setGenreState] = useState<HomeGenreState>(createInitialGenreState);
   const [heroState, setHeroState] = useState<HomeHeroState>(createInitialHeroState);
   const [isBlockingContentReveal, setIsBlockingContentReveal] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
   const [sectionStates, setSectionStates] = useState<HomeSectionStateMap>(
     createInitialSectionStateMap,
   );
@@ -391,6 +429,48 @@ const HomeContainerComponent = ({
     [],
   );
 
+  const loadGenres = useCallback(
+    async (options?: Pick<HomeSectionRequestOptions, 'forceRefresh'>) => {
+      setGenreState((currentState) => ({
+        ...currentState,
+        error: null,
+        isLoading: currentState.items.length === 0,
+      }));
+
+      const response = await movieRepository.getHomeGenres({
+        forceRefresh: options?.forceRefresh,
+      });
+
+      if (!isMountedRef.current) {
+        return;
+      }
+
+      if (response.success) {
+        setGenreState({
+          error: null,
+          hasLoadedOnce: true,
+          isLoading: false,
+          items: response.data ?? [],
+        });
+
+        return;
+      }
+
+      const nextError = buildErrorState(
+        response.error?.message ?? response.message,
+        response.error?.code,
+      );
+
+      setGenreState((currentState) => ({
+        ...currentState,
+        error: currentState.items.length > 0 ? null : nextError,
+        hasLoadedOnce: true,
+        isLoading: false,
+      }));
+    },
+    [],
+  );
+
   const loadAllHomeContent = useCallback(
     async (forceRefresh: boolean = false) => {
       const shouldBlockContentReveal =
@@ -410,6 +490,9 @@ const HomeContainerComponent = ({
 
       try {
         await Promise.all([
+          loadGenres({
+            forceRefresh,
+          }),
           loadHero({
             forceRefresh,
           }),
@@ -430,7 +513,7 @@ const HomeContainerComponent = ({
         }
       }
     },
-    [loadHero, loadSection],
+    [loadGenres, loadHero, loadSection],
   );
 
   useEffect(() => {
@@ -444,6 +527,16 @@ const HomeContainerComponent = ({
   const handleRetry = useCallback(() => {
     void loadAllHomeContent(true);
   }, [loadAllHomeContent]);
+
+  const handleRetryCategories = useCallback(() => {
+    void loadGenres({
+      forceRefresh: true,
+    });
+  }, [loadGenres]);
+
+  const handleSelectGenre = useCallback((genreId: string) => {
+    setSelectedGenreId(genreId);
+  }, []);
 
   const handleLoadMore = useCallback(
     (sectionKey: TmdbHomeSectionKey) => {
@@ -491,6 +584,65 @@ const HomeContainerComponent = ({
     };
   }, [handleOpenDetails, heroState.item]);
 
+  const availableGenreIds = useMemo(() => {
+    const genreIds = new Set<string>();
+
+    TMDB_HOME_SECTION_ORDER.forEach((sectionKey) => {
+      buildVisibleSectionMovies(
+        sectionKey,
+        sectionStates[sectionKey].items,
+        heroState.item,
+      ).forEach((movie) => {
+        movie.genreIds.forEach((genreId) => {
+          genreIds.add(String(genreId));
+        });
+      });
+    });
+
+    return genreIds;
+  }, [heroState.item, sectionStates]);
+
+  const activeGenreId = useMemo(() => {
+    if (genreState.items.length === 0) {
+      return null;
+    }
+
+    if (
+      selectedGenreId &&
+      genreState.items.some((genreItem) => genreItem.id === selectedGenreId)
+    ) {
+      return selectedGenreId;
+    }
+
+    return (
+      genreState.items.find((genreItem) => availableGenreIds.has(genreItem.id))?.id ??
+      genreState.items[0]?.id ??
+      null
+    );
+  }, [availableGenreIds, genreState.items, selectedGenreId]);
+
+  const categoryItems = useMemo<ReadonlyArray<HomeCategoryChipItem>>(
+    () =>
+      genreState.items.map((genreItem) => ({
+        id: genreItem.id,
+        isSelected: genreItem.id === activeGenreId,
+        label: genreItem.label,
+      })),
+    [activeGenreId, genreState.items],
+  );
+
+  const handleOpenSection = useCallback(
+    (section: HomeSectionItem) => {
+      navigation.navigate(ROUTES.SECTION_MOVIES, {
+        genreId: activeGenreId,
+        sectionKey: section.sectionKey,
+        sectionSubtitle: section.subtitle,
+        sectionTitle: section.title,
+      });
+    },
+    [activeGenreId, navigation],
+  );
+
   const sectionLoadMoreHandlers = useMemo(
     () =>
       TMDB_HOME_SECTION_ORDER.reduce<Record<TmdbHomeSectionKey, () => void>>(
@@ -511,16 +663,21 @@ const HomeContainerComponent = ({
       TMDB_HOME_SECTION_ORDER.map((sectionKey) => {
         const sectionState = sectionStates[sectionKey];
         const sectionDefinition = TMDB_HOME_SECTION_DEFINITIONS[sectionKey];
-        const visibleItems =
-          sectionKey === 'trending' && heroState.item
-            ? sectionState.items.filter((movie) => movie.id !== heroState.item?.id)
-            : sectionState.items;
+        const visibleItems = buildVisibleSectionMovies(
+          sectionKey,
+          sectionState.items,
+          heroState.item,
+        );
+        const filteredItems =
+          activeGenreId === null
+            ? visibleItems
+            : visibleItems.filter((movie) => movieMatchesGenre(movie, activeGenreId));
 
         return {
           id: `home-section-${sectionKey}`,
           isLoading: sectionState.isLoading,
           isLoadingMore: sectionState.isLoadingMore,
-          items: visibleItems.map((movie) =>
+          items: filteredItems.map((movie) =>
             mapMovieToMovieCardProps(movie, () => {
               handleOpenDetails(movie.id);
             }),
@@ -528,11 +685,12 @@ const HomeContainerComponent = ({
           onEndReached: sectionState.hasNextPage
             ? sectionLoadMoreHandlers[sectionKey]
             : undefined,
+          sectionKey,
           subtitle: sectionDefinition.description,
           title: sectionDefinition.title,
         };
       }).filter((section) => section.isLoading || section.items.length > 0),
-    [handleOpenDetails, heroState.item, sectionLoadMoreHandlers, sectionStates],
+    [activeGenreId, handleOpenDetails, heroState.item, sectionLoadMoreHandlers, sectionStates],
   );
 
   const primaryErrorState = useMemo<ScreenErrorState | null>(() => {
@@ -558,6 +716,22 @@ const HomeContainerComponent = ({
     [sections],
   );
 
+  const isGenreSelectionEmpty = useMemo(
+    () =>
+      activeGenreId !== null &&
+      genreState.hasLoadedOnce &&
+      !genreState.isLoading &&
+      allRequestsSettled &&
+      !hasSectionContent,
+    [
+      activeGenreId,
+      allRequestsSettled,
+      genreState.hasLoadedOnce,
+      genreState.isLoading,
+      hasSectionContent,
+    ],
+  );
+
   const hasAnyContent = homeHeroBanner !== null || hasSectionContent;
 
   const shouldShowError = allRequestsSettled && !hasAnyContent && primaryErrorState !== null;
@@ -565,17 +739,25 @@ const HomeContainerComponent = ({
 
   return (
     <HomeView
+      categoryErrorDescription={genreState.error?.description}
+      categoryErrorTitle={genreState.error?.title}
+      categoryItems={categoryItems}
       errorDescription={shouldShowError ? primaryErrorState?.description : undefined}
       errorTitle={shouldShowError ? primaryErrorState?.title : undefined}
       headerTitle={APP_STRINGS.home.headerTitle}
       heroBanner={homeHeroBanner}
+      isCategoriesLoading={genreState.isLoading}
       isEmpty={isEmpty}
+      isGenreSelectionEmpty={isGenreSelectionEmpty}
       isInitialContentLoading={isBlockingContentReveal}
       isRefreshing={isRefreshing}
+      onCategoryRetry={handleRetryCategories}
+      onCategorySelect={handleSelectGenre}
       onMenuPress={handleOpenSettings}
       onProfilePress={handleOpenProfile}
       onRefresh={handleRefresh}
       onRetry={handleRetry}
+      onSectionPress={handleOpenSection}
       profileFallbackLabel={APP_STRINGS.navigation.profile}
       sections={sections}
     />

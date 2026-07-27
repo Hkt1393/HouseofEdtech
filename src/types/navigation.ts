@@ -17,7 +17,7 @@ import type {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 
-import { ROUTES } from '../constants';
+import { ROUTES, type TmdbHomeSectionKey } from '../constants';
 
 export type AuthStackParamList = {
   [ROUTES.LOGIN]: undefined;
@@ -33,6 +33,12 @@ export type RootStackParamList = {
   [ROUTES.SPLASH]: undefined;
   [ROUTES.AUTH]: NavigatorScreenParams<AuthStackParamList>;
   [ROUTES.MAIN_TABS]: NavigatorScreenParams<MainTabParamList>;
+  [ROUTES.SECTION_MOVIES]: {
+    genreId?: string | null;
+    sectionKey: TmdbHomeSectionKey;
+    sectionSubtitle?: string;
+    sectionTitle: string;
+  };
   [ROUTES.MOVIE_DETAILS]: {
     movieId: string;
   };
