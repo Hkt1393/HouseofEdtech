@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { Image as ExpoImage } from 'expo-image';
 
 import { APP_STRINGS, ROUTES, VALIDATION_RULES } from '../../constants';
@@ -283,6 +284,7 @@ const SearchContainerComponent = ({
   navigation,
 }: MainTabScreenProps<typeof ROUTES.SEARCH>) => {
   const discoveryRequestIdRef = useRef(0);
+  const isTrendingPrefillRef = useRef(false);
   const isMountedRef = useRef(true);
   const resultsRequestIdRef = useRef(0);
   const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -307,11 +309,26 @@ const SearchContainerComponent = ({
     };
   }, []);
 
+  const resetSearchState = useCallback(() => {
+    isTrendingPrefillRef.current = false;
+    resultsRequestIdRef.current += 1;
+    setDebouncedQuery('');
+    setQuery('');
+    setResultsState(createInitialResultsState());
+  }, []);
+
   const handleChangeQuery = useCallback((value: string) => {
+    isTrendingPrefillRef.current = false;
+    setQuery(value);
+  }, []);
+
+  const handleSelectTrendingQuery = useCallback((value: string) => {
+    isTrendingPrefillRef.current = true;
     setQuery(value);
   }, []);
 
   const handleFillQuery = useCallback((value: string) => {
+    isTrendingPrefillRef.current = false;
     setQuery(value);
   }, []);
 
@@ -397,7 +414,7 @@ const SearchContainerComponent = ({
         talentItems: buildTalentItems(popularPeople),
         trendingSearches: buildTrendingSearchItems(
           trendingSearches,
-          handleFillQuery,
+          handleSelectTrendingQuery,
         ),
       };
 
@@ -442,7 +459,7 @@ const SearchContainerComponent = ({
 
       setDiscoveryState(nextState);
     },
-    [handleFillQuery, handleOpenDetails],
+    [handleFillQuery, handleOpenDetails, handleSelectTrendingQuery],
   );
 
   const loadSearchResults = useCallback(
@@ -560,6 +577,18 @@ const SearchContainerComponent = ({
 
     void loadSearchResults(normalizedDebouncedQuery);
   }, [loadSearchResults, normalizedDebouncedQuery]);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        if (!isTrendingPrefillRef.current) {
+          return;
+        }
+
+        resetSearchState();
+      };
+    }, [resetSearchState]),
+  );
 
   const handleMenuPress = useCallback(() => {
     navigation.navigate(ROUTES.SETTINGS);
