@@ -19,6 +19,7 @@ export const APP_CONFIG = {
   deepLinkScheme: APP_SLUG,
   deepLinkPrefix: `${APP_SLUG}://`,
   defaultLocale: 'en-US',
+  marketingVersion: '4.2.0',
   splashDurationMs: 2 * MILLISECONDS_IN_SECOND,
   supportedLocales: ['en-US'],
 } as const;
@@ -107,6 +108,7 @@ export const COMPONENT_DEFAULTS = {
     avatarSizeMd: 40,
     avatarSizeLg: 56,
     avatarSizeXl: 72,
+    avatarSize2xl: 104,
     heroMinHeight: 320,
     progressLabelMinWidth: 40,
     posterWidth: 144,

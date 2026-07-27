@@ -16,7 +16,13 @@ export const MOCK_REQUEST_SCENARIOS = {
 export type MockRequestScenario =
   (typeof MOCK_REQUEST_SCENARIOS)[keyof typeof MOCK_REQUEST_SCENARIOS];
 
-export interface RepositoryRequestOptions {
+export interface RequestFeedbackOptions {
+  readonly notifyOnError?: boolean;
+  readonly successToastMessage?: string;
+  readonly successToastTitle?: string;
+}
+
+export interface RepositoryRequestOptions extends RequestFeedbackOptions {
   readonly scenario?: MockRequestScenario;
   readonly delayMs?: DelayDuration;
 }

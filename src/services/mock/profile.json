@@ -1,22 +1,22 @@
 {
   "profile": {
-    "id": "profile-ava-sen",
-    "fullName": "Ava Sen",
-    "email": "ava.sen@example.com",
+    "id": "profile-elena-sterling",
+    "fullName": "Elena Sterling",
+    "email": "elena.sterling@aura.io",
     "phoneNumber": "+919812345678",
-    "avatarUrl": "https://images.example.com/avatars/ava-sen.jpg",
-    "preferredLanguage": "English",
+    "avatarUrl": "https://i.pravatar.cc/300?img=47",
+    "preferredLanguage": "English (US)",
     "isKidsProfile": false,
     "subscription": {
-      "id": "subscription-premium-ava",
+      "id": "subscription-premium-elena",
       "type": "premium",
       "isActive": true,
       "autoRenew": true,
       "maxStreams": 4,
-      "renewsAt": "2026-08-03T00:00:00.000Z",
-      "startedAt": "2025-08-03T00:00:00.000Z"
+      "renewsAt": "2026-10-12T00:00:00.000Z",
+      "startedAt": "2025-10-12T00:00:00.000Z"
     },
-    "createdAt": "2025-08-03T00:00:00.000Z",
+    "createdAt": "2025-10-12T00:00:00.000Z",
     "updatedAt": "2026-07-23T09:00:00.000Z"
   },
   "watchHistory": [

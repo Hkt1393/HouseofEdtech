@@ -8,6 +8,10 @@ import type { ApiResponse, PaginationMeta, TmdbErrorResponse, TmdbListResponse }
 
 import { createApiError, createNetworkError } from './errors';
 import {
+  ensureConnectivityBeforeRequest,
+  showApiErrorToast,
+} from './notifications';
+import {
   createEmptyResponse,
   createErrorResponse,
   createSuccessResponse,
@@ -20,6 +24,7 @@ interface TmdbRequestOptions {
   readonly query?: Readonly<Record<string, TmdbQueryValue>>;
   readonly successMessage: string;
   readonly emptyMessage: string;
+  readonly notifyOnError?: boolean;
 }
 
 interface TmdbCollectionRequestOptions<TItem, TResult> extends TmdbRequestOptions {
@@ -77,11 +82,26 @@ class TmdbApiClient {
   private async fetchJson<TPayload>(
     path: string,
     query?: Readonly<Record<string, TmdbQueryValue>>,
+    notifyOnError: boolean = true,
   ): Promise<ApiResponse<TPayload>> {
+    const connectivityError = await ensureConnectivityBeforeRequest(
+      notifyOnError,
+    );
+
+    if (connectivityError) {
+      return createErrorResponse(connectivityError);
+    }
+
     const credentials = getTmdbCredentials();
 
     if (!credentials.accessToken && !credentials.apiKey) {
-      return createErrorResponse(getTmdbConfigurationError());
+      const configurationError = getTmdbConfigurationError();
+
+      if (notifyOnError) {
+        showApiErrorToast(configurationError);
+      }
+
+      return createErrorResponse(configurationError);
     }
 
     const queryString = buildQueryString(credentials, query);
@@ -112,15 +132,21 @@ class TmdbApiClient {
 
       if (!response.ok) {
         const errorPayload = payload as TmdbErrorResponse | null;
+        const requestError = createApiError(
+          response.status === 401
+            ? 'TMDB_AUTHENTICATION_ERROR'
+            : 'TMDB_REQUEST_ERROR',
+          errorPayload?.status_message ??
+            APP_STRINGS.errors.genericDescription,
+          response.status,
+        );
+
+        if (notifyOnError) {
+          showApiErrorToast(requestError);
+        }
 
         return createErrorResponse(
-          createApiError(
-            response.status === 401
-              ? 'TMDB_AUTHENTICATION_ERROR'
-              : 'TMDB_REQUEST_ERROR',
-            errorPayload?.status_message ?? 'TMDB request failed.',
-            response.status,
-          ),
+          requestError,
         );
       }
 
@@ -130,16 +156,28 @@ class TmdbApiClient {
         error instanceof Error && error.name === 'AbortError';
 
       if (isAbortError) {
+        const timeoutError = createApiError(
+          'TMDB_TIMEOUT',
+          APP_STRINGS.errors.timeoutDescription,
+          504,
+        );
+
+        if (notifyOnError) {
+          showApiErrorToast(timeoutError);
+        }
+
         return createErrorResponse(
-          createApiError(
-            'TMDB_TIMEOUT',
-            'The TMDB request timed out.',
-            504,
-          ),
+          timeoutError,
         );
       }
 
-      return createErrorResponse(createNetworkError());
+      const networkError = createNetworkError();
+
+      if (notifyOnError) {
+        showApiErrorToast(networkError);
+      }
+
+      return createErrorResponse(networkError);
     } finally {
       clearTimeout(timeout);
     }
@@ -148,13 +186,18 @@ class TmdbApiClient {
   async requestCollection<TItem, TResult>({
     emptyMessage,
     mapItem,
+    notifyOnError = true,
     path,
     query,
     successMessage,
   }: TmdbCollectionRequestOptions<TItem, TResult>): Promise<
     ApiResponse<ReadonlyArray<TResult>>
   > {
-    const response = await this.fetchJson<TmdbListResponse<TItem>>(path, query);
+    const response = await this.fetchJson<TmdbListResponse<TItem>>(
+      path,
+      query,
+      notifyOnError,
+    );
 
     if (!response.success) {
       return createErrorResponse(
@@ -181,8 +224,9 @@ class TmdbApiClient {
   async requestPayload<TPayload>(
     path: string,
     query?: Readonly<Record<string, TmdbQueryValue>>,
+    options?: Pick<TmdbRequestOptions, 'notifyOnError'>,
   ): Promise<ApiResponse<TPayload>> {
-    return this.fetchJson<TPayload>(path, query);
+    return this.fetchJson<TPayload>(path, query, options?.notifyOnError);
   }
 
   buildImageUrl(
