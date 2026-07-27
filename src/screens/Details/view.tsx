@@ -14,6 +14,7 @@ import {
   AppScrollView,
   AppText,
   AppView,
+  type AppViewProps,
 } from '../../components/base';
 import { ErrorView, SkeletonPoster, SkeletonRow } from '../../components/feedback';
 import { SkeletonBlock } from '../../components/feedback/shared';
@@ -32,7 +33,7 @@ import {
 import { AppIcon, type IconName } from '../../components/ui/shared';
 import { APP_STRINGS } from '../../constants';
 import { useTheme } from '../../theme';
-import { moderateScale, screenWidth } from '../../utils';
+import { moderateScale, screenWidth, verticalScale } from '../../utils';
 
 import { createDynamicStyles, styles } from './styles';
 
@@ -130,6 +131,7 @@ interface ActionCircleButtonProps {
   readonly iconName: IconName;
   readonly onPress: () => void;
   readonly selected?: boolean;
+  readonly style?: AppViewProps['style'];
 }
 
 interface SectionEmptyStateCardProps {
@@ -144,20 +146,20 @@ const ActionCircleButtonComponent = ({
   iconName,
   onPress,
   selected = false,
+  style,
 }: ActionCircleButtonProps) => {
   return (
     <AppView
       accessibilityHint={accessibilityHint}
       accessibilityLabel={accessibilityLabel}
       accessibilityRole="button"
-      alignItems="center"
       backgroundColorToken={selected ? 'primaryContainer' : 'glassOverlay'}
       borderColorToken={selected ? 'primaryContainer' : 'divider'}
       borderWidth={1}
       center
       onPress={onPress}
-      padding="md"
       radius="full"
+      style={style}
     >
       <AppIcon color={iconColor} name={iconName} size={moderateScale(20)} />
     </AppView>
@@ -511,14 +513,12 @@ const DetailsViewComponent = ({
       <>
         <AppView style={dynamicStyles.hero}>
           <AppImage
-            contentFit="cover"
+            contentFit="contain"
             showLoadingState={false}
             source={{ uri: heroBackdropUrl }}
             style={dynamicStyles.heroImage}
             transitionDuration={animation.duration.slow}
           />
-          <AbsoluteFill style={[styles.absoluteFill, dynamicStyles.heroTopScrim]} />
-          <AbsoluteFill style={[styles.absoluteFill, dynamicStyles.heroBottomScrim]} />
           <AppView
             pointerEvents="box-none"
             style={[
@@ -530,47 +530,23 @@ const DetailsViewComponent = ({
           >
             <Container>
               <Row alignItems="center" gap="md" justifyContent="space-between">
-                <AppView style={dynamicStyles.iconButtonShadow}>
-                  <ActionCircleButtonComponent
-                    accessibilityHint={APP_STRINGS.components.navigation.backButtonAccessibilityHint}
-                    accessibilityLabel={APP_STRINGS.components.navigation.backButtonAccessibilityLabel}
-                    iconColor={colors.textInverse}
-                    iconName="arrow-left"
-                    onPress={onBackPress}
-                  />
-                </AppView>
+                <ActionCircleButtonComponent
+                  accessibilityHint={APP_STRINGS.components.navigation.backButtonAccessibilityHint}
+                  accessibilityLabel={APP_STRINGS.components.navigation.backButtonAccessibilityLabel}
+                  iconColor={colors.white}
+                  iconName="arrow-left"
+                  onPress={onBackPress}
+                  style={dynamicStyles.iconButton}
+                />
                 <Row gap="sm">
-                  <AppView style={dynamicStyles.iconButtonShadow}>
-                    <ActionCircleButtonComponent
-                      accessibilityHint={
-                        isFavorite
-                          ? APP_STRINGS.details.removeFromFavoritesAccessibilityHint
-                          : APP_STRINGS.details.addToFavoritesAccessibilityHint
-                      }
-                      accessibilityLabel={
-                        isFavorite
-                          ? APP_STRINGS.details.removeFromFavoritesAccessibilityLabel
-                          : APP_STRINGS.details.addToFavoritesAccessibilityLabel
-                      }
-                      iconColor={
-                        isFavorite
-                          ? colors.onPrimaryContainer
-                          : colors.textInverse
-                      }
-                      iconName="heart"
-                      onPress={onToggleFavorite}
-                      selected={isFavorite}
-                    />
-                  </AppView>
-                  <AppView style={dynamicStyles.iconButtonShadow}>
-                    <ActionCircleButtonComponent
-                      accessibilityHint={APP_STRINGS.details.shareAccessibilityHint}
-                      accessibilityLabel={APP_STRINGS.details.shareAccessibilityLabel}
-                      iconColor={colors.textInverse}
-                      iconName="share"
-                      onPress={onSharePress}
-                    />
-                  </AppView>
+                  <ActionCircleButtonComponent
+                    accessibilityHint={APP_STRINGS.details.shareAccessibilityHint}
+                    accessibilityLabel={APP_STRINGS.details.shareAccessibilityLabel}
+                    iconColor={colors.white}
+                    iconName="share"
+                    onPress={onSharePress}
+                    style={dynamicStyles.iconButton}
+                  />
                 </Row>
               </Row>
             </Container>
@@ -645,18 +621,11 @@ const DetailsViewComponent = ({
                     icon={<AppIcon color={colors.textPrimary} name="play" size={moderateScale(16)} />}
                     label={APP_STRINGS.details.trailerAction}
                     onPress={onTrailerActionPress}
-                  />
-                </AppView>
-                <AppView style={dynamicStyles.actionButtonShadow}>
-                  <GhostButton
-                    disabled
-                    fullWidth
-                    icon={<AppIcon color={colors.textPrimary} name="download" size={moderateScale(16)} />}
-                    label={APP_STRINGS.details.downloadAction}
+                    
                   />
                 </AppView>
               </Row>
-              <AppScrollView horizontal contentGap="sm" showsHorizontalScrollIndicator={false}>
+              <AppScrollView horizontal contentGap="sm" showsHorizontalScrollIndicator={false} contentContainerStyle={{justifyContent:'space-between', flex:1, padding:verticalScale(15)}}>
                 {tabItems.map(renderTabItem)}
               </AppScrollView>
             </Stack>
@@ -668,7 +637,7 @@ const DetailsViewComponent = ({
       animation.duration.normal,
       animation.duration.slow,
       colors.onPrimaryContainer,
-      colors.textInverse,
+      colors.white,
       colors.textPrimary,
       dynamicStyles.actionButtonShadow,
       dynamicStyles.bodyContainer,
@@ -680,7 +649,7 @@ const DetailsViewComponent = ({
       dynamicStyles.heroTitle,
       dynamicStyles.heroTopRow,
       dynamicStyles.heroTopScrim,
-      dynamicStyles.iconButtonShadow,
+      dynamicStyles.iconButton,
       hasOverviewToggle,
       heroBackdropUrl,
       heroMetadataLabel,
@@ -779,16 +748,16 @@ const DetailsViewComponent = ({
                 style={dynamicStyles.trailerCard}
               >
                 <AppImage
-                  contentFit="cover"
+                  contentFit="contain"
                   showLoadingState={false}
                   source={{ uri: trailerCard.imageUrl }}
                   style={dynamicStyles.trailerImage}
                   transitionDuration={animation.duration.slow}
                 />
-                <AbsoluteFill
+                {/* <AbsoluteFill
                   style={[styles.absoluteFill, dynamicStyles.trailerOverlay]}
-                />
-                <AppView
+                /> */}
+                {/* <AppView
                   alignItems="center"
                   backgroundColorToken="primaryContainer"
                   center
@@ -801,8 +770,8 @@ const DetailsViewComponent = ({
                     name="play"
                     size={moderateScale(22)}
                   />
-                </AppView>
-                <Stack gap="xs" padding="lg" style={dynamicStyles.trailerCardContent}>
+                </AppView> */}
+                {/* <Stack gap="xs" padding="lg" style={dynamicStyles.trailerCardContent}>
                   <Badge label={APP_STRINGS.details.trailerSection} tone="primary" />
                   <AppText colorToken="textInverse" variant="subtitle">
                     {trailerCard.title}
@@ -812,7 +781,7 @@ const DetailsViewComponent = ({
                       {trailerCard.subtitle}
                     </AppText>
                   ) : null}
-                </Stack>
+                </Stack> */}
               </AppView>
             ) : (
               <SectionEmptyStateCardComponent
@@ -920,14 +889,13 @@ const DetailsViewComponent = ({
         <AppView flex style={[styles.fill, dynamicStyles.galleryModalOverlay]}>
           <StatusBar style="light" />
           <Container style={dynamicStyles.galleryModalCloseButton}>
-            <AppView style={dynamicStyles.iconButtonShadow}>
-              <ActionCircleButtonComponent
-                accessibilityLabel={APP_STRINGS.components.modal.closeLabel}
-                iconColor={colors.textInverse}
-                iconName="close"
-                onPress={onCloseGallery}
-              />
-            </AppView>
+            <ActionCircleButtonComponent
+              accessibilityLabel={APP_STRINGS.components.modal.closeLabel}
+              iconColor={colors.white}
+              iconName="close"
+              onPress={onCloseGallery}
+              style={dynamicStyles.iconButton}
+            />
           </Container>
           <AppFlatList
             getItemLayout={galleryGetItemLayout}

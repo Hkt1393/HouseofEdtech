@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import type { ThemeContextValue } from '../../types';
-import { moderateScale } from '../../utils';
+import { moderateScale, verticalScale } from '../../utils';
 
 interface CreateDynamicStylesOptions {
   readonly footerBottomOffset: number;
@@ -39,7 +39,8 @@ export const createDynamicStyles = ({
   modalImageWidth,
   theme,
 }: CreateDynamicStylesOptions) => {
-  const { colors, radius, shadows, spacing, typography } = theme;
+  const { colors, elevation, radius, shadows, spacing, typography } = theme;
+  const iconButtonSize = moderateScale(spacing['2xl'] + spacing.sm);
 
   return StyleSheet.create({
     actionButtonShadow: {
@@ -92,11 +93,11 @@ export const createDynamicStyles = ({
       width: '100%',
     },
     heroBottomScrim: {
-      backgroundColor: colors.background,
+      backgroundColor: colors.overlay,
       bottom: 0,
-      height: heroHeight * 0.54,
+      height: heroHeight * 0.62,
       left: 0,
-      opacity: theme.isDark ? 0.96 : 0.8,
+      opacity: theme.isDark ? 0.96 : 0.92,
       position: 'absolute',
       right: 0,
     },
@@ -109,21 +110,35 @@ export const createDynamicStyles = ({
     heroImage: {
       height: heroHeight,
       width: '100%',
+      backgroundColor:colors.black
     },
     heroMetadata: {
-      color: colors.textSecondary,
+      color: colors.white,
       fontFamily: typography.variants.metadata.fontFamily,
       fontSize: typography.variants.metadata.fontSize,
       fontWeight: typography.variants.metadata.fontWeight,
       lineHeight: typography.variants.metadata.lineHeight,
+      opacity: theme.isDark ? 0.88 : 0.94,
+      textShadowColor: colors.black,
+      textShadowOffset: {
+        height: moderateScale(2),
+        width: 0,
+      },
+      textShadowRadius: moderateScale(10),
     },
     heroTitle: {
-      color: colors.textPrimary,
+      color: colors.white,
       fontFamily: typography.variants.displayMobile.fontFamily,
       fontSize: moderateScale(40),
       fontWeight: typography.variants.displayMobile.fontWeight,
       letterSpacing: typography.variants.displayMobile.letterSpacing,
       lineHeight: moderateScale(44),
+      textShadowColor: colors.black,
+      textShadowOffset: {
+        height: moderateScale(2),
+        width: 0,
+      },
+      textShadowRadius: moderateScale(12),
     },
     heroTopRow: {
       left: 0,
@@ -133,16 +148,27 @@ export const createDynamicStyles = ({
     },
     heroTopScrim: {
       backgroundColor: colors.overlay,
-      height: heroHeight * 0.32,
+      height: heroHeight * 0.3,
       left: 0,
-      opacity: theme.isDark ? 0.52 : 0.32,
+      opacity: theme.isDark ? 0.88 : 0.74,
       position: 'absolute',
       right: 0,
       top: 0,
     },
-    iconButtonShadow: {
-      ...shadows.sm,
+    iconButton: {
+      alignItems: 'center',
       borderRadius: radius.full,
+      elevation: elevation.md,
+      height: iconButtonSize,
+      justifyContent: 'center',
+      shadowColor: colors.black,
+      shadowOffset: {
+        height: moderateScale(4),
+        width: 0,
+      },
+      shadowOpacity: theme.isDark ? 0.18 : 0.14,
+      shadowRadius: moderateScale(8),
+      width: iconButtonSize,
     },
     sectionSurface: {
       borderRadius: radius.md,
@@ -194,6 +220,7 @@ export const createDynamicStyles = ({
     },
     trailerCard: {
       aspectRatio: 16 / 9,
+      backgroundColor: colors.surfaceLowest,
       overflow: 'hidden',
       position: 'relative',
     },
@@ -204,8 +231,10 @@ export const createDynamicStyles = ({
       right: 0,
     },
     trailerImage: {
-      height: '100%',
+      height: verticalScale(300),
       width: '100%',
+      backgroundColor:colors.black,
+      borderRadius:moderateScale(25)
     },
     trailerOverlay: {
       backgroundColor: colors.overlay,

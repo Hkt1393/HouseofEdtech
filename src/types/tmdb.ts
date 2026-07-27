@@ -27,6 +27,17 @@ export interface TmdbGenreListResponse {
   readonly genres: ReadonlyArray<TmdbGenreListItem>;
 }
 
+export interface TmdbPersonListItem {
+  readonly adult: boolean;
+  readonly gender: number | null;
+  readonly id: number;
+  readonly known_for_department: string;
+  readonly name: string;
+  readonly original_name: string;
+  readonly popularity: number;
+  readonly profile_path: string | null;
+}
+
 export interface TmdbProductionCompany {
   readonly id: number;
   readonly logo_path: string | null;

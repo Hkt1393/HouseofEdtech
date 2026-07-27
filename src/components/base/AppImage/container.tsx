@@ -15,6 +15,22 @@ import { createDynamicStyles } from './styles';
 import type { AppImageProps } from './types';
 import { AppImageView } from './view';
 
+const serializeImageSource = (source: AppImageProps['source']): string => {
+  if (source === null || source === undefined) {
+    return '';
+  }
+
+  if (typeof source === 'number' || typeof source === 'string') {
+    return String(source);
+  }
+
+  try {
+    return JSON.stringify(source);
+  } catch {
+    return String(source);
+  }
+};
+
 const AppImageContainerComponent = ({
   accessibilityLabel,
   fallbackSource,
@@ -36,12 +52,17 @@ const AppImageContainerComponent = ({
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(Boolean(source));
   const [useFallbackSource, setUseFallbackSource] = useState(false);
+  const sourceKey = useMemo(() => serializeImageSource(source), [source]);
+  const fallbackSourceKey = useMemo(
+    () => serializeImageSource(fallbackSource),
+    [fallbackSource],
+  );
 
   useEffect(() => {
     setHasError(false);
-    setIsLoading(Boolean(source));
+    setIsLoading(sourceKey.length > 0);
     setUseFallbackSource(false);
-  }, [fallbackSource, source]);
+  }, [fallbackSourceKey, sourceKey]);
 
   const handleLoadStart = useCallback(() => {
     setHasError(false);

@@ -20,6 +20,7 @@ export type SemanticTone =
 
 export type IconName =
   | 'arrow-left'
+  | 'arrow-up-right'
   | 'search'
   | 'close'
   | 'chevron-right'
@@ -30,6 +31,8 @@ export type IconName =
   | 'alert'
   | 'heart'
   | 'info'
+  | 'menu'
+  | 'microphone'
   | 'plus'
   | 'user'
   | 'refresh'
@@ -150,6 +153,24 @@ const AppIconComponent = ({
         <Svg fill="none" height={size} viewBox="0 0 24 24" width={size}>
           <Path
             d="m14.5 5-7 7 7 7"
+            stroke={color}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={strokeWidth}
+          />
+        </Svg>
+      );
+    case 'arrow-up-right':
+      return (
+        <Svg fill="none" height={size} viewBox="0 0 24 24" width={size}>
+          <Path
+            d="M7 17 17 7"
+            stroke={color}
+            strokeLinecap="round"
+            strokeWidth={strokeWidth}
+          />
+          <Path
+            d="M9 7h8v8"
             stroke={color}
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -306,6 +327,70 @@ const AppIconComponent = ({
             y2="16"
           />
           <Circle cx="12" cy="8" fill={color} r="1" />
+        </Svg>
+      );
+    case 'menu':
+      return (
+        <Svg fill="none" height={size} viewBox="0 0 24 24" width={size}>
+          <Line
+            stroke={color}
+            strokeLinecap="round"
+            strokeWidth={strokeWidth}
+            x1="5"
+            x2="19"
+            y1="7.5"
+            y2="7.5"
+          />
+          <Line
+            stroke={color}
+            strokeLinecap="round"
+            strokeWidth={strokeWidth}
+            x1="5"
+            x2="19"
+            y1="12"
+            y2="12"
+          />
+          <Line
+            stroke={color}
+            strokeLinecap="round"
+            strokeWidth={strokeWidth}
+            x1="5"
+            x2="15"
+            y1="16.5"
+            y2="16.5"
+          />
+        </Svg>
+      );
+    case 'microphone':
+      return (
+        <Svg fill="none" height={size} viewBox="0 0 24 24" width={size}>
+          <Rect
+            height="8.5"
+            rx="4.25"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            width="6.5"
+            x="8.75"
+            y="4.5"
+          />
+          <Path
+            d="M6.75 10.75a5.25 5.25 0 0 0 10.5 0"
+            stroke={color}
+            strokeLinecap="round"
+            strokeWidth={strokeWidth}
+          />
+          <Path
+            d="M12 16v3.5"
+            stroke={color}
+            strokeLinecap="round"
+            strokeWidth={strokeWidth}
+          />
+          <Path
+            d="M9 19.5h6"
+            stroke={color}
+            strokeLinecap="round"
+            strokeWidth={strokeWidth}
+          />
         </Svg>
       );
     case 'plus':
