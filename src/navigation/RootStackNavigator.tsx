@@ -49,7 +49,7 @@ const RootStackNavigatorComponent = () => {
 
   const settingsOptions = useMemo<NativeStackNavigationOptions>(
     () => ({
-      title: APP_STRINGS.navigation.settings,
+      headerShown: false,
     }),
     [],
   );

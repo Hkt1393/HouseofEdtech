@@ -1023,7 +1023,7 @@ const ProfileViewComponent = ({
                     accessibilityHint={APP_STRINGS.profile.languageAccessibilityHint}
                     accessibilityLabel={APP_STRINGS.common.language}
                     icon={<ProfileGlyph color={colors.textSecondary} name="globe" size={22} />}
-                    // onPress={onLanguagePress}
+                    onPress={onLanguagePress}
                     subtitle={content.languageLabel}
                     testID="profile-language-button"
                     title={APP_STRINGS.common.language}

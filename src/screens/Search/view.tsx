@@ -227,6 +227,13 @@ const SearchViewComponent = ({
             testID="search-input"
             trailingActionAccessibilityHint={APP_STRINGS.search.voiceSearchAccessibilityHint}
             trailingActionAccessibilityLabel={APP_STRINGS.search.voiceSearchAccessibilityLabel}
+            trailingIcon={
+              <AppIcon
+                color={colors.textSecondary}
+                name="microphone"
+                size={moderateScale(20)}
+              />
+            }
             trailingIconPressable={Boolean(onVoiceSearchPress)}
             value={query}
           />

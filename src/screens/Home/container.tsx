@@ -4,6 +4,7 @@ import { Image as ExpoImage } from 'expo-image';
 import { APP_STRINGS, ROUTES, TMDB_HOME_SECTION_DEFINITIONS, TMDB_HOME_SECTION_ORDER } from '../../constants';
 import {
   movieRepository,
+  profileRepository,
   type HomeGenreItem,
   type HomeMovieItem,
   type HomeSectionRequestOptions,
@@ -51,6 +52,11 @@ interface HomeGenreState {
   readonly items: ReadonlyArray<HomeGenreItem>;
 }
 
+interface HomeProfileState {
+  readonly avatarUrl: string | null;
+  readonly fallbackLabel: string;
+}
+
 const createInitialHeroState = (): HomeHeroState => ({
   error: null,
   hasLoadedOnce: false,
@@ -63,6 +69,11 @@ const createInitialGenreState = (): HomeGenreState => ({
   hasLoadedOnce: false,
   isLoading: true,
   items: [],
+});
+
+const createInitialProfileState = (): HomeProfileState => ({
+  avatarUrl: null,
+  fallbackLabel: APP_STRINGS.navigation.profile,
 });
 
 const createInitialSectionState = (): HomeSectionState => ({
@@ -257,6 +268,7 @@ const HomeContainerComponent = ({
   const [genreState, setGenreState] = useState<HomeGenreState>(createInitialGenreState);
   const [heroState, setHeroState] = useState<HomeHeroState>(createInitialHeroState);
   const [isBlockingContentReveal, setIsBlockingContentReveal] = useState(true);
+  const [profileState, setProfileState] = useState<HomeProfileState>(createInitialProfileState);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
   const [sectionStates, setSectionStates] = useState<HomeSectionStateMap>(
@@ -293,6 +305,25 @@ const HomeContainerComponent = ({
   const handleOpenSettings = useCallback(() => {
     navigation.navigate(ROUTES.SETTINGS);
   }, [navigation]);
+
+  const loadProfileSummary = useCallback(async () => {
+    const response = await profileRepository.getProfile();
+
+    if (!isMountedRef.current || !response.success || !response.data) {
+      return;
+    }
+
+    await prefetchHomeImageUrls([response.data.avatarUrl]);
+
+    if (!isMountedRef.current) {
+      return;
+    }
+
+    setProfileState({
+      avatarUrl: response.data.avatarUrl,
+      fallbackLabel: response.data.fullName || APP_STRINGS.navigation.profile,
+    });
+  }, []);
 
   const loadHero = useCallback(
     async (options?: Pick<HomeSectionRequestOptions, 'forceRefresh'>) => {
@@ -490,6 +521,7 @@ const HomeContainerComponent = ({
 
       try {
         await Promise.all([
+          loadProfileSummary(),
           loadGenres({
             forceRefresh,
           }),
@@ -513,7 +545,7 @@ const HomeContainerComponent = ({
         }
       }
     },
-    [loadGenres, loadHero, loadSection],
+    [loadGenres, loadHero, loadProfileSummary, loadSection],
   );
 
   useEffect(() => {
@@ -758,7 +790,8 @@ const HomeContainerComponent = ({
       onRefresh={handleRefresh}
       onRetry={handleRetry}
       onSectionPress={handleOpenSection}
-      profileFallbackLabel={APP_STRINGS.navigation.profile}
+      profileAvatarImageUrl={profileState.avatarUrl}
+      profileFallbackLabel={profileState.fallbackLabel}
       sections={sections}
     />
   );

@@ -598,6 +598,10 @@ const SearchContainerComponent = ({
     navigation.navigate(ROUTES.PROFILE);
   }, [navigation]);
 
+  const handleVoiceSearchPress = useCallback(() => {
+    navigation.navigate(ROUTES.SETTINGS);
+  }, [navigation]);
+
   const handleRefresh = useCallback(() => {
     if (isResultsMode && normalizedDebouncedQuery.length >= VALIDATION_RULES.search.minQueryLength) {
       void loadSearchResults(normalizedDebouncedQuery, {
@@ -642,6 +646,7 @@ const SearchContainerComponent = ({
       onProfilePress={handleProfilePress}
       onRefresh={handleRefresh}
       onRetry={handleRetry}
+      onVoiceSearchPress={handleVoiceSearchPress}
       query={query}
       recommendedHero={discoveryState.recommendedHero}
       recommendedItems={discoveryState.recommendedItems}

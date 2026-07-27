@@ -342,11 +342,17 @@ export const APP_STRINGS = {
   },
   settings: {
     appearanceSection: 'Appearance',
+    backToHome: 'Back to Home',
+    comingSoonDescription:
+      "We're still working on this feature. It will be available in a future update.",
+    comingSoonSubtitle: 'This feature is coming soon.',
     notificationsSection: 'Notifications',
     playbackSection: 'Playback',
     downloadsSection: 'Downloads',
+    goBack: 'Go Back',
     languageSection: 'Language',
     privacySection: 'Privacy',
+    placeholderTitle: COMMON_LABELS.settings,
     languageUpdatedSuccess: 'Language preference updated.',
     themeUpdatedSuccess: 'Theme preference updated.',
   },
