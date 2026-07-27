@@ -1,6 +1,6 @@
 {
   "settings": {
-    "language": "English",
+    "language": "English (US)",
     "appearance": {
       "themeMode": "dark",
       "autoPlayTrailers": true,
@@ -16,8 +16,8 @@
     },
     "playback": {
       "autoplayNextEpisode": true,
-      "defaultAudioLanguage": "English",
-      "defaultSubtitleLanguage": "English",
+      "defaultAudioLanguage": "English (US)",
+      "defaultSubtitleLanguage": "English (US)",
       "downloadOverWifiOnly": true,
       "preferredDownloadQuality": "high"
     }

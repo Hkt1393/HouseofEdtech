@@ -2,6 +2,7 @@
  * Repository for offline-download inventory and mutation flows.
  */
 
+import { APP_STRINGS } from '../../constants';
 import type { ApiResponse, DownloadsOverview } from '../../types';
 
 import {
@@ -9,6 +10,7 @@ import {
   createNotFoundError,
   mockApiClient,
   MOCK_REQUEST_SCENARIOS,
+  showApiErrorToast,
   type RepositoryRequestOptions,
 } from '../api';
 import {
@@ -59,7 +61,11 @@ class DownloadRepository {
     options?: RepositoryRequestOptions,
   ): Promise<ApiResponse<DownloadsOverview>> {
     if (isSuccessScenario(options?.scenario) && !hasMockDownload(downloadId)) {
-      return createErrorResponse(createNotFoundError('Download', downloadId));
+      const notFoundError = createNotFoundError('Download', downloadId);
+
+      showApiErrorToast(notFoundError);
+
+      return createErrorResponse(notFoundError);
     }
 
     return mockApiClient.request<DownloadsOverview>({
@@ -72,6 +78,7 @@ class DownloadRepository {
         return getMockDownloadsOverview();
       },
       successMessage: 'Download deleted successfully.',
+      successToastMessage: APP_STRINGS.downloads.deleteSuccessMessage,
     });
   }
 }

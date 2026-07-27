@@ -23,6 +23,11 @@ import {
   createSuccessResponse,
   paginateItems,
 } from './response';
+import {
+  ensureConnectivityBeforeRequest,
+  maybeShowApiSuccessToast,
+  showApiErrorToast,
+} from './notifications';
 
 interface MockApiRequestConfig<TData> extends RepositoryRequestOptions {
   readonly source: () => Nullable<TData>;
@@ -69,18 +74,48 @@ class MockApiClient {
     emptyData,
     emptyMessage,
     meta,
+    notifyOnError = true,
     scenario,
     source,
+    successToastMessage,
+    successToastTitle,
     successMessage,
   }: MockApiRequestConfig<TData>): Promise<ApiResponse<TData>> {
+    const connectivityError = await ensureConnectivityBeforeRequest(
+      notifyOnError,
+    );
+
+    if (connectivityError) {
+      return createErrorResponse(connectivityError);
+    }
+
     await delay(delayMs);
 
     switch (resolveScenario(scenario)) {
-      case MOCK_REQUEST_SCENARIOS.networkError:
-        return createErrorResponse(createNetworkError());
-      case MOCK_REQUEST_SCENARIOS.serverError:
-        return createErrorResponse(createServerError());
+      case MOCK_REQUEST_SCENARIOS.networkError: {
+        const networkError = createNetworkError();
+
+        if (notifyOnError) {
+          showApiErrorToast(networkError);
+        }
+
+        return createErrorResponse(networkError);
+      }
+      case MOCK_REQUEST_SCENARIOS.serverError: {
+        const serverError = createServerError();
+
+        if (notifyOnError) {
+          showApiErrorToast(serverError);
+        }
+
+        return createErrorResponse(serverError);
+      }
       case MOCK_REQUEST_SCENARIOS.empty:
+        maybeShowApiSuccessToast({
+          successToastMessage,
+          successToastTitle,
+        });
+
         return createEmptyResponse(
           resolveEmptyData(emptyData, null),
           emptyMessage,
@@ -96,12 +131,22 @@ class MockApiClient {
       data === null ||
       (Array.isArray(data) && data.length === 0)
     ) {
+      maybeShowApiSuccessToast({
+        successToastMessage,
+        successToastTitle,
+      });
+
       return createEmptyResponse(
         resolveEmptyData(emptyData, data),
         emptyMessage,
         meta,
       );
     }
+
+    maybeShowApiSuccessToast({
+      successToastMessage,
+      successToastTitle,
+    });
 
     return createSuccessResponse(data, successMessage, meta);
   }
@@ -112,23 +157,53 @@ class MockApiClient {
   async requestCollection<TItem>({
     delayMs = DELAY_PRESETS.standard,
     emptyMessage,
+    notifyOnError = true,
     page = PAGINATION_CONFIG.initialPage,
     pageSize = PAGINATION_CONFIG.searchPageSize,
     scenario,
     source,
+    successToastMessage,
+    successToastTitle,
     successMessage,
   }: MockApiCollectionRequestConfig<TItem>): Promise<
     ApiResponse<ReadonlyArray<TItem>>
   > {
+    const connectivityError = await ensureConnectivityBeforeRequest(
+      notifyOnError,
+    );
+
+    if (connectivityError) {
+      return createErrorResponse(connectivityError);
+    }
+
     await delay(delayMs);
 
     switch (resolveScenario(scenario)) {
-      case MOCK_REQUEST_SCENARIOS.networkError:
-        return createErrorResponse(createNetworkError());
-      case MOCK_REQUEST_SCENARIOS.serverError:
-        return createErrorResponse(createServerError());
+      case MOCK_REQUEST_SCENARIOS.networkError: {
+        const networkError = createNetworkError();
+
+        if (notifyOnError) {
+          showApiErrorToast(networkError);
+        }
+
+        return createErrorResponse(networkError);
+      }
+      case MOCK_REQUEST_SCENARIOS.serverError: {
+        const serverError = createServerError();
+
+        if (notifyOnError) {
+          showApiErrorToast(serverError);
+        }
+
+        return createErrorResponse(serverError);
+      }
       case MOCK_REQUEST_SCENARIOS.empty: {
         const emptyMeta = createPaginationMeta(page, pageSize, 0);
+
+        maybeShowApiSuccessToast({
+          successToastMessage,
+          successToastTitle,
+        });
 
         return createEmptyResponse([], emptyMessage, emptyMeta);
       }
@@ -141,10 +216,20 @@ class MockApiClient {
     if (items.length === 0) {
       const emptyMeta = createPaginationMeta(page, pageSize, 0);
 
+      maybeShowApiSuccessToast({
+        successToastMessage,
+        successToastTitle,
+      });
+
       return createEmptyResponse([], emptyMessage, emptyMeta);
     }
 
     const paginatedItems = paginateItems(items, page, pageSize);
+
+    maybeShowApiSuccessToast({
+      successToastMessage,
+      successToastTitle,
+    });
 
     return createPaginatedResponse(
       paginatedItems,

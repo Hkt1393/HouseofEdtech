@@ -11,8 +11,10 @@ import React, {
   useState,
 } from 'react';
 import { AccessibilityInfo, StyleSheet, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useColorScheme as useNativeWindColorScheme, vars } from 'nativewind';
 
+import { STORAGE_KEYS } from '../constants';
 import type { ThemeContextValue, ThemeMode, ThemeProviderProps } from '../types';
 
 import { getNativeWindVariables, getTheme, resolveThemeMode } from './theme';
@@ -25,10 +27,17 @@ const styles = StyleSheet.create({
 
 export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
+const isThemePreference = (
+  value: string | null,
+): value is NonNullable<ThemeProviderProps['initialThemeMode']> => {
+  return value === 'light' || value === 'dark' || value === 'system';
+};
+
 export const ThemeProvider = ({
   children,
   initialThemeMode = 'system',
 }: ThemeProviderProps) => {
+  const [isThemePreferenceHydrated, setIsThemePreferenceHydrated] = useState(false);
   const [themeMode, setThemeModeState] = useState(initialThemeMode);
   const [reduceMotionEnabled, setReduceMotionEnabled] = useState(false);
   const {
@@ -40,8 +49,42 @@ export const ThemeProvider = ({
   const resolvedThemeMode = resolveThemeMode(themeMode, systemMode);
 
   useEffect(() => {
+    let isMounted = true;
+
+    const hydrateThemePreference = async () => {
+      try {
+        const storedThemePreference = await AsyncStorage.getItem(
+          STORAGE_KEYS.APP_THEME,
+        );
+
+        if (isMounted && isThemePreference(storedThemePreference)) {
+          setThemeModeState(storedThemePreference);
+        }
+      } finally {
+        if (isMounted) {
+          setIsThemePreferenceHydrated(true);
+        }
+      }
+    };
+
+    void hydrateThemePreference();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
     setNativeWindColorScheme(themeMode);
   }, [setNativeWindColorScheme, themeMode]);
+
+  useEffect(() => {
+    if (!isThemePreferenceHydrated) {
+      return;
+    }
+
+    void AsyncStorage.setItem(STORAGE_KEYS.APP_THEME, themeMode);
+  }, [isThemePreferenceHydrated, themeMode]);
 
   useEffect(() => {
     let isMounted = true;

@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 
 import type { InteractiveAccessibilityProps, SemanticTone } from '../shared';
 
-export type PrimitiveSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type PrimitiveSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export interface AvatarProps extends InteractiveAccessibilityProps {
   fallbackLabel?: string;

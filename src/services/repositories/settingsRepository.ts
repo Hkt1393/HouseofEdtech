@@ -2,12 +2,14 @@
  * Repository for application settings and preference mutations.
  */
 
+import { APP_STRINGS } from '../../constants';
 import type { ApiResponse, AppSettings, ThemePreference } from '../../types';
 
 import {
   createErrorResponse,
   createValidationError,
   mockApiClient,
+  showApiErrorToast,
   type RepositoryRequestOptions,
 } from '../api';
 import { getMockSettings, updateMockLanguage, updateMockTheme } from '../mock';
@@ -41,6 +43,7 @@ class SettingsRepository {
       emptyMessage: 'Unable to update the theme preference.',
       source: () => updateMockTheme(themeMode),
       successMessage: 'Theme preference updated successfully.',
+      successToastMessage: APP_STRINGS.settings.themeUpdatedSuccess,
     });
   }
 
@@ -54,8 +57,15 @@ class SettingsRepository {
     const normalizedLanguage = language.trim();
 
     if (!normalizedLanguage) {
+      const validationError = createValidationError(
+        'language',
+        'Language preference is required.',
+      );
+
+      showApiErrorToast(validationError);
+
       return createErrorResponse(
-        createValidationError('language', 'Language preference is required.'),
+        validationError,
       );
     }
 
@@ -65,6 +75,7 @@ class SettingsRepository {
       emptyMessage: 'Unable to update the language preference.',
       source: () => updateMockLanguage(normalizedLanguage),
       successMessage: 'Language preference updated successfully.',
+      successToastMessage: APP_STRINGS.settings.languageUpdatedSuccess,
     });
   }
 }

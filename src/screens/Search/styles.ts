@@ -119,9 +119,15 @@ export const createDynamicStyles = ({
       fontWeight: typography.variants.title.fontWeight,
       lineHeight: moderateScale(28),
     },
+    resultsDiscoveryFooter: {
+      paddingTop: spacing['2xl'],
+    },
     resultsContent: {
       paddingBottom: spacing.sectionGap + spacing['4xl'],
       paddingTop: spacing.lg,
+    },
+    resultsStateView: {
+      minHeight: moderateScale(280),
     },
     sectionActionIcon: {
       height: moderateScale(18),

@@ -39,6 +39,7 @@ const avatarSizeMap: Record<PrimitiveSize, number> = {
   md: moderateScale(COMPONENT_DEFAULTS.media.avatarSizeMd),
   lg: moderateScale(COMPONENT_DEFAULTS.media.avatarSizeLg),
   xl: moderateScale(COMPONENT_DEFAULTS.media.avatarSizeXl),
+  '2xl': moderateScale(COMPONENT_DEFAULTS.media.avatarSize2xl),
 };
 
 const posterWidth = moderateScale(COMPONENT_DEFAULTS.media.posterWidth);

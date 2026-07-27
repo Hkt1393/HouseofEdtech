@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.hk_1309.HouseofEdtechProject"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -40,6 +41,17 @@
           "style": "light"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "expo-navigation-bar": {
+        "position": "relative",
+        "visibility": "visible",
+        "style": "light"
+      },
+      "eas": {
+        "projectId": "a4721e0f-ff85-4760-ab9f-1d11115fb053"
+      }
+    },
+    "owner": "hk1393"
   }
 }

@@ -128,6 +128,7 @@ export interface HomeViewProps {
   readonly onRefresh: () => void;
   readonly onRetry: () => void;
   readonly onSectionPress: (section: HomeSectionItem) => void;
+  readonly profileAvatarImageUrl?: string | null;
   readonly profileFallbackLabel: string;
   readonly sections: ReadonlyArray<HomeSectionItem>;
 }
@@ -633,6 +634,7 @@ const HomeViewComponent = ({
   onRefresh,
   onRetry,
   onSectionPress,
+  profileAvatarImageUrl,
   profileFallbackLabel,
   sections,
 }: HomeViewProps) => {
@@ -690,11 +692,12 @@ const HomeViewComponent = ({
         accessibilityHint={APP_STRINGS.home.profileAccessibilityHint}
         accessibilityLabel={APP_STRINGS.navigation.profile}
         fallbackLabel={profileFallbackLabel}
+        imageUrl={profileAvatarImageUrl}
         onPress={onProfilePress}
         size="md"
       />
     ),
-    [onProfilePress, profileFallbackLabel],
+    [onProfilePress, profileAvatarImageUrl, profileFallbackLabel],
   );
 
   const emptyIllustration = useMemo(

@@ -227,6 +227,13 @@ const SearchViewComponent = ({
             testID="search-input"
             trailingActionAccessibilityHint={APP_STRINGS.search.voiceSearchAccessibilityHint}
             trailingActionAccessibilityLabel={APP_STRINGS.search.voiceSearchAccessibilityLabel}
+            trailingIcon={
+              <AppIcon
+                color={colors.textSecondary}
+                name="microphone"
+                size={moderateScale(20)}
+              />
+            }
             trailingIconPressable={Boolean(onVoiceSearchPress)}
             value={query}
           />
@@ -480,6 +487,42 @@ const SearchViewComponent = ({
     spacing.xs,
   ]);
 
+  const discoverySectionsContent = useMemo(() => {
+    if (!discoveryHasContent) {
+      return null;
+    }
+
+    return (
+      <Container>
+        <Stack style={dynamicStyles.verticalSectionStack}>
+          {trendingSection}
+          {categoriesSection}
+          {talentSection}
+          {recommendedSection}
+        </Stack>
+      </Container>
+    );
+  }, [
+    categoriesSection,
+    discoveryHasContent,
+    dynamicStyles.verticalSectionStack,
+    recommendedSection,
+    talentSection,
+    trendingSection,
+  ]);
+
+  const resultsDiscoveryFooter = useMemo(() => {
+    if (!discoverySectionsContent) {
+      return undefined;
+    }
+
+    return (
+      <AppView style={dynamicStyles.resultsDiscoveryFooter}>
+        {discoverySectionsContent}
+      </AppView>
+    );
+  }, [discoverySectionsContent, dynamicStyles.resultsDiscoveryFooter]);
+
   const discoverySkeleton = useMemo(
     () => (
       <AppScrollView contentContainerStyle={dynamicStyles.discoveryContent} style={styles.fill}>
@@ -584,25 +627,14 @@ const SearchViewComponent = ({
         refreshing={isRefreshing}
         style={styles.fill}
       >
-        <Container>
-          <Stack style={dynamicStyles.verticalSectionStack}>
-            {trendingSection}
-            {categoriesSection}
-            {talentSection}
-            {recommendedSection}
-          </Stack>
-        </Container>
+        {discoverySectionsContent}
       </AppScrollView>
     ),
     [
-      categoriesSection,
       dynamicStyles.discoveryContent,
-      dynamicStyles.verticalSectionStack,
+      discoverySectionsContent,
       isRefreshing,
       onRefresh,
-      recommendedSection,
-      talentSection,
-      trendingSection,
     ],
   );
 
@@ -617,6 +649,7 @@ const SearchViewComponent = ({
         {headerComponent}
         {isResultsLoading && results.length === 0 ? (
           <AppFlatList
+            ListFooterComponent={resultsDiscoveryFooter}
             contentContainerStyle={dynamicStyles.resultsContent}
             data={SEARCH_RESULTS_SKELETON_IDS}
             keyExtractor={(item) => item}
@@ -624,25 +657,42 @@ const SearchViewComponent = ({
             style={styles.fill}
           />
         ) : resultsErrorTitle && resultsErrorDescription && results.length === 0 ? (
-          <AppView flex>
-            <ErrorView
-              description={resultsErrorDescription}
-              onRetry={onRetry}
-              title={resultsErrorTitle}
-            />
-          </AppView>
+          <AppScrollView
+            contentContainerStyle={dynamicStyles.resultsContent}
+            onRefresh={onRefresh}
+            refreshing={isRefreshing}
+            style={styles.fill}
+          >
+            <AppView style={dynamicStyles.resultsStateView}>
+              <ErrorView
+                description={resultsErrorDescription}
+                onRetry={onRetry}
+                title={resultsErrorTitle}
+              />
+            </AppView>
+            {resultsDiscoveryFooter}
+          </AppScrollView>
         ) : results.length === 0 ? (
-          <AppView flex>
-            <EmptyView
-              actionLabel={APP_STRINGS.common.retry}
-              description={APP_STRINGS.search.emptyStateDescription}
-              illustration={emptyIllustration}
-              onAction={onRetry}
-              title={APP_STRINGS.search.emptyStateTitle}
-            />
-          </AppView>
+          <AppScrollView
+            contentContainerStyle={dynamicStyles.resultsContent}
+            onRefresh={onRefresh}
+            refreshing={isRefreshing}
+            style={styles.fill}
+          >
+            <AppView style={dynamicStyles.resultsStateView}>
+              <EmptyView
+                actionLabel={APP_STRINGS.common.retry}
+                description={APP_STRINGS.search.emptyStateDescription}
+                illustration={emptyIllustration}
+                onAction={onRetry}
+                title={APP_STRINGS.search.emptyStateTitle}
+              />
+            </AppView>
+            {resultsDiscoveryFooter}
+          </AppScrollView>
         ) : (
           <AppFlatList
+            ListFooterComponent={resultsDiscoveryFooter}
             contentContainerStyle={dynamicStyles.resultsContent}
             contentGap="lg"
             data={results}
