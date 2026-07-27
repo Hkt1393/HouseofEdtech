@@ -45,8 +45,10 @@ export interface SearchResult {
   readonly id: ID;
   readonly title: string;
   readonly subtitle: Nullable<string>;
+  readonly backdropUrl: string;
   readonly mediaType: MediaType;
   readonly posterUrl: string;
+  readonly rating: Nullable<number>;
   readonly releaseYear: Nullable<number>;
   readonly matchScore: number;
   readonly genres: ReadonlyArray<string>;

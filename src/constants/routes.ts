@@ -11,6 +11,7 @@ export const ROUTES = {
   SEARCH: 'Search',
   DOWNLOADS: 'Downloads',
   PROFILE: 'Profile',
+  SECTION_MOVIES: 'SectionMovies',
   MOVIE_DETAILS: 'MovieDetails',
   SETTINGS: 'Settings',
 } as const;
@@ -22,7 +23,6 @@ export const AUTH_ROUTES = {
 export const MAIN_TAB_ROUTES = {
   HOME: ROUTES.HOME,
   SEARCH: ROUTES.SEARCH,
-  DOWNLOADS: ROUTES.DOWNLOADS,
   PROFILE: ROUTES.PROFILE,
 } as const;
 
@@ -30,6 +30,7 @@ export const ROOT_STACK_ROUTES = {
   SPLASH: ROUTES.SPLASH,
   AUTH: ROUTES.AUTH,
   MAIN_TABS: ROUTES.MAIN_TABS,
+  SECTION_MOVIES: ROUTES.SECTION_MOVIES,
   MOVIE_DETAILS: ROUTES.MOVIE_DETAILS,
   SETTINGS: ROUTES.SETTINGS,
 } as const;
@@ -43,6 +44,7 @@ export const ROUTE_PATHS = {
   SEARCH: 'search',
   DOWNLOADS: 'downloads',
   PROFILE: 'profile',
-  MOVIE_DETAILS: 'movie-details',
+  SECTION_MOVIES: 'section-movies/:sectionKey',
+  MOVIE_DETAILS: 'movie-details/:movieId',
   SETTINGS: 'settings',
 } as const;

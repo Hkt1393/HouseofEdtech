@@ -45,9 +45,11 @@ export interface ProgressBarProps {
 
 export interface PosterProps extends InteractiveAccessibilityProps {
   badgeLabel?: string;
+  imageTransitionDuration?: number;
   onPress?: () => void;
   posterUrl: string;
   progress?: number;
+  showImageLoadingState?: boolean;
   subtitle?: string;
   title?: string;
   width?: number;

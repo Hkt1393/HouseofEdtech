@@ -6,7 +6,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -16,12 +16,14 @@
     "ios": {
       "supportsTablet": true
     },
+    "androidNavigationBar": {
+      "enforceContrast": false
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {
@@ -29,7 +31,15 @@
     },
     "plugins": [
       "expo-font",
-      "expo-video"
+      "expo-video",
+      [
+        "expo-navigation-bar",
+        {
+          "position": "relative",
+          "visibility": "visible",
+          "style": "light"
+        }
+      ]
     ]
   }
 }

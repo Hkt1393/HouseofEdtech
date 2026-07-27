@@ -6,6 +6,7 @@ import {
 
 import { APP_STRINGS, ROUTES } from '../constants';
 import DetailsScreen from '../screens/Details';
+import SectionMoviesScreen from '../screens/SectionMovies';
 import SettingsScreen from '../screens/Settings';
 import SplashScreen from '../screens/Splash';
 import { useTheme } from '../theme';
@@ -46,13 +47,6 @@ const RootStackNavigatorComponent = () => {
     [],
   );
 
-  const detailsOptions = useMemo<NativeStackNavigationOptions>(
-    () => ({
-      title: APP_STRINGS.navigation.movieDetails,
-    }),
-    [],
-  );
-
   const settingsOptions = useMemo<NativeStackNavigationOptions>(
     () => ({
       title: APP_STRINGS.navigation.settings,
@@ -81,9 +75,16 @@ const RootStackNavigatorComponent = () => {
         options={hiddenScreenOptions}
       />
       <Stack.Screen
+        component={SectionMoviesScreen}
+        name={ROUTES.SECTION_MOVIES}
+        options={({ route }) => ({
+          title: route.params.sectionTitle,
+        })}
+      />
+      <Stack.Screen
         component={DetailsScreen}
         name={ROUTES.MOVIE_DETAILS}
-        options={detailsOptions}
+        options={hiddenScreenOptions}
       />
       <Stack.Screen
         component={SettingsScreen}

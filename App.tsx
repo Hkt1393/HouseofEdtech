@@ -1,12 +1,13 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import * as NavigationBar from 'expo-navigation-bar';
 import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
   type Theme as NavigationTheme,
 } from '@react-navigation/native';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { linking, navigationRef, RootNavigator } from './src/navigation';
@@ -21,6 +22,10 @@ const styles = StyleSheet.create({
 
 const AppShell = memo(() => {
   const { colors, isDark } = useTheme();
+  const navigationBarButtonStyle = useMemo<NavigationBar.NavigationBarButtonStyle>(
+    () => (isDark ? 'light' : 'dark'),
+    [isDark],
+  );
 
   const navigationTheme = useMemo<NavigationTheme>(() => {
     const baseTheme = isDark ? DarkTheme : DefaultTheme;
@@ -38,6 +43,32 @@ const AppShell = memo(() => {
       },
     };
   }, [colors, isDark]);
+
+  useEffect(() => {
+    if (Platform.OS !== 'android') {
+      return;
+    }
+
+    let isMounted = true;
+
+    const syncNavigationBar = async () => {
+      if (!isMounted) {
+        return;
+      }
+
+      await NavigationBar.setVisibilityAsync('visible');
+      await NavigationBar.setPositionAsync('relative');
+      await NavigationBar.setBackgroundColorAsync(colors.background);
+      await NavigationBar.setBorderColorAsync(colors.background);
+      await NavigationBar.setButtonStyleAsync(navigationBarButtonStyle);
+    };
+
+    void syncNavigationBar();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [colors.background, navigationBarButtonStyle]);
 
   return (
     <>

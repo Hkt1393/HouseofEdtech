@@ -19,6 +19,7 @@ export interface EmptyViewProps {
 
 export interface ErrorViewProps {
   description?: string;
+  illustration?: ReactNode;
   onRetry?: () => void;
   retryLabel?: string;
   title?: string;

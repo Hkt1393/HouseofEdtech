@@ -9,7 +9,7 @@ const AppTextViewComponent = forwardRef<
 >(
   ({ children, resolvedStyle, ...restProps }, ref) => {
     return (
-      <RNText ref={ref} style={resolvedStyle} {...restProps}>
+      <RNText ref={ref} style={resolvedStyle} {...restProps} allowFontScaling={false}>
         {children}
       </RNText>
     );

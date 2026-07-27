@@ -4,7 +4,7 @@
 
 const APP_SLUG = 'houseofedtechproject';
 const SECONDS_IN_MINUTE = 60;
-const MILLISECONDS_IN_SECOND = 1000;
+const MILLISECONDS_IN_SECOND = 5000;
 const HOURS_IN_DAY = 24;
 const STANDARD_PAGE_SIZE = 20;
 const LANDSCAPE_ASPECT_RATIO = 16 / 9;
@@ -19,6 +19,7 @@ export const APP_CONFIG = {
   deepLinkScheme: APP_SLUG,
   deepLinkPrefix: `${APP_SLUG}://`,
   defaultLocale: 'en-US',
+  splashDurationMs: 2 * MILLISECONDS_IN_SECOND,
   supportedLocales: ['en-US'],
 } as const;
 
@@ -91,6 +92,7 @@ export const COMPONENT_DEFAULTS = {
   },
   button: {
     iconSize: 18,
+    iconSizemd:22,
     minHeightSm: 40,
     minHeightMd: 48,
     minHeightLg: 56,

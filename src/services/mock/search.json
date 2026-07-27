@@ -5,7 +5,9 @@
       "title": "Starlight Odyssey",
       "subtitle": "Premium sci-fi movie",
       "mediaType": "movie",
+      "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
       "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+      "rating": 8.9,
       "releaseYear": 2025,
       "matchScore": 0.98,
       "genres": ["Sci-Fi", "Adventure"]
@@ -15,7 +17,9 @@
       "title": "Midnight Circuit",
       "subtitle": "Action thriller movie",
       "mediaType": "movie",
+      "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
       "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+      "rating": 8.4,
       "releaseYear": 2026,
       "matchScore": 0.94,
       "genres": ["Action", "Thriller"]
@@ -25,7 +29,9 @@
       "title": "Quantum High",
       "subtitle": "Sci-fi campus series",
       "mediaType": "series",
+      "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
       "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+      "rating": 8.7,
       "releaseYear": 2026,
       "matchScore": 0.97,
       "genres": ["Sci-Fi", "Drama"]
@@ -35,7 +41,9 @@
       "title": "Saffron Skies",
       "subtitle": "Adventure drama series",
       "mediaType": "series",
+      "backdropUrl": "https://images.example.com/backdrops/saffron-skies.jpg",
       "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+      "rating": 8.2,
       "releaseYear": 2024,
       "matchScore": 0.93,
       "genres": ["Adventure", "Drama"]
@@ -45,7 +53,9 @@
       "title": "The Last Operator",
       "subtitle": "Espionage drama movie",
       "mediaType": "movie",
+      "backdropUrl": "https://images.example.com/backdrops/the-last-operator.jpg",
       "posterUrl": "https://images.example.com/posters/the-last-operator.jpg",
+      "rating": 7.9,
       "releaseYear": 2025,
       "matchScore": 0.91,
       "genres": ["Thriller", "Drama"]
@@ -55,7 +65,9 @@
       "title": "Orbit Heist",
       "subtitle": "Space action caper",
       "mediaType": "movie",
+      "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
       "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+      "rating": 8.6,
       "releaseYear": 2026,
       "matchScore": 0.96,
       "genres": ["Sci-Fi", "Action"]

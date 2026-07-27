@@ -1,325 +1,693 @@
 /**
- * Repository for catalog, discovery, and title-detail data access.
+ * Repository for Home catalog data backed by TMDB.
  */
 
-import { PAGINATION_CONFIG } from '../../constants';
+import {
+  APP_STRINGS,
+  TMDB_CONFIG,
+  TMDB_HOME_SECTION_DEFINITIONS,
+  type TmdbHomeSectionKey,
+} from '../../constants';
+
 import type {
   ApiResponse,
-  Banner,
-  CategoryRow,
-  ContinueWatching,
-  Episode,
-  MovieCard,
-  MovieDetails,
-  TrendingMovie,
+  TmdbCreditsResponse,
+  TmdbGenreListResponse,
+  TmdbImageItem,
+  TmdbImagesResponse,
+  TmdbMovieDetailResponse,
+  TmdbMovieListItem,
+  TmdbReleaseDatesResponse,
+  TmdbSpokenLanguage,
+  TmdbVideoItem,
 } from '../../types';
-import { CategoryType } from '../../types';
 
 import {
+  createApiError,
+  createEmptyResponse,
   createErrorResponse,
-  createNotFoundError,
-  mockApiClient,
-  MOCK_REQUEST_SCENARIOS,
+  createSuccessResponse,
+  tmdbApiClient,
   type PaginatedRequestOptions,
-  type RepositoryRequestOptions,
 } from '../api';
-import {
-  getMockBanners,
-  getMockCategories,
-  getMockCategoryRows,
-  getMockContinueWatching,
-  getMockMovieDetails,
-  getMockTrendingMovies,
-} from '../mock';
 
-export interface HomeFeedData {
-  readonly heroBanners: ReadonlyArray<Banner>;
-  readonly rows: ReadonlyArray<CategoryRow>;
+export interface HomeMovieItem {
+  readonly backdropUrl: string;
+  readonly genreIds: ReadonlyArray<number>;
+  readonly id: string;
+  readonly overview: string;
+  readonly posterUrl: string;
+  readonly rating: number | null;
+  readonly releaseYear: number | null;
+  readonly title: string;
 }
 
-const isSuccessScenario = (scenario?: RepositoryRequestOptions['scenario']): boolean => {
-  return !scenario || scenario === MOCK_REQUEST_SCENARIOS.success;
+export interface HomeGenreItem {
+  readonly id: string;
+  readonly label: string;
+}
+
+export interface MovieDetailGenreItem {
+  readonly id: string;
+  readonly label: string;
+}
+
+export interface MovieDetailCastItem {
+  readonly character: string;
+  readonly id: string;
+  readonly imageUrl: string | null;
+  readonly name: string;
+}
+
+export interface MovieDetailGalleryItem {
+  readonly aspectRatio: number;
+  readonly id: string;
+  readonly imageUrl: string;
+  readonly type: 'backdrop' | 'poster';
+}
+
+export interface MovieDetailVideoItem {
+  readonly id: string;
+  readonly isOfficial: boolean;
+  readonly name: string;
+  readonly publishedAt: string | null;
+  readonly site: string;
+  readonly thumbnailUrl: string;
+  readonly type: string;
+  readonly url: string;
+}
+
+export interface MovieDetailItem {
+  readonly ageCertification: string | null;
+  readonly backdropUrl: string;
+  readonly budget: number | null;
+  readonly cast: ReadonlyArray<MovieDetailCastItem>;
+  readonly genres: ReadonlyArray<MovieDetailGenreItem>;
+  readonly homepageUrl: string | null;
+  readonly id: string;
+  readonly images: ReadonlyArray<MovieDetailGalleryItem>;
+  readonly language: string | null;
+  readonly overview: string;
+  readonly posterUrl: string;
+  readonly productionCompanies: ReadonlyArray<string>;
+  readonly rating: number | null;
+  readonly recommendations: ReadonlyArray<HomeMovieItem>;
+  readonly releaseDate: string;
+  readonly releaseYear: number | null;
+  readonly revenue: number | null;
+  readonly runtimeMinutes: number | null;
+  readonly similar: ReadonlyArray<HomeMovieItem>;
+  readonly status: string | null;
+  readonly tagline: string;
+  readonly title: string;
+  readonly tmdbShareUrl: string;
+  readonly trailer: MovieDetailVideoItem | null;
+  readonly trailers: ReadonlyArray<MovieDetailVideoItem>;
+}
+
+export interface HomeSectionRequestOptions extends PaginatedRequestOptions {
+  readonly forceRefresh?: boolean;
+}
+
+export interface MovieDetailRequestOptions {
+  readonly forceRefresh?: boolean;
+}
+
+const MAX_GALLERY_ITEMS = 18;
+const MAX_CAST_ITEMS = 12;
+const TMDB_APPEND_TO_RESPONSE = [
+  'credits',
+  'videos',
+  'images',
+  'similar',
+  'recommendations',
+  'release_dates',
+].join(',');
+const TMDB_IMAGE_LANGUAGE = `${TMDB_CONFIG.defaultLanguage.split('-')[0]},null`;
+const TMDB_VIDEO_SITE_PRIORITY = ['YouTube', 'Vimeo'] as const;
+const TMDB_VIDEO_TYPE_PRIORITY = [
+  'Trailer',
+  'Teaser',
+  'Clip',
+  'Featurette',
+] as const;
+
+const toReleaseYear = (releaseDate: string): number | null => {
+  const [year] = releaseDate.split('-');
+  const parsedYear = Number(year);
+
+  return Number.isFinite(parsedYear) && parsedYear > 0 ? parsedYear : null;
 };
 
-const toMovieCard = (movie: TrendingMovie): MovieCard => ({
-  id: movie.id,
+const toRating = (voteAverage: number): number | null => {
+  if (!Number.isFinite(voteAverage) || voteAverage <= 0) {
+    return null;
+  }
+
+  return Number(voteAverage.toFixed(1));
+};
+
+const mapMovieItem = (movie: TmdbMovieListItem): HomeMovieItem => ({
+  backdropUrl: tmdbApiClient.buildImageUrl(
+    movie.backdrop_path ?? movie.poster_path,
+    TMDB_CONFIG.backdropSize,
+  ),
+  genreIds: movie.genre_ids,
+  id: String(movie.id),
+  overview: movie.overview.trim(),
+  posterUrl: tmdbApiClient.buildImageUrl(
+    movie.poster_path ?? movie.backdrop_path,
+    TMDB_CONFIG.posterSize,
+  ),
+  rating: toRating(movie.vote_average),
+  releaseYear: toReleaseYear(movie.release_date),
   title: movie.title,
-  mediaType: movie.mediaType,
-  posterUrl: movie.posterUrl,
-  thumbnailUrl: movie.thumbnailUrl,
-  backdropUrl: movie.backdropUrl,
-  releaseYear: movie.releaseYear,
-  durationInMinutes: movie.durationInMinutes,
-  maturityRating: movie.maturityRating,
-  badgeLabel: movie.badgeLabel,
-  progressPercentage: movie.progressPercentage,
 });
 
-const getCategoryDefinition = (
-  categoryType: CategoryType,
-) => getMockCategories().find((category) => category.type === categoryType);
+const toOptionalTrimmedString = (value: string | null | undefined): string | null => {
+  const normalizedValue = value?.trim() ?? '';
 
-const buildContinueWatchingRow = (): CategoryRow | null => {
-  const category = getCategoryDefinition(CategoryType.ContinueWatching);
-  const items = getMockContinueWatching().map((entry) => entry.movie);
+  return normalizedValue.length > 0 ? normalizedValue : null;
+};
 
-  if (!category || items.length === 0 || !category.isVisible) {
+const mapDetailGenres = (
+  genres: ReadonlyArray<{
+    readonly id: number;
+    readonly name: string;
+  }>,
+): ReadonlyArray<MovieDetailGenreItem> => {
+  return genres.map((genre) => ({
+    id: String(genre.id),
+    label: genre.name,
+  }));
+};
+
+const mapCastItems = (
+  credits?: TmdbCreditsResponse,
+): ReadonlyArray<MovieDetailCastItem> => {
+  return [...(credits?.cast ?? [])]
+    .sort((left, right) => left.order - right.order)
+    .slice(0, MAX_CAST_ITEMS)
+    .map((member) => ({
+      character: member.character.trim(),
+      id: String(member.id),
+      imageUrl: tmdbApiClient.buildImageUrl(
+        member.profile_path,
+        TMDB_CONFIG.posterSize,
+      ) || null,
+      name: member.name,
+    }));
+};
+
+const getLanguageLabel = (
+  spokenLanguages: ReadonlyArray<TmdbSpokenLanguage>,
+  originalLanguage: string,
+): string | null => {
+  const spokenLanguage =
+    spokenLanguages.find((language) => language.english_name.trim().length > 0)
+      ?.english_name ??
+    spokenLanguages.find((language) => language.name.trim().length > 0)?.name;
+
+  return toOptionalTrimmedString(spokenLanguage) ?? originalLanguage.toUpperCase();
+};
+
+const buildVideoUrl = (video: TmdbVideoItem): string => {
+  switch (video.site) {
+    case 'YouTube':
+      return `https://www.youtube.com/watch?v=${video.key}`;
+    case 'Vimeo':
+      return `https://vimeo.com/${video.key}`;
+    default:
+      return '';
+  }
+};
+
+const buildVideoThumbnailUrl = (video: TmdbVideoItem): string => {
+  if (video.site === 'YouTube') {
+    return `https://img.youtube.com/vi/${video.key}/hqdefault.jpg`;
+  }
+
+  return '';
+};
+
+const mapVideoItem = (video: TmdbVideoItem): MovieDetailVideoItem | null => {
+  const url = buildVideoUrl(video);
+
+  if (!url) {
     return null;
   }
 
   return {
-    id: 'row-continue-watching',
-    category,
-    items,
+    id: video.id,
+    isOfficial: video.official,
+    name: video.name.trim(),
+    publishedAt: toOptionalTrimmedString(video.published_at),
+    site: video.site,
+    thumbnailUrl: buildVideoThumbnailUrl(video),
+    type: video.type,
+    url,
   };
 };
 
-const buildTrendingRow = (): CategoryRow | null => {
-  const category = getCategoryDefinition(CategoryType.Trending);
-  const items = getMockTrendingMovies().map(toMovieCard);
+const getVideoSitePriority = (site: string): number => {
+  const index = TMDB_VIDEO_SITE_PRIORITY.indexOf(
+    site as (typeof TMDB_VIDEO_SITE_PRIORITY)[number],
+  );
 
-  if (!category || items.length === 0 || !category.isVisible) {
+  return index >= 0 ? index : TMDB_VIDEO_SITE_PRIORITY.length;
+};
+
+const getVideoTypePriority = (type: string): number => {
+  const index = TMDB_VIDEO_TYPE_PRIORITY.indexOf(
+    type as (typeof TMDB_VIDEO_TYPE_PRIORITY)[number],
+  );
+
+  return index >= 0 ? index : TMDB_VIDEO_TYPE_PRIORITY.length;
+};
+
+const selectPrimaryTrailer = (
+  videos: ReadonlyArray<MovieDetailVideoItem>,
+): MovieDetailVideoItem | null => {
+  return (
+    [...videos].sort((left, right) => {
+      const sitePriorityDifference =
+        getVideoSitePriority(left.site) - getVideoSitePriority(right.site);
+
+      if (sitePriorityDifference !== 0) {
+        return sitePriorityDifference;
+      }
+
+      if (left.isOfficial !== right.isOfficial) {
+        return left.isOfficial ? -1 : 1;
+      }
+
+      const typePriorityDifference =
+        getVideoTypePriority(left.type) - getVideoTypePriority(right.type);
+
+      if (typePriorityDifference !== 0) {
+        return typePriorityDifference;
+      }
+
+      const leftPublishedAt = left.publishedAt
+        ? new Date(left.publishedAt).getTime()
+        : 0;
+      const rightPublishedAt = right.publishedAt
+        ? new Date(right.publishedAt).getTime()
+        : 0;
+
+      return rightPublishedAt - leftPublishedAt;
+    })[0] ?? null
+  );
+};
+
+const mapGalleryImage = (
+  image: TmdbImageItem,
+  type: MovieDetailGalleryItem['type'],
+): MovieDetailGalleryItem | null => {
+  const imageUrl = tmdbApiClient.buildImageUrl(
+    image.file_path,
+    type === 'backdrop' ? TMDB_CONFIG.backdropSize : TMDB_CONFIG.posterSize,
+  );
+
+  if (!imageUrl) {
     return null;
   }
 
   return {
-    id: 'row-trending-now',
-    category,
-    items,
+    aspectRatio: image.aspect_ratio,
+    id: `${type}-${image.file_path}`,
+    imageUrl,
+    type,
   };
 };
 
-const buildCategoryRows = (): ReadonlyArray<CategoryRow> => {
-  const rows: CategoryRow[] = [...getMockCategoryRows()];
-  const continueWatchingRow = buildContinueWatchingRow();
-  const trendingRow = buildTrendingRow();
+const mapGalleryItems = (
+  images?: TmdbImagesResponse,
+): ReadonlyArray<MovieDetailGalleryItem> => {
+  const seen = new Set<string>();
+  const galleryItems: MovieDetailGalleryItem[] = [];
 
-  if (continueWatchingRow) {
-    rows.push(continueWatchingRow);
-  }
+  const appendImages = (
+    items: ReadonlyArray<TmdbImageItem>,
+    type: MovieDetailGalleryItem['type'],
+  ) => {
+    items.forEach((image) => {
+      const mappedImage = mapGalleryImage(image, type);
 
-  if (trendingRow) {
-    rows.push(trendingRow);
-  }
+      if (!mappedImage || seen.has(mappedImage.imageUrl)) {
+        return;
+      }
 
-  return rows
-    .filter((row) => row.category.isVisible)
-    .sort((left, right) => left.category.priority - right.category.priority);
+      seen.add(mappedImage.imageUrl);
+      galleryItems.push(mappedImage);
+    });
+  };
+
+  appendImages(images?.backdrops ?? [], 'backdrop');
+  appendImages(images?.posters ?? [], 'poster');
+
+  return galleryItems.slice(0, MAX_GALLERY_ITEMS);
 };
 
-const getCategoryRowByType = (
-  categoryType: CategoryType,
-): CategoryRow | undefined => {
-  return buildCategoryRows().find((row) => row.category.type === categoryType);
+const getAgeCertification = (
+  releaseDates: TmdbReleaseDatesResponse | undefined,
+  isAdult: boolean,
+): string | null => {
+  const preferredRegion = releaseDates?.results.find(
+    (item) => item.iso_3166_1 === TMDB_CONFIG.defaultRegion,
+  );
+  const preferredCertification = preferredRegion?.release_dates.find(
+    (item) => item.certification.trim().length > 0,
+  )?.certification;
+
+  if (preferredCertification?.trim()) {
+    return preferredCertification.trim();
+  }
+
+  for (const countryReleaseDates of releaseDates?.results ?? []) {
+    const certification = countryReleaseDates.release_dates.find(
+      (item) => item.certification.trim().length > 0,
+    )?.certification;
+
+    if (certification?.trim()) {
+      return certification.trim();
+    }
+  }
+
+  return isAdult ? '18+' : null;
 };
 
-const getMovieDetailsById = (movieId: string): MovieDetails | undefined => {
-  return getMockMovieDetails().find((movie) => movie.id === movieId);
+const mapMovieDetailItem = (movie: TmdbMovieDetailResponse): MovieDetailItem => {
+  const trailers = (movie.videos?.results ?? [])
+    .map(mapVideoItem)
+    .filter(
+      (video): video is MovieDetailVideoItem => Boolean(video),
+    );
+
+  return {
+    ageCertification: getAgeCertification(movie.release_dates, movie.adult),
+    backdropUrl: tmdbApiClient.buildImageUrl(
+      movie.backdrop_path ?? movie.poster_path,
+      TMDB_CONFIG.backdropSize,
+    ),
+    budget: movie.budget > 0 ? movie.budget : null,
+    cast: mapCastItems(movie.credits),
+    genres: mapDetailGenres(movie.genres),
+    homepageUrl: toOptionalTrimmedString(movie.homepage),
+    id: String(movie.id),
+    images: mapGalleryItems(movie.images),
+    language: getLanguageLabel(
+      movie.spoken_languages,
+      movie.original_language,
+    ),
+    overview: movie.overview.trim(),
+    posterUrl: tmdbApiClient.buildImageUrl(
+      movie.poster_path ?? movie.backdrop_path,
+      TMDB_CONFIG.posterSize,
+    ),
+    productionCompanies: movie.production_companies
+      .map((company) => company.name.trim())
+      .filter((company): company is string => company.length > 0),
+    rating: toRating(movie.vote_average),
+    recommendations: (movie.recommendations?.results ?? []).map(mapMovieItem),
+    releaseDate: movie.release_date,
+    releaseYear: toReleaseYear(movie.release_date),
+    revenue: movie.revenue > 0 ? movie.revenue : null,
+    runtimeMinutes:
+      typeof movie.runtime === 'number' && movie.runtime > 0
+        ? movie.runtime
+        : null,
+    similar: (movie.similar?.results ?? []).map(mapMovieItem),
+    status: toOptionalTrimmedString(movie.status),
+    tagline: movie.tagline.trim(),
+    title: movie.title,
+    tmdbShareUrl: `https://www.themoviedb.org/movie/${movie.id}`,
+    trailer: selectPrimaryTrailer(trailers),
+    trailers,
+  };
 };
 
 class MovieRepository {
-  /**
-   * Returns the full home feed payload with hero banners and category rows.
-   */
-  async getHomeFeed(
-    options?: RepositoryRequestOptions,
-  ): Promise<ApiResponse<HomeFeedData>> {
-    return mockApiClient.request<HomeFeedData>({
-      ...options,
-      emptyData: {
-        heroBanners: [],
-        rows: [],
+  private homeGenreCache: ApiResponse<ReadonlyArray<HomeGenreItem>> | null = null;
+
+  private homeGenreRequest: Promise<ApiResponse<ReadonlyArray<HomeGenreItem>>> | null = null;
+
+  private readonly movieDetailCache = new Map<string, ApiResponse<MovieDetailItem>>();
+
+  private readonly movieDetailRequests = new Map<
+    string,
+    Promise<ApiResponse<MovieDetailItem>>
+  >();
+
+  private readonly homeSectionCache = new Map<
+    TmdbHomeSectionKey,
+    Map<number, ApiResponse<ReadonlyArray<HomeMovieItem>>>
+  >();
+
+  private readonly homeSectionRequests = new Map<
+    string,
+    Promise<ApiResponse<ReadonlyArray<HomeMovieItem>>>
+  >();
+
+  private getSectionCacheKey(sectionKey: TmdbHomeSectionKey, page: number): string {
+    return `${sectionKey}-${page}`;
+  }
+
+  private getCachedSection(
+    sectionKey: TmdbHomeSectionKey,
+    page: number,
+  ): ApiResponse<ReadonlyArray<HomeMovieItem>> | undefined {
+    return this.homeSectionCache.get(sectionKey)?.get(page);
+  }
+
+  private setCachedSection(
+    sectionKey: TmdbHomeSectionKey,
+    page: number,
+    response: ApiResponse<ReadonlyArray<HomeMovieItem>>,
+  ): void {
+    const sectionCache = this.homeSectionCache.get(sectionKey) ?? new Map();
+
+    sectionCache.set(page, response);
+    this.homeSectionCache.set(sectionKey, sectionCache);
+  }
+
+  clearHomeCache(): void {
+    this.homeGenreCache = null;
+    this.homeGenreRequest = null;
+    this.homeSectionCache.clear();
+    this.homeSectionRequests.clear();
+  }
+
+  clearMovieDetailCache(movieId?: string): void {
+    if (movieId) {
+      this.movieDetailCache.delete(movieId);
+      this.movieDetailRequests.delete(movieId);
+
+      return;
+    }
+
+    this.movieDetailCache.clear();
+    this.movieDetailRequests.clear();
+  }
+
+  async getHomeGenres(
+    options?: Pick<HomeSectionRequestOptions, 'forceRefresh'>,
+  ): Promise<ApiResponse<ReadonlyArray<HomeGenreItem>>> {
+    if (!options?.forceRefresh && this.homeGenreCache) {
+      return this.homeGenreCache;
+    }
+
+    if (this.homeGenreRequest) {
+      return this.homeGenreRequest;
+    }
+
+    const request = (async (): Promise<ApiResponse<ReadonlyArray<HomeGenreItem>>> => {
+      const response = await tmdbApiClient.requestPayload<TmdbGenreListResponse>(
+        '/genre/movie/list',
+        {
+          language: TMDB_CONFIG.defaultLanguage,
+        },
+      );
+
+      if (!response.success) {
+        return createErrorResponse(
+          response.error ??
+            createApiError('TMDB_REQUEST_ERROR', response.message, 500),
+          response.message,
+        );
+      }
+
+      const genres = (response.data?.genres ?? []).map((genre) => ({
+        id: String(genre.id),
+        label: genre.name,
+      }));
+
+      const nextResponse =
+        genres.length > 0
+          ? createSuccessResponse(
+              genres,
+              'Movie genres loaded successfully.',
+            )
+          : createEmptyResponse(
+              [],
+              APP_STRINGS.home.categoriesEmptyDescription,
+            );
+
+      this.homeGenreCache = nextResponse;
+
+      return nextResponse;
+    })();
+
+    this.homeGenreRequest = request;
+
+    try {
+      return await request;
+    } finally {
+      this.homeGenreRequest = null;
+    }
+  }
+
+  async getHomeHero(
+    options?: Pick<HomeSectionRequestOptions, 'forceRefresh'>,
+  ): Promise<ApiResponse<HomeMovieItem>> {
+    const response = await this.getHomeSection('trending', {
+      forceRefresh: options?.forceRefresh,
+      page: TMDB_CONFIG.homeInitialPage,
+    });
+
+    if (!response.success) {
+      return createErrorResponse(
+        response.error ??
+          createApiError('TMDB_REQUEST_ERROR', response.message, 500),
+        response.message,
+      );
+    }
+
+    const heroItem =
+      response.data?.find((item) => item.backdropUrl.length > 0) ??
+      response.data?.[0];
+
+    if (!heroItem) {
+      return createEmptyResponse<HomeMovieItem>(
+        null,
+        'No hero content is available.',
+      );
+    }
+
+    return createSuccessResponse(heroItem, 'Hero content loaded successfully.');
+  }
+
+  async getHomeSection(
+    sectionKey: TmdbHomeSectionKey,
+    options?: HomeSectionRequestOptions,
+  ): Promise<ApiResponse<ReadonlyArray<HomeMovieItem>>> {
+    const page = options?.page ?? TMDB_CONFIG.homeInitialPage;
+
+    if (!options?.forceRefresh) {
+      const cachedResponse = this.getCachedSection(sectionKey, page);
+
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+    }
+
+    const requestKey = this.getSectionCacheKey(sectionKey, page);
+    const inFlightRequest = this.homeSectionRequests.get(requestKey);
+
+    if (inFlightRequest) {
+      return inFlightRequest;
+    }
+
+    const sectionDefinition = TMDB_HOME_SECTION_DEFINITIONS[sectionKey];
+    const request = tmdbApiClient.requestCollection<TmdbMovieListItem, HomeMovieItem>({
+      emptyMessage: `${sectionDefinition.title} is unavailable right now.`,
+      mapItem: mapMovieItem,
+      path: sectionDefinition.endpoint,
+      query: {
+        language: TMDB_CONFIG.defaultLanguage,
+        page,
+        region:
+          sectionKey === 'trending' ? undefined : TMDB_CONFIG.defaultRegion,
       },
-      emptyMessage: 'No home feed data is available.',
-      source: () => ({
-        heroBanners: getMockBanners(),
-        rows: buildCategoryRows(),
-      }),
-      successMessage: 'Home feed loaded successfully.',
+      successMessage: `${sectionDefinition.title} loaded successfully.`,
     });
+
+    this.homeSectionRequests.set(requestKey, request);
+
+    try {
+      const response = await request;
+
+      if (response.success) {
+        this.setCachedSection(sectionKey, page, response);
+      }
+
+      return response;
+    } finally {
+      this.homeSectionRequests.delete(requestKey);
+    }
   }
 
-  /**
-   * Returns the hero-banner collection for the home screen.
-   */
-  async getHeroBanners(
-    options?: PaginatedRequestOptions,
-  ): Promise<ApiResponse<ReadonlyArray<Banner>>> {
-    const banners = getMockBanners();
-
-    return mockApiClient.requestCollection({
-      ...options,
-      emptyMessage: 'No hero banners are available.',
-      pageSize:
-        options?.pageSize ??
-        (banners.length || PAGINATION_CONFIG.homeRailPageSize),
-      source: () => banners,
-      successMessage: 'Hero banners loaded successfully.',
-    });
-  }
-
-  /**
-   * Returns the ranked trending-title collection.
-   */
-  async getTrending(
-    options?: PaginatedRequestOptions,
-  ): Promise<ApiResponse<ReadonlyArray<TrendingMovie>>> {
-    const trending = getMockTrendingMovies();
-
-    return mockApiClient.requestCollection({
-      ...options,
-      emptyMessage: 'No trending titles are available.',
-      pageSize:
-        options?.pageSize ??
-        (trending.length || PAGINATION_CONFIG.homeRailPageSize),
-      source: () => trending,
-      successMessage: 'Trending titles loaded successfully.',
-    });
-  }
-
-  /**
-   * Returns continue-watching progress entries for the active user.
-   */
-  async getContinueWatching(
-    options?: PaginatedRequestOptions,
-  ): Promise<ApiResponse<ReadonlyArray<ContinueWatching>>> {
-    const continueWatching = getMockContinueWatching();
-
-    return mockApiClient.requestCollection({
-      ...options,
-      emptyMessage: 'No continue-watching entries are available.',
-      pageSize:
-        options?.pageSize ??
-        (continueWatching.length || PAGINATION_CONFIG.homeRailPageSize),
-      source: () => continueWatching,
-      successMessage: 'Continue-watching entries loaded successfully.',
-    });
-  }
-
-  /**
-   * Returns the recommended-title rail.
-   */
-  async getRecommended(
-    options?: PaginatedRequestOptions,
-  ): Promise<ApiResponse<ReadonlyArray<MovieCard>>> {
-    const recommended = getCategoryRowByType(CategoryType.Recommended)?.items ?? [];
-
-    return mockApiClient.requestCollection({
-      ...options,
-      emptyMessage: 'No recommendations are available.',
-      pageSize:
-        options?.pageSize ??
-        (recommended.length || PAGINATION_CONFIG.homeRailPageSize),
-      source: () => recommended,
-      successMessage: 'Recommended titles loaded successfully.',
-    });
-  }
-
-  /**
-   * Returns a full title-details record for the requested title id.
-   */
   async getMovieDetails(
     movieId: string,
-    options?: RepositoryRequestOptions,
-  ): Promise<ApiResponse<MovieDetails>> {
-    const movieDetails = getMovieDetailsById(movieId);
+    options?: MovieDetailRequestOptions,
+  ): Promise<ApiResponse<MovieDetailItem>> {
+    if (!options?.forceRefresh) {
+      const cachedResponse = this.movieDetailCache.get(movieId);
 
-    if (isSuccessScenario(options?.scenario) && !movieDetails) {
-      return createErrorResponse(createNotFoundError('Movie', movieId));
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      const inFlightRequest = this.movieDetailRequests.get(movieId);
+
+      if (inFlightRequest) {
+        return inFlightRequest;
+      }
     }
 
-    return mockApiClient.request<MovieDetails>({
-      ...options,
-      emptyData: null,
-      emptyMessage: 'Movie details are unavailable.',
-      source: () => movieDetails ?? null,
-      successMessage: 'Movie details loaded successfully.',
-    });
-  }
+    const request = (async (): Promise<ApiResponse<MovieDetailItem>> => {
+      const response = await tmdbApiClient.requestPayload<TmdbMovieDetailResponse>(
+        `/movie/${movieId}`,
+        {
+          append_to_response: TMDB_APPEND_TO_RESPONSE,
+          include_image_language: TMDB_IMAGE_LANGUAGE,
+          language: TMDB_CONFIG.defaultLanguage,
+        },
+      );
 
-  /**
-   * Returns all visible curated category rows for the home experience.
-   */
-  async getCategories(
-    options?: PaginatedRequestOptions,
-  ): Promise<ApiResponse<ReadonlyArray<CategoryRow>>> {
-    const rows = buildCategoryRows();
+      if (!response.success) {
+        return createErrorResponse(
+          response.error ??
+            createApiError('TMDB_REQUEST_ERROR', response.message, 500),
+          response.message,
+        );
+      }
 
-    return mockApiClient.requestCollection({
-      ...options,
-      emptyMessage: 'No category rows are available.',
-      pageSize:
-        options?.pageSize ??
-        (rows.length || PAGINATION_CONFIG.homeRailPageSize),
-      source: () => rows,
-      successMessage: 'Category rows loaded successfully.',
-    });
-  }
+      if (!response.data) {
+        return createEmptyResponse<MovieDetailItem>(
+          null,
+          'Movie details are unavailable right now.',
+        );
+      }
 
-  /**
-   * Returns all episodes for a series or for a specific season when provided.
-   */
-  async getEpisodes(
-    movieId: string,
-    seasonId?: string,
-    options?: PaginatedRequestOptions,
-  ): Promise<ApiResponse<ReadonlyArray<Episode>>> {
-    const movieDetails = getMovieDetailsById(movieId);
+      const detailItem = mapMovieDetailItem(response.data);
+      const nextResponse = createSuccessResponse(
+        detailItem,
+        'Movie details loaded successfully.',
+      );
 
-    if (isSuccessScenario(options?.scenario) && !movieDetails) {
-      return createErrorResponse(createNotFoundError('Movie', movieId));
+      this.movieDetailCache.set(movieId, nextResponse);
+
+      return nextResponse;
+    })();
+
+    this.movieDetailRequests.set(movieId, request);
+
+    try {
+      return await request;
+    } finally {
+      this.movieDetailRequests.delete(movieId);
     }
-
-    const selectedSeason = seasonId
-      ? movieDetails?.seasons.find((season) => season.id === seasonId)
-      : undefined;
-
-    if (isSuccessScenario(options?.scenario) && seasonId && !selectedSeason) {
-      return createErrorResponse(createNotFoundError('Season', seasonId));
-    }
-
-    const episodes =
-      selectedSeason?.episodes ??
-      movieDetails?.seasons.flatMap((season) => season.episodes) ??
-      [];
-
-    return mockApiClient.requestCollection({
-      ...options,
-      emptyMessage: 'No episodes are available.',
-      pageSize:
-        options?.pageSize ??
-        (episodes.length || PAGINATION_CONFIG.searchPageSize),
-      source: () => episodes,
-      successMessage: 'Episodes loaded successfully.',
-    });
-  }
-
-  /**
-   * Returns related titles for a given title id using detail recommendations.
-   */
-  async getRelatedMovies(
-    movieId: string,
-    options?: PaginatedRequestOptions,
-  ): Promise<ApiResponse<ReadonlyArray<MovieCard>>> {
-    const movieDetails = getMovieDetailsById(movieId);
-
-    if (isSuccessScenario(options?.scenario) && !movieDetails) {
-      return createErrorResponse(createNotFoundError('Movie', movieId));
-    }
-
-    const relatedMovies = movieDetails?.recommendations.map(
-      (recommendation) => recommendation.movie,
-    ) ?? [];
-
-    return mockApiClient.requestCollection({
-      ...options,
-      emptyMessage: 'No related titles are available.',
-      pageSize:
-        options?.pageSize ??
-        (relatedMovies.length || PAGINATION_CONFIG.homeRailPageSize),
-      source: () => relatedMovies,
-      successMessage: 'Related titles loaded successfully.',
-    });
   }
 }
 
