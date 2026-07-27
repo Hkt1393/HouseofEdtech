@@ -1,0 +1,311 @@
+{
+  "categories": [
+    {
+      "id": "category-continue-watching",
+      "title": "Continue Watching",
+      "slug": "continue-watching",
+      "type": "continue-watching",
+      "description": "Pick up where you left off.",
+      "priority": 1,
+      "isVisible": true
+    },
+    {
+      "id": "category-trending",
+      "title": "Trending Now",
+      "slug": "trending-now",
+      "type": "trending",
+      "description": "The titles everyone is watching right now.",
+      "priority": 2,
+      "isVisible": true
+    },
+    {
+      "id": "category-recommended",
+      "title": "Recommended For You",
+      "slug": "recommended-for-you",
+      "type": "recommended",
+      "description": "Curated picks based on your recent activity.",
+      "priority": 3,
+      "isVisible": true
+    },
+    {
+      "id": "category-popular",
+      "title": "Popular on House of Edtech",
+      "slug": "popular",
+      "type": "popular",
+      "description": "Fan favorites across the catalog.",
+      "priority": 4,
+      "isVisible": true
+    },
+    {
+      "id": "category-recently-added",
+      "title": "Recently Added",
+      "slug": "recently-added",
+      "type": "new-releases",
+      "description": "Fresh arrivals added this week.",
+      "priority": 5,
+      "isVisible": true
+    },
+    {
+      "id": "category-top-rated",
+      "title": "Top Rated",
+      "slug": "top-rated",
+      "type": "top-rated",
+      "description": "The highest-rated films and series.",
+      "priority": 6,
+      "isVisible": true
+    }
+  ],
+  "rows": [
+    {
+      "id": "row-recommended",
+      "category": {
+        "id": "category-recommended",
+        "title": "Recommended For You",
+        "slug": "recommended-for-you",
+        "type": "recommended",
+        "description": "Curated picks based on your recent activity.",
+        "priority": 3,
+        "isVisible": true
+      },
+      "items": [
+        {
+          "id": "series-saffron-skies",
+          "title": "Saffron Skies",
+          "mediaType": "series",
+          "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/saffron-skies.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/saffron-skies.jpg",
+          "releaseYear": 2024,
+          "durationInMinutes": 44,
+          "maturityRating": "PG",
+          "badgeLabel": "Award Winner",
+          "progressPercentage": null
+        },
+        {
+          "id": "movie-starlight-odyssey",
+          "title": "Starlight Odyssey",
+          "mediaType": "movie",
+          "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/starlight-odyssey.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+          "releaseYear": 2025,
+          "durationInMinutes": 142,
+          "maturityRating": "PG-13",
+          "badgeLabel": "Premium",
+          "progressPercentage": null
+        },
+        {
+          "id": "movie-orbit-heist",
+          "title": "Orbit Heist",
+          "mediaType": "movie",
+          "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/orbit-heist.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+          "releaseYear": 2026,
+          "durationInMinutes": 109,
+          "maturityRating": "TV-14",
+          "badgeLabel": "Premium",
+          "progressPercentage": null
+        },
+        {
+          "id": "movie-the-last-operator",
+          "title": "The Last Operator",
+          "mediaType": "movie",
+          "posterUrl": "https://images.example.com/posters/the-last-operator.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/the-last-operator.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/the-last-operator.jpg",
+          "releaseYear": 2025,
+          "durationInMinutes": 118,
+          "maturityRating": "PG-13",
+          "badgeLabel": "Included",
+          "progressPercentage": null
+        }
+      ]
+    },
+    {
+      "id": "row-popular",
+      "category": {
+        "id": "category-popular",
+        "title": "Popular on House of Edtech",
+        "slug": "popular",
+        "type": "popular",
+        "description": "Fan favorites across the catalog.",
+        "priority": 4,
+        "isVisible": true
+      },
+      "items": [
+        {
+          "id": "series-quantum-high",
+          "title": "Quantum High",
+          "mediaType": "series",
+          "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/quantum-high.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+          "releaseYear": 2026,
+          "durationInMinutes": 48,
+          "maturityRating": "TV-14",
+          "badgeLabel": "New Episodes",
+          "progressPercentage": null
+        },
+        {
+          "id": "movie-starlight-odyssey",
+          "title": "Starlight Odyssey",
+          "mediaType": "movie",
+          "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/starlight-odyssey.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+          "releaseYear": 2025,
+          "durationInMinutes": 142,
+          "maturityRating": "PG-13",
+          "badgeLabel": "Premium",
+          "progressPercentage": null
+        },
+        {
+          "id": "series-saffron-skies",
+          "title": "Saffron Skies",
+          "mediaType": "series",
+          "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/saffron-skies.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/saffron-skies.jpg",
+          "releaseYear": 2024,
+          "durationInMinutes": 44,
+          "maturityRating": "PG",
+          "badgeLabel": "Award Winner",
+          "progressPercentage": null
+        },
+        {
+          "id": "movie-midnight-circuit",
+          "title": "Midnight Circuit",
+          "mediaType": "movie",
+          "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/midnight-circuit.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
+          "releaseYear": 2026,
+          "durationInMinutes": 126,
+          "maturityRating": "TV-14",
+          "badgeLabel": "Included",
+          "progressPercentage": null
+        }
+      ]
+    },
+    {
+      "id": "row-recently-added",
+      "category": {
+        "id": "category-recently-added",
+        "title": "Recently Added",
+        "slug": "recently-added",
+        "type": "new-releases",
+        "description": "Fresh arrivals added this week.",
+        "priority": 5,
+        "isVisible": true
+      },
+      "items": [
+        {
+          "id": "movie-orbit-heist",
+          "title": "Orbit Heist",
+          "mediaType": "movie",
+          "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/orbit-heist.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+          "releaseYear": 2026,
+          "durationInMinutes": 109,
+          "maturityRating": "TV-14",
+          "badgeLabel": "Premium",
+          "progressPercentage": null
+        },
+        {
+          "id": "movie-midnight-circuit",
+          "title": "Midnight Circuit",
+          "mediaType": "movie",
+          "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/midnight-circuit.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
+          "releaseYear": 2026,
+          "durationInMinutes": 126,
+          "maturityRating": "TV-14",
+          "badgeLabel": "Included",
+          "progressPercentage": null
+        },
+        {
+          "id": "series-quantum-high",
+          "title": "Quantum High",
+          "mediaType": "series",
+          "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/quantum-high.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+          "releaseYear": 2026,
+          "durationInMinutes": 48,
+          "maturityRating": "TV-14",
+          "badgeLabel": "New Episodes",
+          "progressPercentage": null
+        }
+      ]
+    },
+    {
+      "id": "row-top-rated",
+      "category": {
+        "id": "category-top-rated",
+        "title": "Top Rated",
+        "slug": "top-rated",
+        "type": "top-rated",
+        "description": "The highest-rated films and series.",
+        "priority": 6,
+        "isVisible": true
+      },
+      "items": [
+        {
+          "id": "series-saffron-skies",
+          "title": "Saffron Skies",
+          "mediaType": "series",
+          "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/saffron-skies.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/saffron-skies.jpg",
+          "releaseYear": 2024,
+          "durationInMinutes": 44,
+          "maturityRating": "PG",
+          "badgeLabel": "Award Winner",
+          "progressPercentage": null
+        },
+        {
+          "id": "movie-starlight-odyssey",
+          "title": "Starlight Odyssey",
+          "mediaType": "movie",
+          "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/starlight-odyssey.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+          "releaseYear": 2025,
+          "durationInMinutes": 142,
+          "maturityRating": "PG-13",
+          "badgeLabel": "Premium",
+          "progressPercentage": null
+        },
+        {
+          "id": "movie-orbit-heist",
+          "title": "Orbit Heist",
+          "mediaType": "movie",
+          "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/orbit-heist.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+          "releaseYear": 2026,
+          "durationInMinutes": 109,
+          "maturityRating": "TV-14",
+          "badgeLabel": "Premium",
+          "progressPercentage": null
+        },
+        {
+          "id": "series-quantum-high",
+          "title": "Quantum High",
+          "mediaType": "series",
+          "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+          "thumbnailUrl": "https://images.example.com/thumbnails/quantum-high.jpg",
+          "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+          "releaseYear": 2026,
+          "durationInMinutes": 48,
+          "maturityRating": "TV-14",
+          "badgeLabel": "New Episodes",
+          "progressPercentage": null
+        }
+      ]
+    }
+  ]
+}

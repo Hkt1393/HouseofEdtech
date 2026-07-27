@@ -1,0 +1,1139 @@
+{
+  "movies": [
+    {
+      "id": "movie-starlight-odyssey",
+      "slug": "starlight-odyssey",
+      "title": "Starlight Odyssey",
+      "synopsis": "A deep-space rescue mission uncovers a signal that could rewrite humanity's future.",
+      "mediaType": "movie",
+      "status": "released",
+      "releaseYear": 2025,
+      "durationInMinutes": 142,
+      "maturityRating": "PG-13",
+      "imdbRating": 8.7,
+      "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+      "logoUrl": "https://images.example.com/logos/starlight-odyssey.png",
+      "isPremium": true,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-sci-fi",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        },
+        {
+          "id": "genre-adventure",
+          "name": "Adventure",
+          "slug": "adventure"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi"],
+      "subtitleLanguages": ["English", "Hindi", "Tamil"],
+      "createdAt": "2026-01-10T08:00:00.000Z",
+      "updatedAt": "2026-07-12T10:30:00.000Z"
+    },
+    {
+      "id": "movie-midnight-circuit",
+      "slug": "midnight-circuit",
+      "title": "Midnight Circuit",
+      "synopsis": "An underground courier becomes the last firewall against a citywide blackout.",
+      "mediaType": "movie",
+      "status": "released",
+      "releaseYear": 2026,
+      "durationInMinutes": 126,
+      "maturityRating": "TV-14",
+      "imdbRating": 8.1,
+      "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
+      "logoUrl": "https://images.example.com/logos/midnight-circuit.png",
+      "isPremium": false,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-action",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "genre-thriller",
+          "name": "Thriller",
+          "slug": "thriller"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi", "Telugu"],
+      "subtitleLanguages": ["English", "Hindi"],
+      "createdAt": "2026-03-18T09:30:00.000Z",
+      "updatedAt": "2026-07-20T16:00:00.000Z"
+    },
+    {
+      "id": "series-quantum-high",
+      "slug": "quantum-high",
+      "title": "Quantum High",
+      "synopsis": "A group of scholarship students discover their campus is built above a time-rift lab.",
+      "mediaType": "series",
+      "status": "released",
+      "releaseYear": 2026,
+      "durationInMinutes": 48,
+      "maturityRating": "TV-14",
+      "imdbRating": 8.4,
+      "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+      "logoUrl": "https://images.example.com/logos/quantum-high.png",
+      "isPremium": true,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-sci-fi",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        },
+        {
+          "id": "genre-drama",
+          "name": "Drama",
+          "slug": "drama"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi"],
+      "subtitleLanguages": ["English", "Hindi", "Malayalam"],
+      "createdAt": "2026-04-02T12:00:00.000Z",
+      "updatedAt": "2026-07-22T11:45:00.000Z"
+    },
+    {
+      "id": "series-saffron-skies",
+      "slug": "saffron-skies",
+      "title": "Saffron Skies",
+      "synopsis": "Three siblings rebuild their family's bush-plane route across the Himalayas.",
+      "mediaType": "series",
+      "status": "released",
+      "releaseYear": 2024,
+      "durationInMinutes": 44,
+      "maturityRating": "PG",
+      "imdbRating": 8.9,
+      "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/saffron-skies.jpg",
+      "logoUrl": "https://images.example.com/logos/saffron-skies.png",
+      "isPremium": true,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-adventure",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "genre-drama",
+          "name": "Drama",
+          "slug": "drama"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi"],
+      "subtitleLanguages": ["English", "Hindi", "Bengali"],
+      "createdAt": "2026-01-21T07:15:00.000Z",
+      "updatedAt": "2026-06-28T09:15:00.000Z"
+    },
+    {
+      "id": "movie-the-last-operator",
+      "slug": "the-last-operator",
+      "title": "The Last Operator",
+      "synopsis": "A retired signals specialist returns to decode a transmission tied to a vanished agent.",
+      "mediaType": "movie",
+      "status": "released",
+      "releaseYear": 2025,
+      "durationInMinutes": 118,
+      "maturityRating": "PG-13",
+      "imdbRating": 7.9,
+      "posterUrl": "https://images.example.com/posters/the-last-operator.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/the-last-operator.jpg",
+      "logoUrl": "https://images.example.com/logos/the-last-operator.png",
+      "isPremium": false,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-thriller",
+          "name": "Thriller",
+          "slug": "thriller"
+        },
+        {
+          "id": "genre-drama",
+          "name": "Drama",
+          "slug": "drama"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi"],
+      "subtitleLanguages": ["English", "Hindi", "Tamil"],
+      "createdAt": "2026-02-14T06:45:00.000Z",
+      "updatedAt": "2026-07-04T14:20:00.000Z"
+    },
+    {
+      "id": "movie-orbit-heist",
+      "slug": "orbit-heist",
+      "title": "Orbit Heist",
+      "synopsis": "A rogue salvage crew races corrupt investors to recover a drifting fusion vault.",
+      "mediaType": "movie",
+      "status": "released",
+      "releaseYear": 2026,
+      "durationInMinutes": 109,
+      "maturityRating": "TV-14",
+      "imdbRating": 8.3,
+      "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+      "logoUrl": "https://images.example.com/logos/orbit-heist.png",
+      "isPremium": true,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-sci-fi",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        },
+        {
+          "id": "genre-action",
+          "name": "Action",
+          "slug": "action"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi", "Tamil"],
+      "subtitleLanguages": ["English", "Hindi", "Tamil", "Telugu"],
+      "createdAt": "2026-05-08T13:10:00.000Z",
+      "updatedAt": "2026-07-23T18:00:00.000Z"
+    }
+  ],
+  "movieDetails": [
+    {
+      "id": "movie-starlight-odyssey",
+      "slug": "starlight-odyssey",
+      "title": "Starlight Odyssey",
+      "synopsis": "A deep-space rescue mission uncovers a signal that could rewrite humanity's future.",
+      "mediaType": "movie",
+      "status": "released",
+      "releaseYear": 2025,
+      "durationInMinutes": 142,
+      "maturityRating": "PG-13",
+      "imdbRating": 8.7,
+      "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+      "logoUrl": "https://images.example.com/logos/starlight-odyssey.png",
+      "isPremium": true,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-sci-fi",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        },
+        {
+          "id": "genre-adventure",
+          "name": "Adventure",
+          "slug": "adventure"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi"],
+      "subtitleLanguages": ["English", "Hindi", "Tamil"],
+      "createdAt": "2026-01-10T08:00:00.000Z",
+      "updatedAt": "2026-07-12T10:30:00.000Z",
+      "storyline": "Commander Mira Sen leads the salvage vessel Aurora into a collapsing star corridor after a distress call surfaces from a mission presumed lost for eighteen years.",
+      "cast": [
+        {
+          "id": "cast-asha-raman",
+          "name": "Asha Raman",
+          "characterName": "Commander Mira Sen",
+          "avatarUrl": "https://images.example.com/cast/asha-raman.jpg",
+          "sortOrder": 1
+        },
+        {
+          "id": "cast-theo-mercer",
+          "name": "Theo Mercer",
+          "characterName": "Orion Vale",
+          "avatarUrl": "https://images.example.com/cast/theo-mercer.jpg",
+          "sortOrder": 2
+        }
+      ],
+      "crew": [
+        {
+          "id": "crew-elena-park",
+          "name": "Elena Park",
+          "role": "Director",
+          "department": "Directing",
+          "avatarUrl": "https://images.example.com/crew/elena-park.jpg"
+        },
+        {
+          "id": "crew-julian-cross",
+          "name": "Julian Cross",
+          "role": "Composer",
+          "department": "Sound",
+          "avatarUrl": "https://images.example.com/crew/julian-cross.jpg"
+        }
+      ],
+      "seasons": [],
+      "trailers": [
+        {
+          "id": "trailer-starlight-main",
+          "title": "Official Trailer",
+          "thumbnailUrl": "https://images.example.com/trailers/starlight-odyssey-main.jpg",
+          "videoUrl": "https://videos.example.com/starlight-odyssey/trailer.mp4",
+          "durationInSeconds": 148,
+          "publishedAt": "2026-06-20T09:00:00.000Z"
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec-starlight-orbit-heist",
+          "reason": "Because you love large-scale space adventures",
+          "movie": {
+            "id": "movie-orbit-heist",
+            "title": "Orbit Heist",
+            "mediaType": "movie",
+            "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/orbit-heist.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+            "releaseYear": 2026,
+            "durationInMinutes": 109,
+            "maturityRating": "TV-14",
+            "badgeLabel": "Premium",
+            "progressPercentage": null
+          }
+        },
+        {
+          "id": "rec-starlight-quantum-high",
+          "reason": "Because you watched futuristic thrillers",
+          "movie": {
+            "id": "series-quantum-high",
+            "title": "Quantum High",
+            "mediaType": "series",
+            "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/quantum-high.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+            "releaseYear": 2026,
+            "durationInMinutes": 48,
+            "maturityRating": "TV-14",
+            "badgeLabel": "New Episodes",
+            "progressPercentage": null
+          }
+        }
+      ],
+      "tags": ["Space Adventure", "Epic Scale", "Critically Acclaimed"]
+    },
+    {
+      "id": "movie-midnight-circuit",
+      "slug": "midnight-circuit",
+      "title": "Midnight Circuit",
+      "synopsis": "An underground courier becomes the last firewall against a citywide blackout.",
+      "mediaType": "movie",
+      "status": "released",
+      "releaseYear": 2026,
+      "durationInMinutes": 126,
+      "maturityRating": "TV-14",
+      "imdbRating": 8.1,
+      "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
+      "logoUrl": "https://images.example.com/logos/midnight-circuit.png",
+      "isPremium": false,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-action",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "genre-thriller",
+          "name": "Thriller",
+          "slug": "thriller"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi", "Telugu"],
+      "subtitleLanguages": ["English", "Hindi"],
+      "createdAt": "2026-03-18T09:30:00.000Z",
+      "updatedAt": "2026-07-20T16:00:00.000Z",
+      "storyline": "Kian Rao runs encrypted packages through Mumbai's neon undercity until a sabotage plot turns every traffic grid into a weapon.",
+      "cast": [
+        {
+          "id": "cast-kian-roy",
+          "name": "Kian Roy",
+          "characterName": "Kian Rao",
+          "avatarUrl": "https://images.example.com/cast/kian-roy.jpg",
+          "sortOrder": 1
+        },
+        {
+          "id": "cast-meera-dsouza",
+          "name": "Meera D'Souza",
+          "characterName": "Detective Tara Nair",
+          "avatarUrl": "https://images.example.com/cast/meera-dsouza.jpg",
+          "sortOrder": 2
+        }
+      ],
+      "crew": [
+        {
+          "id": "crew-samar-kapoor",
+          "name": "Samar Kapoor",
+          "role": "Director",
+          "department": "Directing",
+          "avatarUrl": "https://images.example.com/crew/samar-kapoor.jpg"
+        },
+        {
+          "id": "crew-lina-chase",
+          "name": "Lina Chase",
+          "role": "Editor",
+          "department": "Editing",
+          "avatarUrl": "https://images.example.com/crew/lina-chase.jpg"
+        }
+      ],
+      "seasons": [],
+      "trailers": [
+        {
+          "id": "trailer-midnight-circuit-main",
+          "title": "Official Trailer",
+          "thumbnailUrl": "https://images.example.com/trailers/midnight-circuit-main.jpg",
+          "videoUrl": "https://videos.example.com/midnight-circuit/trailer.mp4",
+          "durationInSeconds": 132,
+          "publishedAt": "2026-07-01T08:00:00.000Z"
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec-midnight-operator",
+          "reason": "Because you enjoy high-stakes spy thrillers",
+          "movie": {
+            "id": "movie-the-last-operator",
+            "title": "The Last Operator",
+            "mediaType": "movie",
+            "posterUrl": "https://images.example.com/posters/the-last-operator.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/the-last-operator.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/the-last-operator.jpg",
+            "releaseYear": 2025,
+            "durationInMinutes": 118,
+            "maturityRating": "PG-13",
+            "badgeLabel": "Included",
+            "progressPercentage": null
+          }
+        },
+        {
+          "id": "rec-midnight-orbit",
+          "reason": "Because you watched fast-paced action stories",
+          "movie": {
+            "id": "movie-orbit-heist",
+            "title": "Orbit Heist",
+            "mediaType": "movie",
+            "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/orbit-heist.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+            "releaseYear": 2026,
+            "durationInMinutes": 109,
+            "maturityRating": "TV-14",
+            "badgeLabel": "Premium",
+            "progressPercentage": null
+          }
+        }
+      ],
+      "tags": ["Cyber Thriller", "High Tension", "Urban Action"]
+    },
+    {
+      "id": "series-quantum-high",
+      "slug": "quantum-high",
+      "title": "Quantum High",
+      "synopsis": "A group of scholarship students discover their campus is built above a time-rift lab.",
+      "mediaType": "series",
+      "status": "released",
+      "releaseYear": 2026,
+      "durationInMinutes": 48,
+      "maturityRating": "TV-14",
+      "imdbRating": 8.4,
+      "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+      "logoUrl": "https://images.example.com/logos/quantum-high.png",
+      "isPremium": true,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-sci-fi",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        },
+        {
+          "id": "genre-drama",
+          "name": "Drama",
+          "slug": "drama"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi"],
+      "subtitleLanguages": ["English", "Hindi", "Malayalam"],
+      "createdAt": "2026-04-02T12:00:00.000Z",
+      "updatedAt": "2026-07-22T11:45:00.000Z",
+      "storyline": "The students of Helix Academy keep reliving fragments of future disasters, forcing them to solve experiments their teachers never meant to reveal.",
+      "cast": [
+        {
+          "id": "cast-riya-malhotra",
+          "name": "Riya Malhotra",
+          "characterName": "Anaya Bose",
+          "avatarUrl": "https://images.example.com/cast/riya-malhotra.jpg",
+          "sortOrder": 1
+        },
+        {
+          "id": "cast-owen-hart",
+          "name": "Owen Hart",
+          "characterName": "Leo Mercer",
+          "avatarUrl": "https://images.example.com/cast/owen-hart.jpg",
+          "sortOrder": 2
+        }
+      ],
+      "crew": [
+        {
+          "id": "crew-nadia-ferns",
+          "name": "Nadia Ferns",
+          "role": "Creator",
+          "department": "Writing",
+          "avatarUrl": "https://images.example.com/crew/nadia-ferns.jpg"
+        },
+        {
+          "id": "crew-aarav-menon",
+          "name": "Aarav Menon",
+          "role": "Director",
+          "department": "Directing",
+          "avatarUrl": "https://images.example.com/crew/aarav-menon.jpg"
+        }
+      ],
+      "seasons": [
+        {
+          "id": "season-quantum-high-1",
+          "title": "Season 1",
+          "synopsis": "Anaya and Leo discover the lab beneath their dormitory.",
+          "seasonNumber": 1,
+          "episodeCount": 2,
+          "posterUrl": "https://images.example.com/seasons/quantum-high-1.jpg",
+          "episodes": [
+            {
+              "id": "episode-quantum-high-s1-e1",
+              "seasonId": "season-quantum-high-1",
+              "seasonNumber": 1,
+              "episodeNumber": 1,
+              "title": "The Fault Line",
+              "synopsis": "A burst of static interrupts class and reveals a hidden elevator beneath the library.",
+              "durationInMinutes": 46,
+              "thumbnailUrl": "https://images.example.com/episodes/quantum-high-s1-e1.jpg",
+              "stillUrl": "https://images.example.com/stills/quantum-high-s1-e1.jpg",
+              "videoUrl": "https://videos.example.com/quantum-high/s1-e1.mp4",
+              "airDate": "2026-05-01T00:00:00.000Z",
+              "isDownloadable": true
+            },
+            {
+              "id": "episode-quantum-high-s1-e2",
+              "seasonId": "season-quantum-high-1",
+              "seasonNumber": 1,
+              "episodeNumber": 2,
+              "title": "Repeat Tomorrow",
+              "synopsis": "The team loops the same school day while a future headline keeps changing.",
+              "durationInMinutes": 48,
+              "thumbnailUrl": "https://images.example.com/episodes/quantum-high-s1-e2.jpg",
+              "stillUrl": "https://images.example.com/stills/quantum-high-s1-e2.jpg",
+              "videoUrl": "https://videos.example.com/quantum-high/s1-e2.mp4",
+              "airDate": "2026-05-08T00:00:00.000Z",
+              "isDownloadable": true
+            }
+          ]
+        },
+        {
+          "id": "season-quantum-high-2",
+          "title": "Season 2",
+          "synopsis": "Helix Academy goes public while the time-rift widens.",
+          "seasonNumber": 2,
+          "episodeCount": 2,
+          "posterUrl": "https://images.example.com/seasons/quantum-high-2.jpg",
+          "episodes": [
+            {
+              "id": "episode-quantum-high-s2-e1",
+              "seasonId": "season-quantum-high-2",
+              "seasonNumber": 2,
+              "episodeNumber": 1,
+              "title": "Zero Hour Club",
+              "synopsis": "A student society decodes archived rift footage and finds Anaya inside it.",
+              "durationInMinutes": 47,
+              "thumbnailUrl": "https://images.example.com/episodes/quantum-high-s2-e1.jpg",
+              "stillUrl": "https://images.example.com/stills/quantum-high-s2-e1.jpg",
+              "videoUrl": "https://videos.example.com/quantum-high/s2-e1.mp4",
+              "airDate": "2026-07-11T00:00:00.000Z",
+              "isDownloadable": true
+            },
+            {
+              "id": "episode-quantum-high-s2-e2",
+              "seasonId": "season-quantum-high-2",
+              "seasonNumber": 2,
+              "episodeNumber": 2,
+              "title": "The Future Principal",
+              "synopsis": "Leo confronts a professor who may already know how the season ends.",
+              "durationInMinutes": 49,
+              "thumbnailUrl": "https://images.example.com/episodes/quantum-high-s2-e2.jpg",
+              "stillUrl": "https://images.example.com/stills/quantum-high-s2-e2.jpg",
+              "videoUrl": "https://videos.example.com/quantum-high/s2-e2.mp4",
+              "airDate": "2026-07-18T00:00:00.000Z",
+              "isDownloadable": true
+            }
+          ]
+        }
+      ],
+      "trailers": [
+        {
+          "id": "trailer-quantum-high-main",
+          "title": "Season Trailer",
+          "thumbnailUrl": "https://images.example.com/trailers/quantum-high-main.jpg",
+          "videoUrl": "https://videos.example.com/quantum-high/trailer.mp4",
+          "durationInSeconds": 121,
+          "publishedAt": "2026-04-25T09:00:00.000Z"
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec-quantum-saffron",
+          "reason": "Because you enjoy ensemble-driven series",
+          "movie": {
+            "id": "series-saffron-skies",
+            "title": "Saffron Skies",
+            "mediaType": "series",
+            "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/saffron-skies.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/saffron-skies.jpg",
+            "releaseYear": 2024,
+            "durationInMinutes": 44,
+            "maturityRating": "PG",
+            "badgeLabel": "Award Winner",
+            "progressPercentage": null
+          }
+        },
+        {
+          "id": "rec-quantum-starlight",
+          "reason": "Because you watched premium sci-fi originals",
+          "movie": {
+            "id": "movie-starlight-odyssey",
+            "title": "Starlight Odyssey",
+            "mediaType": "movie",
+            "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/starlight-odyssey.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+            "releaseYear": 2025,
+            "durationInMinutes": 142,
+            "maturityRating": "PG-13",
+            "badgeLabel": "Premium",
+            "progressPercentage": null
+          }
+        }
+      ],
+      "tags": ["Teen Sci-Fi", "Time Loop", "Campus Mystery"]
+    },
+    {
+      "id": "series-saffron-skies",
+      "slug": "saffron-skies",
+      "title": "Saffron Skies",
+      "synopsis": "Three siblings rebuild their family's bush-plane route across the Himalayas.",
+      "mediaType": "series",
+      "status": "released",
+      "releaseYear": 2024,
+      "durationInMinutes": 44,
+      "maturityRating": "PG",
+      "imdbRating": 8.9,
+      "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/saffron-skies.jpg",
+      "logoUrl": "https://images.example.com/logos/saffron-skies.png",
+      "isPremium": true,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-adventure",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "genre-drama",
+          "name": "Drama",
+          "slug": "drama"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi"],
+      "subtitleLanguages": ["English", "Hindi", "Bengali"],
+      "createdAt": "2026-01-21T07:15:00.000Z",
+      "updatedAt": "2026-06-28T09:15:00.000Z",
+      "storyline": "When an avalanche cuts off a chain of mountain towns, the Dorje siblings revive their parents' air-route to deliver medicine, cargo, and second chances.",
+      "cast": [
+        {
+          "id": "cast-isha-norbu",
+          "name": "Isha Norbu",
+          "characterName": "Tashi Dorje",
+          "avatarUrl": "https://images.example.com/cast/isha-norbu.jpg",
+          "sortOrder": 1
+        },
+        {
+          "id": "cast-samir-basu",
+          "name": "Samir Basu",
+          "characterName": "Avi Dorje",
+          "avatarUrl": "https://images.example.com/cast/samir-basu.jpg",
+          "sortOrder": 2
+        }
+      ],
+      "crew": [
+        {
+          "id": "crew-maya-chetri",
+          "name": "Maya Chetri",
+          "role": "Director",
+          "department": "Directing",
+          "avatarUrl": "https://images.example.com/crew/maya-chetri.jpg"
+        },
+        {
+          "id": "crew-haruto-ishi",
+          "name": "Haruto Ishi",
+          "role": "Cinematographer",
+          "department": "Camera",
+          "avatarUrl": "https://images.example.com/crew/haruto-ishi.jpg"
+        }
+      ],
+      "seasons": [
+        {
+          "id": "season-saffron-skies-1",
+          "title": "Season 1",
+          "synopsis": "The Dorje family takes flight again.",
+          "seasonNumber": 1,
+          "episodeCount": 3,
+          "posterUrl": "https://images.example.com/seasons/saffron-skies-1.jpg",
+          "episodes": [
+            {
+              "id": "episode-saffron-skies-s1-e1",
+              "seasonId": "season-saffron-skies-1",
+              "seasonNumber": 1,
+              "episodeNumber": 1,
+              "title": "Runway in the Clouds",
+              "synopsis": "Tashi repairs a grounded plane while negotiating for fuel in a storm.",
+              "durationInMinutes": 42,
+              "thumbnailUrl": "https://images.example.com/episodes/saffron-skies-s1-e1.jpg",
+              "stillUrl": "https://images.example.com/stills/saffron-skies-s1-e1.jpg",
+              "videoUrl": "https://videos.example.com/saffron-skies/s1-e1.mp4",
+              "airDate": "2024-09-05T00:00:00.000Z",
+              "isDownloadable": true
+            },
+            {
+              "id": "episode-saffron-skies-s1-e2",
+              "seasonId": "season-saffron-skies-1",
+              "seasonNumber": 1,
+              "episodeNumber": 2,
+              "title": "Thin Air",
+              "synopsis": "A risky night landing tests the siblings' trust and an old family debt.",
+              "durationInMinutes": 43,
+              "thumbnailUrl": "https://images.example.com/episodes/saffron-skies-s1-e2.jpg",
+              "stillUrl": "https://images.example.com/stills/saffron-skies-s1-e2.jpg",
+              "videoUrl": "https://videos.example.com/saffron-skies/s1-e2.mp4",
+              "airDate": "2024-09-12T00:00:00.000Z",
+              "isDownloadable": true
+            },
+            {
+              "id": "episode-saffron-skies-s1-e3",
+              "seasonId": "season-saffron-skies-1",
+              "seasonNumber": 1,
+              "episodeNumber": 3,
+              "title": "The Valley Below",
+              "synopsis": "The team discovers why their parents hid the final coordinates of the route.",
+              "durationInMinutes": 45,
+              "thumbnailUrl": "https://images.example.com/episodes/saffron-skies-s1-e3.jpg",
+              "stillUrl": "https://images.example.com/stills/saffron-skies-s1-e3.jpg",
+              "videoUrl": "https://videos.example.com/saffron-skies/s1-e3.mp4",
+              "airDate": "2024-09-19T00:00:00.000Z",
+              "isDownloadable": true
+            }
+          ]
+        }
+      ],
+      "trailers": [
+        {
+          "id": "trailer-saffron-skies-main",
+          "title": "Series Trailer",
+          "thumbnailUrl": "https://images.example.com/trailers/saffron-skies-main.jpg",
+          "videoUrl": "https://videos.example.com/saffron-skies/trailer.mp4",
+          "durationInSeconds": 115,
+          "publishedAt": "2024-08-25T06:00:00.000Z"
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec-saffron-quantum",
+          "reason": "Because you follow character-driven adventure series",
+          "movie": {
+            "id": "series-quantum-high",
+            "title": "Quantum High",
+            "mediaType": "series",
+            "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/quantum-high.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+            "releaseYear": 2026,
+            "durationInMinutes": 48,
+            "maturityRating": "TV-14",
+            "badgeLabel": "New Episodes",
+            "progressPercentage": null
+          }
+        },
+        {
+          "id": "rec-saffron-starlight",
+          "reason": "Because you enjoy aspirational premium dramas",
+          "movie": {
+            "id": "movie-starlight-odyssey",
+            "title": "Starlight Odyssey",
+            "mediaType": "movie",
+            "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/starlight-odyssey.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+            "releaseYear": 2025,
+            "durationInMinutes": 142,
+            "maturityRating": "PG-13",
+            "badgeLabel": "Premium",
+            "progressPercentage": null
+          }
+        }
+      ],
+      "tags": ["Adventure Drama", "Family Saga", "Award Winner"]
+    },
+    {
+      "id": "movie-the-last-operator",
+      "slug": "the-last-operator",
+      "title": "The Last Operator",
+      "synopsis": "A retired signals specialist returns to decode a transmission tied to a vanished agent.",
+      "mediaType": "movie",
+      "status": "released",
+      "releaseYear": 2025,
+      "durationInMinutes": 118,
+      "maturityRating": "PG-13",
+      "imdbRating": 7.9,
+      "posterUrl": "https://images.example.com/posters/the-last-operator.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/the-last-operator.jpg",
+      "logoUrl": "https://images.example.com/logos/the-last-operator.png",
+      "isPremium": false,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-thriller",
+          "name": "Thriller",
+          "slug": "thriller"
+        },
+        {
+          "id": "genre-drama",
+          "name": "Drama",
+          "slug": "drama"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi"],
+      "subtitleLanguages": ["English", "Hindi", "Tamil"],
+      "createdAt": "2026-02-14T06:45:00.000Z",
+      "updatedAt": "2026-07-04T14:20:00.000Z",
+      "storyline": "When a numbers station long thought destroyed begins broadcasting again, veteran decoder Elias Ward is pulled back into an operation that cost him everything.",
+      "cast": [
+        {
+          "id": "cast-daniel-rahim",
+          "name": "Daniel Rahim",
+          "characterName": "Elias Ward",
+          "avatarUrl": "https://images.example.com/cast/daniel-rahim.jpg",
+          "sortOrder": 1
+        },
+        {
+          "id": "cast-zoe-farrell",
+          "name": "Zoe Farrell",
+          "characterName": "Mila Grant",
+          "avatarUrl": "https://images.example.com/cast/zoe-farrell.jpg",
+          "sortOrder": 2
+        }
+      ],
+      "crew": [
+        {
+          "id": "crew-omar-reed",
+          "name": "Omar Reed",
+          "role": "Director",
+          "department": "Directing",
+          "avatarUrl": "https://images.example.com/crew/omar-reed.jpg"
+        },
+        {
+          "id": "crew-hana-kim",
+          "name": "Hana Kim",
+          "role": "Writer",
+          "department": "Writing",
+          "avatarUrl": "https://images.example.com/crew/hana-kim.jpg"
+        }
+      ],
+      "seasons": [],
+      "trailers": [
+        {
+          "id": "trailer-last-operator-main",
+          "title": "Official Trailer",
+          "thumbnailUrl": "https://images.example.com/trailers/the-last-operator-main.jpg",
+          "videoUrl": "https://videos.example.com/the-last-operator/trailer.mp4",
+          "durationInSeconds": 126,
+          "publishedAt": "2026-06-05T07:30:00.000Z"
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec-operator-midnight",
+          "reason": "Because you like covert operations and smart action",
+          "movie": {
+            "id": "movie-midnight-circuit",
+            "title": "Midnight Circuit",
+            "mediaType": "movie",
+            "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/midnight-circuit.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
+            "releaseYear": 2026,
+            "durationInMinutes": 126,
+            "maturityRating": "TV-14",
+            "badgeLabel": "Included",
+            "progressPercentage": null
+          }
+        },
+        {
+          "id": "rec-operator-orbit",
+          "reason": "Because you enjoy ensemble capers",
+          "movie": {
+            "id": "movie-orbit-heist",
+            "title": "Orbit Heist",
+            "mediaType": "movie",
+            "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/orbit-heist.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+            "releaseYear": 2026,
+            "durationInMinutes": 109,
+            "maturityRating": "TV-14",
+            "badgeLabel": "Premium",
+            "progressPercentage": null
+          }
+        }
+      ],
+      "tags": ["Spy Drama", "Conspiracy", "Signal Intelligence"]
+    },
+    {
+      "id": "movie-orbit-heist",
+      "slug": "orbit-heist",
+      "title": "Orbit Heist",
+      "synopsis": "A rogue salvage crew races corrupt investors to recover a drifting fusion vault.",
+      "mediaType": "movie",
+      "status": "released",
+      "releaseYear": 2026,
+      "durationInMinutes": 109,
+      "maturityRating": "TV-14",
+      "imdbRating": 8.3,
+      "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+      "logoUrl": "https://images.example.com/logos/orbit-heist.png",
+      "isPremium": true,
+      "isDownloadable": true,
+      "genres": [
+        {
+          "id": "genre-sci-fi",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        },
+        {
+          "id": "genre-action",
+          "name": "Action",
+          "slug": "action"
+        }
+      ],
+      "audioLanguages": ["English", "Hindi", "Tamil"],
+      "subtitleLanguages": ["English", "Hindi", "Tamil", "Telugu"],
+      "createdAt": "2026-05-08T13:10:00.000Z",
+      "updatedAt": "2026-07-23T18:00:00.000Z",
+      "storyline": "A disgraced pilot, a locksmith engineer, and a reluctant heir chase a vault full of fusion credits across a debris field over Saturn.",
+      "cast": [
+        {
+          "id": "cast-lina-sato",
+          "name": "Lina Sato",
+          "characterName": "Kei Tan",
+          "avatarUrl": "https://images.example.com/cast/lina-sato.jpg",
+          "sortOrder": 1
+        },
+        {
+          "id": "cast-nikhil-arora",
+          "name": "Nikhil Arora",
+          "characterName": "Rafi Cole",
+          "avatarUrl": "https://images.example.com/cast/nikhil-arora.jpg",
+          "sortOrder": 2
+        }
+      ],
+      "crew": [
+        {
+          "id": "crew-bianca-frost",
+          "name": "Bianca Frost",
+          "role": "Director",
+          "department": "Directing",
+          "avatarUrl": "https://images.example.com/crew/bianca-frost.jpg"
+        },
+        {
+          "id": "crew-dev-patel",
+          "name": "Dev Patel",
+          "role": "Production Designer",
+          "department": "Art",
+          "avatarUrl": "https://images.example.com/crew/dev-patel.jpg"
+        }
+      ],
+      "seasons": [],
+      "trailers": [
+        {
+          "id": "trailer-orbit-heist-main",
+          "title": "Official Trailer",
+          "thumbnailUrl": "https://images.example.com/trailers/orbit-heist-main.jpg",
+          "videoUrl": "https://videos.example.com/orbit-heist/trailer.mp4",
+          "durationInSeconds": 119,
+          "publishedAt": "2026-07-10T10:15:00.000Z"
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec-orbit-starlight",
+          "reason": "Because you watched premium space epics",
+          "movie": {
+            "id": "movie-starlight-odyssey",
+            "title": "Starlight Odyssey",
+            "mediaType": "movie",
+            "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/starlight-odyssey.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+            "releaseYear": 2025,
+            "durationInMinutes": 142,
+            "maturityRating": "PG-13",
+            "badgeLabel": "Premium",
+            "progressPercentage": null
+          }
+        },
+        {
+          "id": "rec-orbit-midnight",
+          "reason": "Because you like smart action ensembles",
+          "movie": {
+            "id": "movie-midnight-circuit",
+            "title": "Midnight Circuit",
+            "mediaType": "movie",
+            "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+            "thumbnailUrl": "https://images.example.com/thumbnails/midnight-circuit.jpg",
+            "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
+            "releaseYear": 2026,
+            "durationInMinutes": 126,
+            "maturityRating": "TV-14",
+            "badgeLabel": "Included",
+            "progressPercentage": null
+          }
+        }
+      ],
+      "tags": ["Space Caper", "Crew Adventure", "High Energy"]
+    }
+  ],
+  "continueWatching": [
+    {
+      "movie": {
+        "id": "series-quantum-high",
+        "title": "Quantum High",
+        "mediaType": "series",
+        "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+        "thumbnailUrl": "https://images.example.com/thumbnails/quantum-high.jpg",
+        "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+        "releaseYear": 2026,
+        "durationInMinutes": 48,
+        "maturityRating": "TV-14",
+        "badgeLabel": "New Episodes",
+        "progressPercentage": 58
+      },
+      "lastPositionInSeconds": 1398,
+      "progressPercentage": 58,
+      "remainingDurationInMinutes": 20,
+      "lastWatchedAt": "2026-07-23T20:15:00.000Z"
+    },
+    {
+      "movie": {
+        "id": "movie-midnight-circuit",
+        "title": "Midnight Circuit",
+        "mediaType": "movie",
+        "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+        "thumbnailUrl": "https://images.example.com/thumbnails/midnight-circuit.jpg",
+        "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
+        "releaseYear": 2026,
+        "durationInMinutes": 126,
+        "maturityRating": "TV-14",
+        "badgeLabel": "Included",
+        "progressPercentage": 32
+      },
+      "lastPositionInSeconds": 2420,
+      "progressPercentage": 32,
+      "remainingDurationInMinutes": 86,
+      "lastWatchedAt": "2026-07-22T21:05:00.000Z"
+    },
+    {
+      "movie": {
+        "id": "series-saffron-skies",
+        "title": "Saffron Skies",
+        "mediaType": "series",
+        "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+        "thumbnailUrl": "https://images.example.com/thumbnails/saffron-skies.jpg",
+        "backdropUrl": "https://images.example.com/backdrops/saffron-skies.jpg",
+        "releaseYear": 2024,
+        "durationInMinutes": 44,
+        "maturityRating": "PG",
+        "badgeLabel": "Award Winner",
+        "progressPercentage": 74
+      },
+      "lastPositionInSeconds": 1882,
+      "progressPercentage": 74,
+      "remainingDurationInMinutes": 11,
+      "lastWatchedAt": "2026-07-20T18:40:00.000Z"
+    }
+  ],
+  "trending": [
+    {
+      "id": "movie-starlight-odyssey",
+      "title": "Starlight Odyssey",
+      "mediaType": "movie",
+      "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+      "thumbnailUrl": "https://images.example.com/thumbnails/starlight-odyssey.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+      "releaseYear": 2025,
+      "durationInMinutes": 142,
+      "maturityRating": "PG-13",
+      "badgeLabel": "Premium",
+      "progressPercentage": null,
+      "trendRank": 1,
+      "trendScore": 98.4
+    },
+    {
+      "id": "movie-orbit-heist",
+      "title": "Orbit Heist",
+      "mediaType": "movie",
+      "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+      "thumbnailUrl": "https://images.example.com/thumbnails/orbit-heist.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+      "releaseYear": 2026,
+      "durationInMinutes": 109,
+      "maturityRating": "TV-14",
+      "badgeLabel": "Premium",
+      "progressPercentage": null,
+      "trendRank": 2,
+      "trendScore": 95.1
+    },
+    {
+      "id": "series-quantum-high",
+      "title": "Quantum High",
+      "mediaType": "series",
+      "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+      "thumbnailUrl": "https://images.example.com/thumbnails/quantum-high.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+      "releaseYear": 2026,
+      "durationInMinutes": 48,
+      "maturityRating": "TV-14",
+      "badgeLabel": "New Episodes",
+      "progressPercentage": null,
+      "trendRank": 3,
+      "trendScore": 92.6
+    },
+    {
+      "id": "movie-midnight-circuit",
+      "title": "Midnight Circuit",
+      "mediaType": "movie",
+      "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+      "thumbnailUrl": "https://images.example.com/thumbnails/midnight-circuit.jpg",
+      "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
+      "releaseYear": 2026,
+      "durationInMinutes": 126,
+      "maturityRating": "TV-14",
+      "badgeLabel": "Included",
+      "progressPercentage": null,
+      "trendRank": 4,
+      "trendScore": 90.8
+    }
+  ]
+}

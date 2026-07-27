@@ -1,0 +1,58 @@
+{
+  "banners": [
+    {
+      "id": "banner-starlight-odyssey",
+      "title": "Starlight Odyssey",
+      "subtitle": "A new premium sci-fi event",
+      "description": "Follow Commander Mira Sen beyond the last mapped star corridor.",
+      "imageUrl": "https://images.example.com/banners/starlight-odyssey.jpg",
+      "overlayImageUrl": "https://images.example.com/banners/starlight-odyssey-overlay.png",
+      "badgeLabel": "Premium",
+      "mediaType": "movie",
+      "targetId": "movie-starlight-odyssey",
+      "action": {
+        "id": "banner-action-starlight",
+        "label": "Play Now",
+        "deeplink": "houseofedtechproject://movie-details/starlight-odyssey",
+        "analyticsEvent": "hero_banner_play_starlight_odyssey"
+      },
+      "sortOrder": 1
+    },
+    {
+      "id": "banner-quantum-high",
+      "title": "Quantum High",
+      "subtitle": "New episodes streaming now",
+      "description": "A time-rift under campus changes everything for the Helix Academy students.",
+      "imageUrl": "https://images.example.com/banners/quantum-high.jpg",
+      "overlayImageUrl": "https://images.example.com/banners/quantum-high-overlay.png",
+      "badgeLabel": "New Episodes",
+      "mediaType": "series",
+      "targetId": "series-quantum-high",
+      "action": {
+        "id": "banner-action-quantum",
+        "label": "Continue",
+        "deeplink": "houseofedtechproject://movie-details/quantum-high",
+        "analyticsEvent": "hero_banner_continue_quantum_high"
+      },
+      "sortOrder": 2
+    },
+    {
+      "id": "banner-orbit-heist",
+      "title": "Orbit Heist",
+      "subtitle": "The summer caper in orbit",
+      "description": "A rogue crew, a drifting vault, and one impossible recovery mission.",
+      "imageUrl": "https://images.example.com/banners/orbit-heist.jpg",
+      "overlayImageUrl": "https://images.example.com/banners/orbit-heist-overlay.png",
+      "badgeLabel": "Trending",
+      "mediaType": "movie",
+      "targetId": "movie-orbit-heist",
+      "action": {
+        "id": "banner-action-orbit",
+        "label": "Watch Trailer",
+        "deeplink": "houseofedtechproject://movie-details/orbit-heist",
+        "analyticsEvent": "hero_banner_trailer_orbit_heist"
+      },
+      "sortOrder": 3
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "results": [
+    {
+      "id": "movie-starlight-odyssey",
+      "title": "Starlight Odyssey",
+      "subtitle": "Premium sci-fi movie",
+      "mediaType": "movie",
+      "backdropUrl": "https://images.example.com/backdrops/starlight-odyssey.jpg",
+      "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+      "rating": 8.9,
+      "releaseYear": 2025,
+      "matchScore": 0.98,
+      "genres": ["Sci-Fi", "Adventure"]
+    },
+    {
+      "id": "movie-midnight-circuit",
+      "title": "Midnight Circuit",
+      "subtitle": "Action thriller movie",
+      "mediaType": "movie",
+      "backdropUrl": "https://images.example.com/backdrops/midnight-circuit.jpg",
+      "posterUrl": "https://images.example.com/posters/midnight-circuit.jpg",
+      "rating": 8.4,
+      "releaseYear": 2026,
+      "matchScore": 0.94,
+      "genres": ["Action", "Thriller"]
+    },
+    {
+      "id": "series-quantum-high",
+      "title": "Quantum High",
+      "subtitle": "Sci-fi campus series",
+      "mediaType": "series",
+      "backdropUrl": "https://images.example.com/backdrops/quantum-high.jpg",
+      "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+      "rating": 8.7,
+      "releaseYear": 2026,
+      "matchScore": 0.97,
+      "genres": ["Sci-Fi", "Drama"]
+    },
+    {
+      "id": "series-saffron-skies",
+      "title": "Saffron Skies",
+      "subtitle": "Adventure drama series",
+      "mediaType": "series",
+      "backdropUrl": "https://images.example.com/backdrops/saffron-skies.jpg",
+      "posterUrl": "https://images.example.com/posters/saffron-skies.jpg",
+      "rating": 8.2,
+      "releaseYear": 2024,
+      "matchScore": 0.93,
+      "genres": ["Adventure", "Drama"]
+    },
+    {
+      "id": "movie-the-last-operator",
+      "title": "The Last Operator",
+      "subtitle": "Espionage drama movie",
+      "mediaType": "movie",
+      "backdropUrl": "https://images.example.com/backdrops/the-last-operator.jpg",
+      "posterUrl": "https://images.example.com/posters/the-last-operator.jpg",
+      "rating": 7.9,
+      "releaseYear": 2025,
+      "matchScore": 0.91,
+      "genres": ["Thriller", "Drama"]
+    },
+    {
+      "id": "movie-orbit-heist",
+      "title": "Orbit Heist",
+      "subtitle": "Space action caper",
+      "mediaType": "movie",
+      "backdropUrl": "https://images.example.com/backdrops/orbit-heist.jpg",
+      "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+      "rating": 8.6,
+      "releaseYear": 2026,
+      "matchScore": 0.96,
+      "genres": ["Sci-Fi", "Action"]
+    }
+  ],
+  "suggestions": [
+    {
+      "id": "suggestion-starlight",
+      "label": "Starlight Odyssey",
+      "category": "movies",
+      "deeplink": "houseofedtechproject://search?query=Starlight%20Odyssey"
+    },
+    {
+      "id": "suggestion-quantum",
+      "label": "Quantum High",
+      "category": "series",
+      "deeplink": "houseofedtechproject://search?query=Quantum%20High"
+    },
+    {
+      "id": "suggestion-orbit",
+      "label": "Orbit Heist",
+      "category": "movies",
+      "deeplink": "houseofedtechproject://search?query=Orbit%20Heist"
+    },
+    {
+      "id": "suggestion-sci-fi",
+      "label": "Sci-Fi",
+      "category": "all",
+      "deeplink": "houseofedtechproject://search?query=Sci-Fi"
+    },
+    {
+      "id": "suggestion-thriller",
+      "label": "Thriller",
+      "category": "all",
+      "deeplink": "houseofedtechproject://search?query=Thriller"
+    }
+  ],
+  "trendingSearches": [
+    {
+      "id": "trending-search-1",
+      "query": "Quantum High season 2",
+      "rank": 1,
+      "searchCount": 12450
+    },
+    {
+      "id": "trending-search-2",
+      "query": "Orbit Heist trailer",
+      "rank": 2,
+      "searchCount": 11230
+    },
+    {
+      "id": "trending-search-3",
+      "query": "Best sci-fi originals",
+      "rank": 3,
+      "searchCount": 9840
+    },
+    {
+      "id": "trending-search-4",
+      "query": "Saffron Skies cast",
+      "rank": 4,
+      "searchCount": 8650
+    }
+  ],
+  "recentSearches": [
+    {
+      "id": "recent-search-1",
+      "query": "Quantum High",
+      "category": "series",
+      "resultCount": 1,
+      "searchedAt": "2026-07-23T20:20:00.000Z"
+    },
+    {
+      "id": "recent-search-2",
+      "query": "Starlight Odyssey",
+      "category": "movies",
+      "resultCount": 1,
+      "searchedAt": "2026-07-22T19:10:00.000Z"
+    },
+    {
+      "id": "recent-search-3",
+      "query": "Sci-Fi",
+      "category": "all",
+      "resultCount": 3,
+      "searchedAt": "2026-07-21T17:05:00.000Z"
+    }
+  ]
+}

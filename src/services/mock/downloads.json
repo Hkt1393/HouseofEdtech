@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "download-starlight-odyssey",
+      "mediaId": "movie-starlight-odyssey",
+      "mediaType": "movie",
+      "title": "Starlight Odyssey",
+      "posterUrl": "https://images.example.com/posters/starlight-odyssey.jpg",
+      "quality": "high",
+      "status": "completed",
+      "progressPercentage": 100,
+      "downloadedBytes": 5200000000,
+      "totalBytes": 5200000000,
+      "downloadedAt": "2026-07-18T10:10:00.000Z",
+      "expiresAt": "2026-08-17T10:10:00.000Z",
+      "updatedAt": "2026-07-18T10:10:00.000Z"
+    },
+    {
+      "id": "download-quantum-high-s2-e1",
+      "mediaId": "episode-quantum-high-s2-e1",
+      "mediaType": "episode",
+      "title": "Quantum High: Zero Hour Club",
+      "posterUrl": "https://images.example.com/posters/quantum-high.jpg",
+      "quality": "medium",
+      "status": "completed",
+      "progressPercentage": 100,
+      "downloadedBytes": 3800000000,
+      "totalBytes": 3800000000,
+      "downloadedAt": "2026-07-22T06:45:00.000Z",
+      "expiresAt": "2026-08-21T06:45:00.000Z",
+      "updatedAt": "2026-07-22T06:45:00.000Z"
+    },
+    {
+      "id": "download-orbit-heist",
+      "mediaId": "movie-orbit-heist",
+      "mediaType": "movie",
+      "title": "Orbit Heist",
+      "posterUrl": "https://images.example.com/posters/orbit-heist.jpg",
+      "quality": "ultra",
+      "status": "downloading",
+      "progressPercentage": 64,
+      "downloadedBytes": 3400000000,
+      "totalBytes": 4200000000,
+      "downloadedAt": null,
+      "expiresAt": null,
+      "updatedAt": "2026-07-24T04:50:00.000Z"
+    }
+  ],
+  "storageInfo": {
+    "usedBytes": 12400000000,
+    "availableBytes": 51600000000,
+    "totalBytes": 64000000000,
+    "usagePercentage": 19.4
+  }
+}

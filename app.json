@@ -2,10 +2,11 @@
   "expo": {
     "name": "HouseofEdtechProject",
     "slug": "HouseofEdtechProject",
+    "scheme": "houseofedtechproject",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -15,16 +16,42 @@
     "ios": {
       "supportsTablet": true
     },
+    "androidNavigationBar": {
+      "enforceContrast": false
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.hk_1309.HouseofEdtechProject"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-font",
+      "expo-video",
+      [
+        "expo-navigation-bar",
+        {
+          "position": "relative",
+          "visibility": "visible",
+          "style": "light"
+        }
+      ]
+    ],
+    "extra": {
+      "expo-navigation-bar": {
+        "position": "relative",
+        "visibility": "visible",
+        "style": "light"
+      },
+      "eas": {
+        "projectId": "a4721e0f-ff85-4760-ab9f-1d11115fb053"
+      }
+    },
+    "owner": "hk1393"
   }
 }
